@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/23 10:30:19 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/27 16:35:20 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_coord_nbr(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == ' ')
+		if (str[i] == ' ' && (str[i - 1] != ' ' && i > 1))
 			cmp++;
 		i++;
 	}
@@ -53,7 +53,7 @@ t_list			*ft_parsefile(char *file)
 	return (tab);
 }
 
-int			ft_getvalue(char *str, int x)
+unsigned int			ft_getvalue(char *str, int x)
 {
 	char	*tmp;
 	int		cmp;

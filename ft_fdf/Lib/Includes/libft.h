@@ -6,7 +6,7 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 14:05:43 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/23 10:26:34 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/27 12:05:07 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int					ft_strcount(char *c);
 void				ft_putchar(char c);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putendl(char const *s);
+void				ft_putendl_c(char const *str, char *color);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);
@@ -99,6 +100,5 @@ void				ft_lstadd_back(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 char				*ft_replace(char *str, char *mod, char *strtoreplace);
-void				ft_putendl_c(char const *str, int color);
 
 #endif

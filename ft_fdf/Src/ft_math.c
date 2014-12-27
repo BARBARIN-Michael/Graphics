@@ -6,11 +6,11 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/24 02:10:41 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/27 17:11:18 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_fdf.h"
+#include "../Include/ft_fdf.h"
 
 /* ***********************************************************
 ** Controle the direction of this vector
@@ -53,10 +53,12 @@ t_coord		rotate_direction(t_coord cl)
 	return (cl);
 }
 
-t_coord		trans_vectoriel(t_coord *vector, int trans)
+t_coord		trans_vectoriel(t_coord vector, int trans)
 {
-	vector.x2 += trans;
-	vector.y2 += trans;
+	if (vector.x2 > 0)
+		vector.x2 += trans;
+	if (vector.y2 > 0)
+		vector.y2 += trans;
 	return (vector);
 }
 
@@ -64,6 +66,6 @@ t_coord		new_vector(int x1, int y1, int x2, int y2)
 {
 	t_coord		c1;
 
-	c1 = (t_coord) { .x1 = x1, .y1 = y1, .x2 = y2, .y2 = y2 };
+	c1 = (t_coord) { .x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2 };
 	return (c1);
 }

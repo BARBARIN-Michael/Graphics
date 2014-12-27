@@ -6,11 +6,11 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/22 20:52:47 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/27 11:46:25 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_fdf.h"
+#include "../Include/ft_fdf.h"
 
 int		main(int argc, char **argv)
 {

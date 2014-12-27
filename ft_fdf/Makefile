@@ -3,19 +3,22 @@ EXECUTABLE = prog.mlx
 
 # Choix du compilateur :
 COMPILATEUR = gcc
+#COMPILATEUR = perl ~/script/colorgcc.pl
 
 # Options
-COPTIONS = -O3 -Wall -Wextra -Werror
+COPTIONS = -g -O3 -Wall -Wextra -Werror
+
 
 LSTD = -I Lib/Includes -L Lib/libft/ -lft
-LMLX = -L Lib/minilibx/ -Lmlx
-LX   = -L /usr/lib/ -lXext -lX11 -lm
+LMLX = -L Lib/minilibx/ -lmlx
+LX   = -L /usr/X11/lib/ -lXext -lX11 -lm
 
 LOPTION = $(basename $(LSTD) $(LMLX))
 LOPTIONS = $(basename $(LOPTION) $(LX))
 #OBJ = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(NOM)))
 #	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 #	@echo "Creation des option de compilation libStd, libMlx, libX11"
+#	@echo LOPTIONS 
 #	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 #	@echo
 # -------------------------------------------------------------------
@@ -23,7 +26,7 @@ LOPTIONS = $(basename $(LOPTION) $(LX))
 # -------------------------------------------------------------------
 
 # Dossier racine du code :
-CODE := $(shell pwd)
+CODE :=.
 
 # dossier de lexecutable
 EXEDIR := $(CODE)/Bin
@@ -34,7 +37,15 @@ OBJDIR = $(CODE)/Objet
 INCDIR = $(CODE)/Include
 
 # creation de la liste des fichiers sources :
-SRC = $(wildcard $(SRCDIR)/*.c)
+SRC =	$(SRCDIR)/ft_algofdf.c	\
+		$(SRCDIR)/ft_fdf.c		\
+		$(SRCDIR)/ft_graph.c	\
+		$(SRCDIR)/ft_parse.c	\
+		$(SRCDIR)/ft_math.c		\
+		$(SRCDIR)/main.c		\
+		$(SRCDIR)/get_next_line.c
+
+#SRC = $(wildcard $(SRCDIR)/*.c))
 
 # Liste des fichiers objets :
 NOM = $(basename $(notdir $(SRC)))
@@ -50,37 +61,40 @@ OBJ = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(NOM)))
 
 help:
 	@echo
-	@echo " Programme ... "
-	@echo "--------------------------------------------------------------------------"
-	@echo " Regles disponnibles"
+	@echo "\033[33;36m Programme ... "
+	@echo "\033[33;36m--------------------------------------------------------------------------"
+	@echo "\033[33;36m Regles disponibles"
 	@echo
-	@echo " install : compilation et creation de lexecutable"
-	@echo " clean   : effacement des fichiers objets"
-	@echo " purge   : effacement des fichiers objets et des executables"
-	@echo " help    : affiche ces commentaires (defaut)"
-	@echo "--------------------------------------------------------------------------"
+	@echo "\033[33;36m install : \033[33;0mCreation des dossiers"
+	@echo "\033[33;36m cp      : \033[33;0mcompilation et creation de l'executable"
+	@echo "\033[33;36m clean   : \033[33;0meffacement des fichiers objets"
+	@echo "\033[33;36m fclean  : \033[33;0meffacement des fichiers objets et des executables"
+	@echo "\033[33;36m re      : \033[33;0mReload du programme au complet"
+	@echo "\033[33;36m help    : \033[33;0maffiche ces commentaires (defaut)"
+	@echo "\033[33;36m--------------------------------------------------------------------------"
 	@echo
 
 # -------------------------------------------------------------------
 #  compilation
 # -------------------------------------------------------------------
 
+re_pre: faire_dossier cp
+
 # regle pour fabriquer les dossiers;
 faire_dossier: dirobj direxe
 	@echo
-	@echo "dossiers crees"
+	@echo "\033[33;32mFile created\tDONE\033[33;0m"
 	@echo
 
 # regle edition de liens
-install: faire_dossier $(OBJ) 
-	$(COMPILATEUR) $(LOPTIONS) -o $(EXEDIR)/$(EXECUTABLE) $(OBJ)
+install: faire_dossier
 
 cp: $(OBJ)
-	$(COMPILATEUR) $(LOPTIONS) -o $(EXEDIR)/$(EXECUTABLE) $(OBJ)
+	$(COMPILATEUR) $(COPTIONS) $(LOPTIONS) -o $(EXEDIR)/$(EXECUTABLE) $(OBJ)
 
 # regle de compilation des sources
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(COMPILATEUR) $(LOPTIONS) -c $(COPTIONS) -I$(INCDIR) -o $@ $<
+	$(COMPILATEUR) -c  $(COPTIONS) $(LOPTIONS) -I$(INCDIR) -o $@ $<
 
 # -------------------------------------------------------------------
 #  regles de creation des dossiers 
@@ -89,29 +103,28 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 .PHONY: dirobj direxe bin
 
 # creation du dossier $(OBJDIR) si besoin :
-#ifeq ("$(wildcard $(OBJDIR))","")
-ifeq ("$(OBJDIR)", "")
+ifeq (,$(wildcard $(OBJDIR)))
 dirobj:
-	mkdir $(OBJDIR) || echo "" 2> /dev/null
+	mkdir $(OBJDIR)
 else
 dirobj:
-	@echo "File /Objet alredy exists"
+	@echo "\033[33;32mFile /Objet alredy exists\033[33;0m"
 endif
 
 # test si $(CODE)/bin existe et le cree si non
-ifeq ("$(EXEDIR)", "")
+ifeq (,$(wildcard $(EXEDIR)))
 direxe:
-	mkdir $(EXEDIR) || echo "" 2> /dev/null
+	mkdir $(EXEDIR)
 else
 direxe:
-	@echo "File /Bin already exists"
+	@echo "\033[33;32mFile /Bin already exists\033[33;0m"
 endif 
 
 # -------------------------------------------------------------------
 #  regles de nettoyage
 # -------------------------------------------------------------------
 
-.PHONY: clean purge
+.PHONY: clean fclean re
 
 # pour effacer tous les objet :
 clean:
@@ -119,16 +132,9 @@ clean:
 
 # pour effacer tous les objet et les executables :
 fclean:
-	@rm -rv $(OBJDIR) $(CODE)/Bin
+	rm -rf $(OBJDIR) $(EXEDIR)
 
-# ------------------------------------------------
-# $@ 		Le nom de la cible
-# $<Le nom de		 la premiÃ¨re dÃ©pendance
-# $^La liste des dÃ©pendances
-# shell				pour executer une commande
-# wildecardequivalent de * dans le termin	al
-# basenameprend le nom sans le .c ou .o ...
-# notdirsupprime le ch		emin devant un fichier
-# stripsupprime les blancs => ifeq( $(strip $(		VAR) ) , ) = si $(VAR) est vide
-# ------------------------------------------------
+re: fclean dirobj direxe install cp
+
+
 
