@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/27 17:18:06 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 12:21:47 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <math.h>
 #include "get_next_line.h"
 
 typedef unsigned int color;

@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/27 17:21:23 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 12:30:49 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 double		coord_x_iso(int x, int y)
 {
-	return (OFFSET_ISO * x - OFFSET_ISO * y);
+	return (ceil(OFFSET_ISO * x - OFFSET_ISO * y));
 }
 
 double		coord_y_iso(int x, int y, int z)
 {
-	return (z + (OFFSET_ISO / 2) * x + (OFFSET_ISO / 2) * y);
+	double rslt;
+
+	rslt = z + (OFFSET_ISO / 2.0) * x + (OFFSET_ISO / 2.0) * y;
+	return (ceil(rslt));
 }
 
 int			x_max(t_list *lst)

@@ -6,11 +6,11 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 06:04:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/01 18:05:53 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 12:44:33 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../Include/get_next_line.h"
 #include <stdlib.h>
 
 static int	read_file(int fd, char **str)
