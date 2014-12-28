@@ -6,11 +6,12 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/09 18:24:17 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/27 14:30:27 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 10:52:40 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 /* *************************************************
 ** # define C_BLACK        "\033[30m"
@@ -49,5 +50,18 @@ void	ft_putendl_c(char const *s, char *color)
 	palet_color = ft_strjoin("\033[%sm", s);
 	palet_color = ft_replace(palet_color, "%s", ft_itoa(putcolor(color)));
 	ft_putendl(palet_color);
+	ft_putstr(C_NONE);
+	ft_strdel(&palet_color);
+}
+
+void	ft_putendl2_c(char const *s1, char const *s2, char *color)
+{
+	char *palet_color;
+
+	palet_color = ft_strjoin("\033[%sm", s1);
+	palet_color = ft_replace(palet_color, "%s", ft_itoa(putcolor(color)));
+	ft_putstr(palet_color);
+	ft_putendl(s2);
+	ft_strdel(&palet_color);
 	ft_putstr(C_NONE);
 }

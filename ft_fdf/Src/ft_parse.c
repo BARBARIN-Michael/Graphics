@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/27 16:35:20 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 11:21:00 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,15 @@ t_list			*ft_parsefile(char *file)
 
 unsigned int			ft_getvalue(char *str, int x)
 {
-	char	*tmp;
-	int		cmp;
-	int		nbr;
+	static char	**tmp;
+	int			nbr;
+	int			cmp;
 
-	tmp = str;
-	cmp = 0;
-	while (*tmp != '\0' && cmp != x)
-	{
-		if (*tmp == ' ')
-			cmp++;
-		tmp++;
-	}
-	if (*tmp == '\0')
-		return (-1);
-	nbr = (unsigned int)ft_atoi(ft_strsub(tmp, 0, ft_strchr(tmp, ' ') - tmp));
+	cmp = x - 1;
+	if (tmp == NULL)
+		tmp = ft_strsplit(str, ' ');
+	nbr = (unsigned int)ft_atoi(tmp[cmp]);
+	if (tmp[cmp + 1] == NULL)
+		tmp = NULL;
 	return (nbr);
 }

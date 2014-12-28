@@ -6,11 +6,12 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/06 12:02:24 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/11/23 17:21:48 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 11:00:14 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int		is_sign(int nbr)
 {
@@ -58,8 +59,6 @@ char			*ft_itoa(int nbr)
 	int		cmp;
 	int		sign;
 
-	if (ft_isdigit(nbr))
-		return (NULL);
 	cmp = nbr_digit(nbr);
 	str = ft_strnew(cmp);
 	sign = 0;
