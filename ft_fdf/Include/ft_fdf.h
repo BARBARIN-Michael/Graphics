@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 12:21:47 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 18:32:16 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 # define WIDTH 600
 # define HEIGHT 600
-# define OFFSET_X 120
-# define OFFSET_ISO 1
+# define OFFSET_XY 10
+# define OFFSET_ISO 0.82
 # define TITLE_WIN "FDF a la BARBARE"
 # define RED 0xFF0000
+# define GRE 0x00FF00
+# define BLU 0x0000FF
 
 #include <mlx.h>
 #include <libft.h>
@@ -67,7 +69,7 @@ void			ft_fdf(char *str);
 
 // FT_GRAPH.H
 void			draw_pixel_to_img(int x, int y, t_mlx *mlx,  color unitcolor);
-void			draw_line(t_coord c1, t_mlx *mlx);
+void			draw_line(t_coord c1, t_mlx *mlx, color col);
 void			draw_fdf(t_mlx *mlx, t_list *lf, size_vector lv);
 
 // FT_ALGOFDF.H
@@ -86,5 +88,6 @@ int				direction_vector(int x1, int y1, int x2, int y2);
 t_coord			rotate_direction(t_coord cl);
 t_coord			trans_vectoriel(t_coord vector, int trans);
 t_coord			new_vector(int x1, int y1, int x2, int y2);
+t_coord			cpy_vector(t_coord v_out, t_coord v_in);
 
 #endif

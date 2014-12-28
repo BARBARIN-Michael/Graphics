@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 11:21:00 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 13:41:02 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ unsigned int			ft_getvalue(char *str, int x)
 	int			nbr;
 	int			cmp;
 
-	cmp = x - 1;
+	cmp = x;
 	if (tmp == NULL)
 		tmp = ft_strsplit(str, ' ');
 	nbr = (unsigned int)ft_atoi(tmp[cmp]);

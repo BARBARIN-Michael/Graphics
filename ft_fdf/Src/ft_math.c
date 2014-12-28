@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 12:11:57 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 15:46:05 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ t_coord		rotate_direction(t_coord cl)
 
 t_coord		trans_vectoriel(t_coord vector, int trans)
 {
-	if (vector.x2 > 0)
 		vector.x2 *= trans;
-	if (vector.y2 > 0)
 		vector.y2 *= trans;
 	return (vector);
 }
@@ -68,4 +66,13 @@ t_coord		new_vector(int x1, int y1, int x2, int y2)
 
 	c1 = (t_coord) { .x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2 };
 	return (c1);
+}
+
+t_coord		cpy_vector(t_coord v_out, t_coord v_in)
+{
+	v_out.x1 = v_in.x1;
+	v_out.y1 = v_in.y1;
+	v_out.x2 = v_in.x2;
+	v_out.y2 = v_in.y2;
+	return (v_out);
 }

@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/27 16:43:59 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/28 17:48:17 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static void		ft_icd_mlx(t_mlx *mlx, t_list *lst, int state)
 {
+	t_list *listadel;
+
 	if (state == 0)
 	{
 		mlx->mlx_ptr = mlx_init();
@@ -25,14 +27,16 @@ static void		ft_icd_mlx(t_mlx *mlx, t_list *lst, int state)
 	else
 	{
 		mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, HEIGHT, WIDTH, TITLE_WIN);
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img, 25, 25);
-	sleep(10);
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img, 0, 0);
+	sleep(100);
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img);
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
 		while (lst != NULL)
 		{
-			ft_strdel(lst->content);
+			listadel = lst;
+			free(lst->content);
 			lst = lst->next;
+			free(listadel);
 		}
 	}
 }
