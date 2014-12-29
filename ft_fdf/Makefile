@@ -90,11 +90,11 @@ faire_dossier: dirobj direxe
 install: faire_dossier
 
 cp: $(OBJ)
-	$(COMPILATEUR) $(COPTIONS) $(LOPTIONS) -o $(EXEDIR)/$(EXECUTABLE) $(OBJ)
+	$(COMPILATEUR) $(COPTIONS) $(LOPTIONS) -o $(EXEDIR)/$(EXECUTABLE) $(OBJ) 
 
 # regle de compilation des sources
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(COMPILATEUR) -c  $(COPTIONS) $(LOPTIONS) -I$(INCDIR) -o $@ $<
+	$(COMPILATEUR) -c  $(COPTIONS) $(LOPTIONS) -I$(INCDIR) -o $@  $<
 
 # -------------------------------------------------------------------
 #  regles de creation des dossiers 

@@ -6,23 +6,26 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 18:56:39 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/29 15:39:41 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-double		coord_x_iso(int x, int y)
-{
-	return (ceil(OFFSET_ISO * x - OFFSET_ISO * y));
-}
-
-double		coord_y_iso(int x, int y, int z)
+double		coord_x_iso(double x, double y)
 {
 	double rslt;
 
-	rslt = z + (OFFSET_ISO / 2.0) * x + (OFFSET_ISO / 2.0) * y;
-	return (ceil(rslt));
+	rslt = (OFFSET_ISOX * x) - (OFFSET_ISOY * y);
+	return (rslt);
+}
+
+double		coord_y_iso(double x, double y, double z)
+{
+	double rslt;
+	rslt = z + ((OFFSET_ISOX / 2.0)) * x;
+	rslt += (OFFSET_ISOY / 2.0) * y;
+	return (rslt);
 }
 
 int			x_max(t_list *lst)

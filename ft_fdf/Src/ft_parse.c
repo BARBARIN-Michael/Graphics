@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 13:41:02 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/29 17:57:16 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_coord_nbr(char *str)
 
 t_list			*ft_parsefile(char *file)
 {
-	t_list		*tab = NULL;
+	t_node		*map = NULL;
 	int			fd;
 	int			rslt;
 	char		*str;
@@ -41,7 +41,7 @@ t_list			*ft_parsefile(char *file)
 	while ((rslt = get_next_line(fd, &str)) > 0)
 	{
 		str = ft_strjoin_free(str, " ");
-		ft_lstadd_back(&tab, ft_lstnew(ft_strdup(str), ft_strlen(str) + 1));
+		ft_insert_map(
 		ft_strdel(&str);
 	}
 	close(fd);
@@ -66,4 +66,10 @@ unsigned int			ft_getvalue(char *str, int x)
 	if (tmp[cmp + 1] == NULL)
 		tmp = NULL;
 	return (nbr);
+}
+
+t_node					*ft_insert_map(char *str, t_node **map)
+{
+	
+	ft_lstadd_backfdf(map, )
 }

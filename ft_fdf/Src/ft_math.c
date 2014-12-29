@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 15:46:05 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/29 11:54:43 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ t_coord		rotate_direction(t_coord cl)
 	return (cl);
 }
 
-t_coord		trans_vectoriel(t_coord vector, int trans)
+t_coord		trans_vectoriel(t_coord vector, double trans)
 {
 		vector.x2 *= trans;
 		vector.y2 *= trans;
 	return (vector);
 }
 
-t_coord		new_vector(int x1, int y1, int x2, int y2)
+t_coord		new_vector(double x1, double y1, double x2, double y2)
 {
 	t_coord		c1;
 
