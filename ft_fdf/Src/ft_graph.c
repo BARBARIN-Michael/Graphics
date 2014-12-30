@@ -6,14 +6,14 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 10:28:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/29 17:57:19 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/30 18:07:52 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
 // A supprimer en fin de projet
-void		ecrire_vecteur(t_coord cneww, double x, double z)
+void		ecrire_vecteur(t_vector cneww, double x, double z)
 {
 			ft_putstr_c("Point Numero : ", "cyan");
 			printf("%f", x);
@@ -51,7 +51,7 @@ void		draw_pixel_to_img(int x, int y, t_mlx *mlx, color unitcolor)
 	mlx->data[(y * mlx->sizeline + x * (mlx->bpp / 8)) + 2] = r;
 }
 
-void		draw_line(t_coord cl, t_mlx *mlx, color col)
+void		draw_line(t_vector cl, t_mlx *mlx, color col)
 {
 	int		x;
 	int		dir;
@@ -74,37 +74,45 @@ void		draw_line(t_coord cl, t_mlx *mlx, color col)
 	}
 }
 
-void		draw_fdf(t_mlx *mlx, t_list *lstfile, size_vector len_vector)
+void		draw_fdf(t_mlx *mlx, t_node *map, size_vector len_vector)
 {
-	t_coord		cnew;
-	t_coord		cpre;
-	int			lenx;
-	t_axe		xyz;
-	int			cmp;
+	t_vector	v_left;
+	t_vector	v_right;
+	t_node		*c_node;
+	t_axe		left;
+	t_axe		right;
 
-	xyz.y = 0.0;
-	xyz.x = 0.0;
-	while (lstfile != NULL)
+	c_node = map;
+	while (c_node->right_node)
 	{
-		cmp = 1;
-		lenx = ft_coord_nbr(lstfile->content);
-		cpre = new_vector(0.0, 0.0, coord_x_iso(xyz.x, xyz.y), coord_y_iso(xyz.x, xyz.y, 0));
-		cpre = trans_vectoriel(cpre, OFFSET_XY);
-		while (cmp <= lenx)
+		while (c_node)
 		{
-			xyz.z = ft_getvalue(lstfile->content, cmp - 1);
-			cnew = new_vector(cpre.x2, cpre.y2, coord_x_iso((xyz.x + (double)cmp) * OFFSET_XY, xyz.y * OFFSET_XY),
-					coord_y_iso((xyz.x + (double)cmp) * OFFSET_XY, xyz.y * OFFSET_XY, xyz.z));
-		//	cnew = trans_vectoriel(cnew, OFFSET_XY);
-			ecrire_vecteur(cnew, cmp, xyz.z);
-				draw_line(cnew, mlx, RED);
-			cpre = cpy_vector(cpre, cnew);
-			cmp++;
+			if (c_node->left_node)
+			{
+				right = (t_axe) {	.x = c_node->xyz.x,
+								.y = c_node->xyz.y,
+								.z = c_node->xyz.z};
+				v_left = new_vector_iso(c_node->xyz, c_node->left_node->xyz);
+				trans_vectoriel(v_left, 10, 10);
+				draw_line(v_left, mlx, RED);
+				ecrire_vecteur(v_left, right.x, right.z);
+			}
+				right = (t_axe) {	.x = c_node->xyz.x,
+								.y = c_node->xyz.y,
+								.z = c_node->xyz.z};
+			v_right = new_vector_iso(c_node->xyz, c_node->right_node->xyz);
+			draw_line(v_right, mlx, RED);
+			ecrire_vecteur(v_right, right.x, right.z);
+			ft_putendl_c("test", "red");
+			if (!c_node->left_node)
+				break ;
+			c_node = c_node->left_node;
+			sleep(1);
 		}
-		ft_putendl_c("###################################################################", "magenta");
-		lstfile = lstfile->next;
-		xyz.y++;
-		xyz.x++;
+		c_node = c_node->first_xnode;
+		ft_putendl2_c("test3 : ", ft_itoa(c_node->xyz.z), "red");
+		c_node = c_node->right_node;
+		ft_putendl_c("test4", "red");
 	}
 }
 

@@ -6,74 +6,75 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/29 15:39:41 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/30 17:51:09 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-double		coord_x_iso(double x, double y)
+double		coord_x_iso(int x, int y)
 {
 	double rslt;
 
-	rslt = (OFFSET_ISOX * x) - (OFFSET_ISOY * y);
+	rslt = OFFSET_W + ((OFFSET_ISOX * x) - (OFFSET_ISOY * y));
 	return (rslt);
 }
 
-double		coord_y_iso(double x, double y, double z)
+double		coord_y_iso(int x, int y, int z)
 {
 	double rslt;
 	rslt = z + ((OFFSET_ISOX / 2.0)) * x;
 	rslt += (OFFSET_ISOY / 2.0) * y;
+	rslt += OFFSET_W;
 	return (rslt);
 }
 
-int			x_max(t_list *lst)
+int			x_max(t_node *map)
 {
-	t_list	*sv;
+	t_node	*sv;
 	int		lenx;
 	int		rslt;
 
 	lenx = 0;
-	sv = lst;
-	while (lst != NULL)
+	sv = map;
+	while (sv->left_node)
 	{
-		if (lenx < (rslt = ft_coord_nbr(lst->content)))
-			lenx = rslt;
-		lst = lst->next;
+		sv = sv->left_node;
+		lenx++;
 	}
-	lst = sv;
 	return (lenx);
 }
 
-int			y_max(t_list *lst)
+int			y_max(t_node *map)
 {
-	t_list	*sv;
+	t_node	*sv;
 	int		leny[2];
-	int		offsety;
-	int		x;
+	int		y;
+	int offsety;
 	int		rslt;
 
 	//leny[0] = Hauteur positive
 	//leny[1] = Hauteur negative
-	sv = lst;
+	sv = map;
+	y = 0;
 	leny[0] = 0;
 	leny[1] = 0;
-	offsety = 0;
-	while (lst != NULL)
+	while (sv->right_node)
 	{
-		x = 0;
-		while ((rslt = ft_getvalue(lst->content, x)) >= 0)
+		while (sv->left_node)
 		{
-			if (leny[0] < (rslt - offsety))
-				leny[0] = rslt - offsety;
-			if (leny[1] > (rslt - offsety))
-				leny[1] = (rslt - offsety);
-			x++;
+			if (leny[0] < (sv->xyz.z - y))
+				leny[0] = sv->xyz.z - y;
+			if (leny[1] > sv->xyz.z)
+			{
+				leny[1] = sv->xyz.z;
+				offsety = 0;
+			}
+			else
+				leny[1] += ++offsety;
+			sv = sv->left_node;
 		}
-		lst = lst->next;
-		offsety++;
+		y++;
 	}
-	lst = sv;
 	return (leny[0] - leny[1]);
 }

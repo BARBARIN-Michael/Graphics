@@ -6,16 +6,16 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 17:48:17 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/30 16:33:42 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "../Include/ft_fdf.h"
 
-static void		ft_icd_mlx(t_mlx *mlx, t_list *lst, int state)
+static void		ft_icd_mlx(t_mlx *mlx, t_node *map, int state)
 {
-	t_list *listadel;
+	t_node *mapadel;
 
 	if (state == 0)
 	{
@@ -28,28 +28,23 @@ static void		ft_icd_mlx(t_mlx *mlx, t_list *lst, int state)
 	{
 		mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, HEIGHT, WIDTH, TITLE_WIN);
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img, 0, 0);
-	sleep(100);
+		sleep(100);
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img);
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
-		while (lst != NULL)
-		{
-			listadel = lst;
-			free(lst->content);
-			lst = lst->next;
-			free(listadel);
-		}
+		ft_del_map(&map);
 	}
 }
 
 void	ft_fdf(char *str)
 {
 	t_mlx		mlx;
-	t_list		*lstfile;
+	t_node		*map;
 	size_vector vectlen;
 
-	lstfile = ft_parsefile(str);
-	ft_icd_mlx(&mlx, lstfile, 0);
-	vectlen = WIDTH / x_max(lstfile);
-	draw_fdf(&mlx, lstfile, vectlen);
-	ft_icd_mlx(&mlx, lstfile, 1);
+	map = ft_parsefile(str);
+	ft_icd_mlx(&mlx, map, 0);
+	ft_putendl_c("test", "red");
+	vectlen = WIDTH / x_max(map);
+	draw_fdf(&mlx, map, vectlen);
+	ft_icd_mlx(&mlx, map, 1);
 }

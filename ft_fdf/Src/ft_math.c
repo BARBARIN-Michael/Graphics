@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/29 11:54:43 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/30 17:43:17 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		direction_vector(int x1, int y1, int x2, int y2)
 	return (-1);
 }
 
-t_coord		rotate_direction(t_coord cl)
+t_vector 		rotate_direction(t_vector cl)
 {
 	int		xtemp;
 	int		ytemp;
@@ -53,22 +53,35 @@ t_coord		rotate_direction(t_coord cl)
 	return (cl);
 }
 
-t_coord		trans_vectoriel(t_coord vector, double trans)
+t_vector 		trans_vectoriel(t_vector vector, int tr_x, int tr_y)
 {
-		vector.x2 *= trans;
-		vector.y2 *= trans;
+		vector.x1 *= tr_x;
+		vector.x2 *= tr_x;
+		vector.y1 *= tr_y;
+		vector.y2 *= tr_y;
 	return (vector);
 }
 
-t_coord		new_vector(double x1, double y1, double x2, double y2)
+t_vector 		new_vector(double x1, double y1, double x2, double y2)
 {
-	t_coord		c1;
+	t_vector 		c1;
 
-	c1 = (t_coord) { .x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2 };
+	c1 = (t_vector ) { .x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2 };
 	return (c1);
 }
 
-t_coord		cpy_vector(t_coord v_out, t_coord v_in)
+t_vector		new_vector_iso(t_axe a, t_axe b)
+{
+	t_vector		iso;
+
+	iso = (t_vector) {	.x1 = coord_x_iso(a.x, a.y),
+						.y1 = coord_y_iso(a.x, a.y, a.z),
+						.x2 = coord_x_iso(b.x, b.y),
+						.y2 = coord_y_iso(b.x, b.y, b.z)};
+	return (iso);
+}
+
+t_vector 		cpy_vector(t_vector v_out,t_vector v_in)
 {
 	v_out.x1 = v_in.x1;
 	v_out.y1 = v_in.y1;

@@ -41,6 +41,7 @@ SRC =	$(SRCDIR)/ft_algofdf.c	\
 		$(SRCDIR)/ft_fdf.c		\
 		$(SRCDIR)/ft_graph.c	\
 		$(SRCDIR)/ft_parse.c	\
+		$(SRCDIR)/ft_list.c		\
 		$(SRCDIR)/ft_math.c		\
 		$(SRCDIR)/main.c		\
 		$(SRCDIR)/get_next_line.c
