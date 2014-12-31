@@ -1,0 +1,149 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_mathline.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/31 10:29:35 by mbarbari          #+#    #+#             */
+/*   Updated: 2014/12/31 12:39:14 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+/*void		draw_line1(t_vector v1, t_mlx *mlx, color col)
+{
+	t_axe xy;
+	t_cline v_l;
+
+	ft_putendl_c("draw line with function 1 !", "red");
+	xy = (t_axe) {.x = v1.x1, .y = v1.y1, .z = 0};
+	v_l.dxyp[0] = v1.x2 - v1.x1;
+	v_l.dxyp[1] = v1.y2 - v1.y1;
+	v_l.dxyp[2] = 2 * v_l.dxyp[1] - v_l.dxyp[0];
+	v_l.deltaE  = 2 * v_l.dxyp[1];
+	v_l.deltaNE = 2 * (v_l.dxyp[1] - v_l.dxyp[0]);
+	draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	while (xy.x < v1.x2)
+	{
+		if (v_l.dxyp[2] <= 0)
+			v_l.dxyp[2] = v_l.dxyp[2] + v_l.deltaE;
+		else
+		{
+			v_l.dxyp[2] = v_l.dxyp[2] + v_l.deltaNE;
+			xy.y++;
+		}
+		xy.x++;
+		draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	}
+}*/
+
+void		draw_line1(t_vector v1, t_mlx *mlx, color col)
+{
+	int dx = v1.x2 - v1.x1;
+	int dy = v1.y2 - v1.y1;
+	int dp = 2 * dy - dx; /* Valeur initiale de dp */
+	int deltaE = 2 * dy;
+	int deltaNE = 2 * (dy - dx);
+	int x = v1.x1;
+	int y = v1.y1;
+	draw_pixel_to_img(x, y, mlx, col);
+	while (x < v1.x2)
+	{
+		if (dp <= 0) /* On choisit le point E */
+		{
+			dp = dp + deltaE; /* Nouveau dp */
+			x++; /* Calcul de x_p+1 */
+			/* y_p+1 = y_p */
+		}
+		else /* On choisit le point NE */
+		{
+			dp = dp + deltaNE; /* Nouveau dp */
+			x++; /* Calcul de x_p+1 */
+			y++; /* Calcul de y_p+1 */
+		}
+		draw_pixel_to_img(x, y, mlx, col);
+	}
+}
+
+void		draw_line2(t_vector v1, t_mlx *mlx, color col)
+{
+	t_axe xy;
+	t_cline v_l;
+
+	ft_putendl_c("draw line with function 2 !", "red");
+	xy = (t_axe) {.x = v1.x1, .y = v1.y1, .z = 0};
+	v_l.dxyp[0] = v1.x2 - v1.x1;
+	v_l.dxyp[1] = v1.y2 - v1.y1;
+	v_l.dxyp[2] = 2 * v_l.dxyp[0] - v_l.dxyp[1];
+	v_l.deltaE  = 2 * v_l.dxyp[0];
+	v_l.deltaNE = 2 * (v_l.dxyp[0] - v_l.dxyp[1]);
+	draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	while (xy.x < v1.x2)
+	{
+		if (v_l.dxyp[2] <= 0)
+			v_l.dxyp[2] = v_l.dxyp[2] + v_l.deltaE;
+		else
+		{
+			v_l.dxyp[2] = v_l.dxyp[2] +v_l.deltaNE;
+			xy.x++;
+		}
+		xy.y++;
+		draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	}
+}
+
+void		draw_line3(t_vector v1, t_mlx *mlx, color col)
+{
+	t_axe xy;
+	t_cline v_l;
+
+	ft_putendl_c("draw line with function 3 !", "red");
+	xy = (t_axe) {.x = v1.x1, .y = v1.y1, .z = 0};
+	v_l.dxyp[0] = v1.x2 - v1.x1;
+	v_l.dxyp[1] = v1.y2 - v1.y1;
+	v_l.dxyp[2] = 2 * v_l.dxyp[1] - v_l.dxyp[0];
+	v_l.deltaE  = 2 * v_l.dxyp[1];
+	v_l.deltaNE = 2 * (v_l.dxyp[1] - v_l.dxyp[0]);
+	draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	while (xy.x < v1.x2)
+	{
+		if (v_l.dxyp[2] <= 0)
+			v_l.dxyp[2] = v_l.dxyp[2] + v_l.deltaE;
+		else
+		{
+			v_l.dxyp[2] = v_l.dxyp[2] +v_l.deltaNE;
+			xy.y++;
+		}
+		xy.x--;
+		draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	}
+}
+
+void		draw_line4(t_vector v1, t_mlx *mlx, color col)
+{
+	t_axe xy;
+	t_cline v_l;
+
+	ft_putendl_c("draw line with function 4 !", "red");
+	xy = (t_axe) {.x = v1.x1, .y = v1.y1, .z = 0};
+	v_l.dxyp[0] = v1.x2 - v1.x1;
+	v_l.dxyp[1] = v1.y2 - v1.y1;
+	v_l.dxyp[2] = 2 * v_l.dxyp[0] - v_l.dxyp[1];
+	v_l.deltaE  = 2 * v_l.dxyp[0];
+	v_l.deltaNE = 2 * (v_l.dxyp[0] - v_l.dxyp[1]);
+	draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	while (xy.x < v1.x2)
+	{
+		if (v_l.dxyp[2] <= 0)
+			v_l.dxyp[2] = v_l.dxyp[2] + v_l.deltaE;
+		else
+		{
+			v_l.dxyp[2] = v_l.dxyp[2] +v_l.deltaNE;
+			xy.x--;
+		}
+		xy.x++;
+		draw_pixel_to_img(xy.x, xy.y, mlx, col);
+	}
+}

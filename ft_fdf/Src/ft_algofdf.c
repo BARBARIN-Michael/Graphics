@@ -6,27 +6,30 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/31 08:11:43 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/31 18:03:27 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-double		coord_x_iso(int x, int y)
+double		coord_x_iso(int x, int y, int tile_width, int tile_height)
 {
 	double rslt;
-
-	rslt = /*OFFSET_W +*/ ((OFFSET_ISOX * x) - (OFFSET_ISOY * y));
-	return (rslt);
+	//rslt = 200 + (x - y) * tile_width / 2.0;
+	
+	rslt = ((sqrt(2) / 2) * (x - y));
+	rslt *= tile_width;
+	return (ceil(rslt) + 200);
 }
 
-double		coord_y_iso(int x, int y, int z)
+double		coord_y_iso(int x, int y, int z, int tile_height)
 {
 	double rslt;
-	rslt = z + ((OFFSET_ISOX / 2.0)) * x;
-	rslt += (OFFSET_ISOY / 2.0) * y;
-//	rslt += OFFSET_W;
-	return (rslt);
+
+	//rslt = (x + y) * tile_height / 2.0;
+	rslt = (-0.70 * z) - (1 / sqrt(6)) * (x + y);
+	rslt *= tile_height;
+	return (ceil(rslt) + 300);
 }
 
 int			x_max(t_node *map)

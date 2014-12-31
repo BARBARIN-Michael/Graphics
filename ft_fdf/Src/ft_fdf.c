@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/31 08:53:25 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/31 18:03:19 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ static void		ft_icd_mlx(t_mlx *mlx, t_node *map, int state)
 	}
 	else
 	{
+		ft_putendl_c("test affichage", "green");
 		mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, HEIGHT, WIDTH, TITLE_WIN);
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img, 0, 0);
-		sleep(10);
+		sleep(610);
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img);
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
 		ft_del_map(&map);
