@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/30 17:51:09 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/31 08:11:43 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ double		coord_x_iso(int x, int y)
 {
 	double rslt;
 
-	rslt = OFFSET_W + ((OFFSET_ISOX * x) - (OFFSET_ISOY * y));
+	rslt = /*OFFSET_W +*/ ((OFFSET_ISOX * x) - (OFFSET_ISOY * y));
 	return (rslt);
 }
 
@@ -25,7 +25,7 @@ double		coord_y_iso(int x, int y, int z)
 	double rslt;
 	rslt = z + ((OFFSET_ISOX / 2.0)) * x;
 	rslt += (OFFSET_ISOY / 2.0) * y;
-	rslt += OFFSET_W;
+//	rslt += OFFSET_W;
 	return (rslt);
 }
 

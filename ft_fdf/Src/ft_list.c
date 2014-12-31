@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/30 17:38:30 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/31 08:08:35 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ t_node		*ft_lstadd_right(t_node **map, t_node *new)
 		if (!(*map))
 		{
 			*map = new;
+			new->first_xnode = new;
 			return (new);
 		}
 		temp_right = *map;
 		while (temp_right->right_node != NULL)
 			temp_right = temp_right->right_node;
 		temp_right->right_node = new;
-		temp_right->first_xnode = new;
+		new->first_xnode = new;
 	}
 	return (new);
 }
@@ -59,9 +60,7 @@ void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
 	tmp_line = *line;
 	tmp_prev = NULL;
 	if (*prev != NULL)
-	{
 		tmp_prev = *prev;
-	}
 	if (new)
 	{
 		while (tmp_line->left_node != NULL)
@@ -73,7 +72,7 @@ void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
 		if (tmp_prev != NULL)
 			tmp_prev->left_node->right_node = new;
 		tmp_line->left_node = new;
-		tmp_line->first_xnode = *line;
+		new->first_xnode = tmp_line->first_xnode;
 	}
 }
 
@@ -117,17 +116,29 @@ void		ft_print_map(t_node *map, int x, int y)
 		tmp_left = tmp_left->left_node;
 	ft_putstr_c("valeur de la valeur recherche :", "cyan");
 	printf(C_GREEN"  %p\n"C_NONE, tmp_left);
+	ft_putstr_c("valeur de la list primaire :", "cyan");
+	printf(C_GREEN"  %p\n"C_NONE, tmp_left->first_xnode);
 	printf(C_RED"\t x -> %f\n"C_NONE, tmp_left->xyz.x);
 	printf(C_RED"\t y -> %f\n"C_NONE, tmp_left->xyz.y);
 	printf(C_RED"\t z -> %f\n"C_NONE, tmp_left->xyz.z);
-	ft_putstr_c("valeur de la valeur gauche :", "brown");
-	printf(C_GREEN"  %p\n"C_NONE, tmp_left->left_node);
-	printf(C_RED"\t x -> %f\n"C_NONE, tmp_left->left_node->xyz.x);
-	printf(C_RED"\t y -> %f\n"C_NONE, tmp_left->left_node->xyz.y);
-	printf(C_RED"\t z -> %f\n"C_NONE, tmp_left->left_node->xyz.z);
-	ft_putstr_c("valeur de la valeur droite :", "brown");
-	printf(C_GREEN"  %p\n"C_NONE, tmp_left->right_node);
-	printf(C_RED"\t x -> %f\n"C_NONE, tmp_left->right_node->xyz.x);
-	printf(C_RED"\t y -> %f\n"C_NONE, tmp_left->right_node->xyz.y);
-	printf(C_RED"\t z -> %f\n"C_NONE, tmp_left->right_node->xyz.z);
+	if (tmp_left->left_node)
+	{
+		ft_putstr_c("valeur de la valeur gauche :", "brown");
+		printf(C_GREEN"  %p\n"C_NONE, tmp_left->left_node);
+	ft_putstr_c("valeur de la list primaire :", "cyan");
+	printf(C_GREEN"  %p\n"C_NONE, tmp_left->left_node->first_xnode);
+		printf(C_RED"\t x -> %f\n"C_NONE, tmp_left->left_node->xyz.x);
+		printf(C_RED"\t y -> %f\n"C_NONE, tmp_left->left_node->xyz.y);
+		printf(C_RED"\t z -> %f\n"C_NONE, tmp_left->left_node->xyz.z);
+	}
+	if (tmp_left->right_node)
+	{
+		ft_putstr_c("valeur de la valeur droite :", "brown");
+		printf(C_GREEN"  %p\n"C_NONE, tmp_left->right_node);
+	ft_putstr_c("valeur de la list primaire :", "cyan");
+	printf(C_GREEN"  %p\n"C_NONE, tmp_left->right_node->first_xnode);
+		printf(C_RED"\t x -> %f\n"C_NONE, tmp_left->right_node->xyz.x);
+		printf(C_RED"\t y -> %f\n"C_NONE, tmp_left->right_node->xyz.y);
+		printf(C_RED"\t z -> %f\n"C_NONE, tmp_left->right_node->xyz.z);
+	}
 }

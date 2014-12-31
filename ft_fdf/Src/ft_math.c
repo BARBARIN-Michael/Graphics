@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/30 17:43:17 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/31 08:29:03 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ t_vector 		trans_vectoriel(t_vector vector, int tr_x, int tr_y)
 	return (vector);
 }
 
-t_vector 		new_vector(double x1, double y1, double x2, double y2)
+t_vector 		new_vector(t_axe a, t_axe b)
 {
 	t_vector 		c1;
 
-	c1 = (t_vector ) { .x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2 };
+	c1 = (t_vector ) { .x1 = a.x, .y1 = a.y, .x2 = b.x, .y2 = a.y };
 	return (c1);
 }
 

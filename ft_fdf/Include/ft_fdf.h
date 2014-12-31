@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/30 17:57:51 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/31 08:29:23 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void			ft_insert_map(char *str, t_node **map, int cr);
 int				direction_vector(int x1, int y1, int x2, int y2);
 t_vector		rotate_direction(t_vector cl);
 t_vector		trans_vectoriel(t_vector vector, int tr_x, int tr_y);
-t_vector		new_vector(double x1, double y1, double x2, double y2);
+t_vector		new_vector(t_axe a, t_axe b);
 t_vector		new_vector_iso(t_axe a, t_axe b);
 t_vector		cpy_vector(t_vector v_out, t_vector v_in);
 

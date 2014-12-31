@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 10:28:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/30 18:07:52 by mbarbari         ###   ########.fr       */
+/*   Updated: 2014/12/31 08:53:33 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ void		draw_pixel_to_img(int x, int y, t_mlx *mlx, color unitcolor)
 void		draw_line(t_vector cl, t_mlx *mlx, color col)
 {
 	int		x;
+	int		calculX;
+	int		calculY;
 	int		dir;
 
 	dir = direction_vector(cl.x1, cl.y1, cl.x2, cl.y2);
-	if (dir > 2 && dir < 5)
+/*	if (dir > 2 && dir < 5)
 		cl = rotate_direction(cl);
-	x = cl.x1;
+*/	x = cl.x1;
 	if ((cl.x2 - cl.x1) == 0)
 	{
 		ft_putendl_c("J'ai tout casse sur une formule math impossible", "red");
@@ -67,11 +69,16 @@ void		draw_line(t_vector cl, t_mlx *mlx, color col)
 	}
 	while (x <= cl.x2)
 	{
-		draw_pixel_to_img(ceil(OFFSET_W - x),
-				ceil(OFFSET_H - (cl.y1 + ((cl.y2 - cl.y1) * (x - cl.x1)) / (cl.x2 - cl.x1))),
+		draw_pixel_to_img(ceil(x),
+				ceil((cl.y1 + ((cl.y2 - cl.y1) * (x - cl.x1)) / (cl.x2 - cl.x1))),
 				mlx, col);
 	x++;
 	}
+}
+
+void		draw_line2(t_vector v1, t_mlx *mlx, color col)
+{
+	
 }
 
 void		draw_fdf(t_mlx *mlx, t_node *map, size_vector len_vector)
@@ -94,25 +101,25 @@ void		draw_fdf(t_mlx *mlx, t_node *map, size_vector len_vector)
 								.z = c_node->xyz.z};
 				v_left = new_vector_iso(c_node->xyz, c_node->left_node->xyz);
 				trans_vectoriel(v_left, 10, 10);
-				draw_line(v_left, mlx, RED);
+				//draw_line(v_left, mlx, RED);
 				ecrire_vecteur(v_left, right.x, right.z);
 			}
-				right = (t_axe) {	.x = c_node->xyz.x,
-								.y = c_node->xyz.y,
-								.z = c_node->xyz.z};
-			v_right = new_vector_iso(c_node->xyz, c_node->right_node->xyz);
+				right = (t_axe) {	.x = 51,
+								.y = 50,
+								.z = 0};
+				left = (t_axe) {	.x = 307,
+								.y = 1,
+								.z = 0};
+			v_right = new_vector(right, left);
+			//trans_vectoriel(v_right, 10, 10);
 			draw_line(v_right, mlx, RED);
 			ecrire_vecteur(v_right, right.x, right.z);
-			ft_putendl_c("test", "red");
-			if (!c_node->left_node)
+		//	if (!c_node->left_node)
 				break ;
 			c_node = c_node->left_node;
 			sleep(1);
 		}
 		c_node = c_node->first_xnode;
-		ft_putendl2_c("test3 : ", ft_itoa(c_node->xyz.z), "red");
 		c_node = c_node->right_node;
-		ft_putendl_c("test4", "red");
 	}
 }
-
