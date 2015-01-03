@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/31 18:03:24 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/03 04:41:54 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ typedef struct	s_mlx
 	void          *win_ptr;
 	void          *img;
 	char          *data;
-	int           width;
-	int           height;
 	int           bpp;
 	int           sizeline;
 	int           endian;
@@ -81,6 +79,18 @@ typedef struct	s_cline
 	int deltaE;
 	int deltaNE;
 }				t_cline;
+
+typedef struct	s_env
+{
+	int		w;
+	int		h;
+	int		dx;
+	int		dy;
+	int		prof;
+	t_node	*map;
+	t_mlx	mlx;
+}				t_env;
+
 // FT_FDF.H
 void			ft_fdf(char *str);
 
@@ -88,11 +98,11 @@ void			ft_fdf(char *str);
 void			draw_pixel_to_img(int x, int y, t_mlx *mlx,  color unitcolor);
 void			ecrire_vecteur(t_vector cnew, int x, int z, color col); // a supprimer
 void			create_line(t_vector c1, t_mlx *mlx, color col);
-void			draw_fdf(t_mlx *mlx, t_node *map, size_vector lv);
+void			draw_fdf(t_env *env);
 
 // FT_ALGOFDF.H
-double			coord_x_iso(int x, int y, int tile_width, int tile_height );
-double			coord_y_iso(int x, int y, int z, int tile_height);
+double			coord_x_iso(int x, int y, int tilew, int tileh);
+double			coord_y_iso(int x, int y, int z, int tileh, int tilew);
 int				x_max(t_node *map);
 int				y_max(t_node *map);
 
@@ -124,4 +134,8 @@ void			draw_line1(t_vector v1, t_mlx *mlx, color col);
 void			draw_line3(t_vector v1, t_mlx *mlx, color col);
 void			draw_line4(t_vector v1, t_mlx *mlx, color col);
 */
+
+// FT_EVENT.H
+int			ft_event_key(int key, t_env *env);
+int			ft_event_expose(t_env *env);
 #endif

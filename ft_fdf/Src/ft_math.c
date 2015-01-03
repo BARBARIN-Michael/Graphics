@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/31 17:55:54 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/02 23:13:02 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ t_vector		new_vector_iso(t_axe a, t_axe b, int vec_w, int vec_h)
 	t_vector		iso;
 
 	iso = (t_vector) {	.x1 = coord_x_iso(a.x, a.y, vec_w, vec_h),
-						.y1 = coord_y_iso(a.x, a.y, a.z, vec_h),
+						.y1 = coord_y_iso(a.x, a.y, a.z, vec_h, vec_w),
 						.x2 = coord_x_iso(b.x, b.y, vec_w, vec_h),
-						.y2 = coord_y_iso(b.x, b.y, b.z, vec_h)};
+						.y2 = coord_y_iso(b.x, b.y, b.z, vec_h, vec_w)};
 	return (iso);
 }
 

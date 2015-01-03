@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/31 18:03:27 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/03 00:48:47 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,23 @@
 double		coord_x_iso(int x, int y, int tile_width, int tile_height)
 {
 	double rslt;
-	//rslt = 200 + (x - y) * tile_width / 2.0;
 	
-	rslt = ((sqrt(2) / 2) * (x - y));
-	rslt *= tile_width;
-	return (ceil(rslt) + 200);
+	x *= tile_width;
+	y *= tile_height;
+	rslt = (0.80 * x - 0.70 * y);
+	return (ceil(rslt));
 }
 
-double		coord_y_iso(int x, int y, int z, int tile_height)
+double		coord_y_iso(int x, int y, int z, int tile_height, int tile_width)
 {
 	double rslt;
 
-	//rslt = (x + y) * tile_height / 2.0;
-	rslt = (-0.70 * z) - (1 / sqrt(6)) * (x + y);
-	rslt *= tile_height;
-	return (ceil(rslt) + 300);
+	x *= tile_width;
+	y *= tile_height;
+	z *= 2;
+	rslt = (0.70 * z) - (1 / sqrt(6)) * (x + y);
+	rslt = (-z + (0.80/2 * x + 0.70 * y));
+	return (ceil(rslt));
 }
 
 int			x_max(t_node *map)
