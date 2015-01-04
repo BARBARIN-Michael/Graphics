@@ -6,7 +6,7 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 06:04:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 12:44:33 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/04 23:54:26 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	read_file(int fd, char **str)
 		}
 		buf[rslt] = '\0';
 		*str = (char *)ft_realloc(*str, rslt);
-		*str = ft_strjoin(*str, buf);
+		*str = ft_strjoin_free(*str, buf);
 		if (ft_strchr(*str, '\n'))
 			break ;
 	}
@@ -105,6 +105,7 @@ int			get_next_line(int fd, char **line)
 			{
 				*line = ft_strdup(var->s1);
 				ft_strdel(&var->s1);
+				free(var);
 				return (1);
 			}
 			return (var->rslt);

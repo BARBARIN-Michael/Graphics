@@ -1,0 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agadiffe <agadiffe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/11/17 14:32:26 by agadiffe          #+#    #+#             */
+/*   Updated: 2014/11/30 15:03:36 by agadiffe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+
+# define BUF_SIZE 8
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "libft.h"
+
+typedef struct			s_lst
+{
+	char			*buf;
+	int				fd;
+	int				ret;
+	struct s_lst	*next;
+}						t_lst;
+
+int						get_next_line(int const fd, char **line);
+
+#endif

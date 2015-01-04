@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/03 23:45:37 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/05 00:29:37 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,15 @@ typedef struct	s_env
 // FT_FDF.H
 void			ft_fdf(char *str);
 void			exit_fdf(t_node *map, t_mlx *mlx);
+void			ft_icd_mlx(t_mlx *mlx, t_node *map, int state);
 
 // FT_GRAPH.H
 void			draw_pixel_to_img(int x, int y, color unitcolor, t_env *env);
-void			ecrire_vecteur(t_vector cnew, int x, int z, color col); // a supprimer
-void			create_line(t_vector c1, t_mlx *mlx, color col);
 void			draw_fdf(t_env *env);
 
 // FT_ALGOFDF.H
 double			coord_x_iso(int x, int y, int tilew, int tileh);
-double			coord_y_iso(int x, int y, int z, int tileh, int tilew);
-int				x_max(t_node *map);
-int				y_max(t_node *map);
+double			coord_y_iso(int x, int y, int z, int tileh, int tilew, int t_z);
 
 // FT_PARSE.H
 t_node			*ft_parsefile(char *file);
@@ -121,7 +118,7 @@ int				correct_vector(t_vector *vec1);
 t_vector		*rotate_direction(t_vector *cl);
 t_vector		trans_vectoriel(t_vector vector, int tr_x, int tr_y);
 t_vector		new_vector(t_axe a, t_axe b);
-t_vector		new_vector_iso(t_axe a, t_axe b, int vec_w, int vec_h);
+t_vector		new_vector_iso(t_axe a, t_axe b, int vec_w, int vec_h, int v_z);
 t_vector		cpy_vector(t_vector v_out, t_vector v_in);
 int				abs(int val);
 
@@ -129,11 +126,10 @@ int				abs(int val);
 t_node			*ft_new_lstfdf(t_node *first, t_axe xyz);
 t_node			*ft_lstadd_right(t_node **map, t_node *new);
 void			ft_lstadd_left(t_node **line, t_node **prev, t_node *new);
-void			ft_print_map(t_node *map, int x, int y);
 void			ft_del_map(t_node **map);
 
 // FT_MATHLINE.H
-void			draw_line1(t_vector v1, t_env *env, color col);
+void			draw_line1(t_vector v1, t_env *env, color col, color offcol);
 
 // FT_EVENT.H
 int			ft_event_key(int key, t_env *env);

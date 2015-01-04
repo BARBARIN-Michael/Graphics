@@ -6,7 +6,7 @@ COMPILATEUR = gcc
 #COMPILATEUR = perl ~/script/colorgcc.pl
 
 # Options
-COPTIONS = -g -O3 #-Wall -Wextra -Werror
+COPTIONS = -g -O3 -Wall -Wextra -Werror
 
 
 LSTD = -I Lib/Includes -L Lib/libft/ -lft

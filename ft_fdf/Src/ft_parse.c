@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/31 08:07:51 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/04 23:55:59 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_coord_nbr(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == ' ' && (str[i - 1] != ' ' && i > 1))
+		if (str[i] == ' ' && i > 0 && str[i - 1] != ' ' && str[i + 1] != '\0')
 			cmp++;
 		i++;
 	}
@@ -49,7 +49,7 @@ t_node			*ft_parsefile(char *file)
 	close(fd);
 	if (rslt < 0)
 	{
-		ft_putendl(C_RED"ERROR x104 : Cannot open file");
+		ft_putendl(C_RED"ERROR x104 : Cannot open file"C_NONE);
 		exit(1);
 	}
 	return (map);
@@ -62,11 +62,13 @@ unsigned int			ft_getvalue(char *str, int x)
 
 	if (tmp == NULL)
 		tmp = ft_strsplit(str, ' ');
-	nbr = (unsigned int)ft_atoi(tmp[x]);
+	nbr = ft_atoi(tmp[x]);
+	free(tmp[x]);
+	tmp[x] = NULL;
 	if (tmp[x + 1] == NULL)
 	{
-		tmp = NULL;
 		free(tmp);
+		tmp = NULL;
 	}
 	return (nbr);
 }
@@ -74,25 +76,23 @@ unsigned int			ft_getvalue(char *str, int x)
 void					ft_insert_map(char *str, t_node **map, int y)
 {
 	static t_node	*prev = NULL;
-	t_node *test;
 	t_node			*line_node;
 	int				x;
 	int				tablen;
 	t_axe			xyz;
 
-	x = 1;
+	x = 0;
 	line_node = NULL;
 	tablen = ft_coord_nbr(str);
-	while (x <= tablen + 1)
+	while (x < tablen)
 	{
-		xyz.x = x;
+		xyz.x = x + 1;
 		xyz.y = y;
-		xyz.z = ft_getvalue(str, x - 1);
-		test = ft_new_lstfdf(NULL, xyz);
+		xyz.z = ft_getvalue(str, x);
 		if (!line_node)
-			line_node = ft_lstadd_right(map,test);
+			line_node = ft_lstadd_right(map,ft_new_lstfdf(NULL, xyz));
 		else
-			ft_lstadd_left(&line_node, &prev, test);
+			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(NULL, xyz));
 		x++;
 	}
 	prev = line_node;
