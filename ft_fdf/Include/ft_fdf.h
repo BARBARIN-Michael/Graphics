@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/05 00:29:37 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/08 21:12:27 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,24 @@
 #include "get_next_line.h"
 
 typedef int bool;
-typedef unsigned int color;
+typedef long int color;
 typedef unsigned int size_vector;
 
-typedef struct	s_mlx
+typedef struct		s_mlx
 {
-	void          *mlx_ptr;
-	void          *win_ptr;
-	void          *img;
-	char          *data;
-	int           bpp;
-	int           sizeline;
-	int           endian;
-	unsigned int  color;
-	char          *data_color;
-}				t_mlx;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	void			*img;
+	char			*data;
+	int				height;
+	int				width;
+	int				bpp;
+	int				sizeline;
+	int				endian;
+	unsigned int	color;
+	char			*data_color;
+	bool			maps;
+}					t_mlx;
 
 typedef struct	s_vector
 {
@@ -59,6 +62,7 @@ typedef struct	s_vector
 	int y1;
 	int x2;
 	int y2;
+	int alt;
 }				t_vector;
 
 typedef struct	s_axe
@@ -71,6 +75,7 @@ typedef struct	s_axe
 typedef struct	s_node
 {
 	t_axe	xyz;
+	char *col;
 	struct s_node	*first_xnode;
 	struct s_node	*left_node;
 	struct s_node	*right_node;
@@ -78,9 +83,12 @@ typedef struct	s_node
 
 typedef struct	s_cline
 {
-	int dxyp[3];
-	int deltaE;
-	int deltaNE;
+	t_axe	xy;
+	int		xincr;
+	int		yincr;
+	int		error;
+	int		deltax;
+	int		deltay;
 }				t_cline;
 
 typedef struct	s_env
@@ -90,12 +98,13 @@ typedef struct	s_env
 	int		dx;
 	int		dy;
 	int		prof;
+	int		ofprof;
 	t_node	*map;
 	t_mlx	mlx;
 }				t_env;
 
 // FT_FDF.H
-void			ft_fdf(char *str);
+void			ft_fdf(char *str, int w, int h);
 void			exit_fdf(t_node *map, t_mlx *mlx);
 void			ft_icd_mlx(t_mlx *mlx, t_node *map, int state);
 
@@ -109,7 +118,7 @@ double			coord_y_iso(int x, int y, int z, int tileh, int tilew, int t_z);
 
 // FT_PARSE.H
 t_node			*ft_parsefile(char *file);
-unsigned int	ft_getvalue(char *str, int x);
+unsigned int	ft_getvalue(char *str, int x, char *col);
 int				ft_coord_nbr(char *str);
 void			ft_insert_map(char *str, t_node **map, int cr);
 
@@ -123,13 +132,13 @@ t_vector		cpy_vector(t_vector v_out, t_vector v_in);
 int				abs(int val);
 
 // FT_LIST.H
-t_node			*ft_new_lstfdf(t_node *first, t_axe xyz);
+t_node			*ft_new_lstfdf(t_node *first, t_axe xyz, char *col);
 t_node			*ft_lstadd_right(t_node **map, t_node *new);
 void			ft_lstadd_left(t_node **line, t_node **prev, t_node *new);
 void			ft_del_map(t_node **map);
 
 // FT_MATHLINE.H
-void			draw_line1(t_vector v1, t_env *env, color col, color offcol);
+void			draw_line1(t_vector v1, t_env *env, char *col, char *offcol);
 
 // FT_EVENT.H
 int			ft_event_key(int key, t_env *env);

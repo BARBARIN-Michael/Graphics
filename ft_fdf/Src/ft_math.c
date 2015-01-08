@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/04 17:17:35 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/08 21:07:33 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,6 @@ t_vector 		trans_vectoriel(t_vector vector, int tr_x, int tr_y)
 		vector.y1 += abs(tr_y);
 		vector.y2 += abs(tr_y);
 	return (vector);
-}
-
-// A supprimer
-t_vector 		new_vector(t_axe a, t_axe b)
-{
-	t_vector 		c1;
-
-	c1 = (t_vector) { .x1 = a.x, .y1 = a.y, .x2 = b.x, .y2 = b.y };
-	return (c1);
 }
 
 t_vector		new_vector_iso(t_axe a, t_axe b, int vec_w, int vec_h, int v_z)

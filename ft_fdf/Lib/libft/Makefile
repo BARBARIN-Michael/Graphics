@@ -6,7 +6,7 @@
 #    By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 14:48:04 by mbarbari          #+#    #+#              #
-#    Updated: 2014/12/28 15:14:31 by mbarbari         ###   ########.fr        #
+#    Updated: 2015/01/08 21:21:47 by mbarbari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,8 @@ SRCS = ft_bzero.c \
 		ft_memset.c \
 		ft_realloc.c \
 		ft_replace.c \
+		ft_pow.c \
+		ft_strtol.c \
 		ft_putendl_c.c
 
 OBJS = $(SRCS:.c=.o)

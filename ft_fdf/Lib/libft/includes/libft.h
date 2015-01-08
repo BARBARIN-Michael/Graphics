@@ -6,7 +6,7 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 14:05:43 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/28 15:13:52 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/08 21:23:02 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <string.h>
+# include <stdlib.h>
 
 # define C_NONE         "\033[0m"
 # define C_BOLD         "\033[1m"
@@ -102,5 +103,8 @@ void				ft_lstadd_back(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 char				*ft_replace(char *str, char *mod, char *strtoreplace);
+long int			ft_strtol(char *line);
+long				ft_pow(int valeur, int power);
+
 
 #endif
