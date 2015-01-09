@@ -6,13 +6,13 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/04 23:27:56 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/09 13:19:48 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-t_node		*ft_new_lstfdf(t_node *first, t_axe xyz)
+t_node		*ft_new_lstfdf(t_node *first, t_axe xyz, char *col)
 {
 	t_node	*new_node;
 	t_axe	new_axe;
@@ -22,6 +22,7 @@ t_node		*ft_new_lstfdf(t_node *first, t_axe xyz)
 	new_axe.x = xyz.x;
 	new_axe.y = xyz.y;
 	new_axe.z = xyz.z;
+	new_node->col = col;
 	new_node->xyz = new_axe;
 	new_node->first_xnode = first;
 	new_node->left_node = NULL;
@@ -95,5 +96,23 @@ void		ft_del_map(t_node **map)
 			tmp_left = tmpl;
 		}
 		tmp_right = tmpr;
+	}
+}
+
+void modifier_data_lst(t_node **map, int z)
+{
+	t_node *c_right;
+	t_node *c_left;
+
+	c_right = *map;
+	while (c_right)
+	{
+		c_left = c_right;
+		while (c_left)
+		{
+			c_left->xyz.z += z;
+			c_left = c_left->left_node;
+		}
+		c_right = c_right->right_node;
 	}
 }

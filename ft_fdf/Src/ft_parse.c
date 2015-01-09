@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/04 23:55:59 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/09 17:29:11 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,18 @@ t_node			*ft_parsefile(char *file)
 	return (map);
 }
 
-unsigned int			ft_getvalue(char *str, int x)
+unsigned int			ft_getvalue(char *str, int x, char **color)
 {
 	static char	**tmp;
 	int			nbr;
+	char		*col;
 
 	if (tmp == NULL)
 		tmp = ft_strsplit(str, ' ');
+	if ((col = ft_strchr(tmp[x], ',')) != NULL)
+		*color = ft_strdup(col + 3);
+	else
+		*color = ft_strdup("000000");
 	nbr = ft_atoi(tmp[x]);
 	free(tmp[x]);
 	tmp[x] = NULL;
@@ -80,19 +85,21 @@ void					ft_insert_map(char *str, t_node **map, int y)
 	int				x;
 	int				tablen;
 	t_axe			xyz;
+	char			*col;
 
 	x = 0;
 	line_node = NULL;
 	tablen = ft_coord_nbr(str);
+	printf(C_MAGENTA"On rentre la dedans %d fois\n"C_NONE, y);
 	while (x < tablen)
 	{
 		xyz.x = x + 1;
 		xyz.y = y;
-		xyz.z = ft_getvalue(str, x);
+		xyz.z = ft_getvalue(str, x, &col);
 		if (!line_node)
-			line_node = ft_lstadd_right(map,ft_new_lstfdf(NULL, xyz));
+			line_node = ft_lstadd_right(map,ft_new_lstfdf(NULL, xyz, col));
 		else
-			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(NULL, xyz));
+			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(NULL, xyz, col));
 		x++;
 	}
 	prev = line_node;

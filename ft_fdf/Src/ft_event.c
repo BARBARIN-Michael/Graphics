@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 14:41:52 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/05 00:04:08 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/09 17:29:11 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,17 @@ int		ft_event_key(int key, t_env *env)
 	ft_transform(key, env);
 	ft_transform_prof(key, env);
 	ft_reset(key, env);
-	ft_icd_mlx(&env->mlx, env->map, 2);
+	ft_icd_mlx(&env->mlx, 2, env->mlx.width, env->mlx.height);
 	draw_fdf(env);
-	ft_icd_mlx(&env->mlx, env->map, 1);
+	ft_icd_mlx(&env->mlx, 1, env->mlx.width, env->mlx.height);
 	return (0);
 }
 
 int		ft_event_expose(t_env *env)
 {
-	ft_icd_mlx(&env->mlx, env->map, 2);
+	printf(C_CYAN"test\n"C_NONE);
+	ft_icd_mlx(&env->mlx, 2, env->mlx.width, env->mlx.height);
 	draw_fdf(env);
-	ft_icd_mlx(&env->mlx, env->map, 1);
+	ft_icd_mlx(&env->mlx, 1, env->mlx.width, env->mlx.height);
 	return (0);
 }

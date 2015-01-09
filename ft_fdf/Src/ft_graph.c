@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 10:28:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/05 00:42:17 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/09 17:14:02 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,24 @@
 static void		create_vector(t_env *env, t_node *c_node, bool left_right)
 {
 	t_vector	v_vec;
-	int			prof;
 
-	prof = 0;
+	if (env->prof != 0)
+		modifier_data_lst(&env->map, env->prof);
+	env->prof = 0;
 	if (left_right == 0)
 	{
 		v_vec = new_vector_iso(c_node->xyz, c_node->left_node->xyz,
 			env->dx, env->dy, env->prof);
-		prof = (c_node->left_node->xyz.z + c_node->xyz.z) * env->prof;
+		v_vec = trans_vectoriel(v_vec, env->w, env->h);
+		draw_line1(v_vec, env, c_node->col, c_node->left_node->col);
 	}
 	else
 	{
 		v_vec = new_vector_iso(c_node->xyz, c_node->right_node->xyz,
 			env->dx, env->dy, env->prof);
-		prof = (c_node->right_node->xyz.z + c_node->xyz.z) * env->prof;
+		v_vec = trans_vectoriel(v_vec, env->w, env->h);
+		draw_line1(v_vec, env, c_node->col, c_node->right_node->col);
 	}
-	v_vec = trans_vectoriel(v_vec, env->w, env->h);
-/*	if (prof != 0)
-		draw_line1(v_vec, env, GRE - prof);
-	else
-*/		draw_line1(v_vec, env, GRE, BLU + prof);
 }
 
 void		draw_pixel_to_img(int x, int y, color col, t_env *env)
@@ -49,7 +47,6 @@ void		draw_pixel_to_img(int x, int y, color col, t_env *env)
 	b = ((col & 0xFF));
 
 	tabi = ((y * env->mlx.sizeline) + (x * (env->mlx.bpp / 8)));
-	
 	if (x > WIDTH || y > HEIGHT || x < 0 || y < 0)
 		return ;
 	env->mlx.data[tabi    ] = b;
@@ -62,8 +59,10 @@ void		draw_fdf(t_env *env)
 	t_node		*c_node;
 
 	c_node = env->map;
+	printf(C_MAGENTA"test de rentree de fonction : map.z2 = %d\n"C_NONE, env->map->xyz.z);
 	while (c_node)
 	{
+	printf(C_CYAN"test de rentree de fonction : map.z\n"C_NONE);
 		while (c_node)
 		{
 			if (c_node->left_node)

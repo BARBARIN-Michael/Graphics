@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/04 19:42:27 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/09 13:21:59 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int		main(int argc, char **argv)
 	argc = argc;
 	argv = argv;
 
-	// On appel la fonction de fenetrage
-	ft_fdf(argv[1]);
+	if (argc == 2)
+		ft_fdf(argv[1], WIDTH, HEIGHT);
+	else
+		ft_fdf(argv[1], ft_atoi(argv[2]), ft_atoi(argv[3]));
 	return (0);
 }

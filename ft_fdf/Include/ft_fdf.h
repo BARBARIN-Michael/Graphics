@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/08 21:12:27 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/09 17:29:11 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ typedef struct	s_axe
 	int z;
 }				t_axe;
 
-typedef struct	s_node
+typedef struct		s_node
 {
-	t_axe	xyz;
-	char *col;
+	t_axe			xyz;
+	char			*col;
 	struct s_node	*first_xnode;
 	struct s_node	*left_node;
 	struct s_node	*right_node;
-}				t_node;
+}					t_node;
 
 typedef struct	s_cline
 {
@@ -106,7 +106,8 @@ typedef struct	s_env
 // FT_FDF.H
 void			ft_fdf(char *str, int w, int h);
 void			exit_fdf(t_node *map, t_mlx *mlx);
-void			ft_icd_mlx(t_mlx *mlx, t_node *map, int state);
+void			ft_icd_mlx(t_mlx *mlx, int state, int width, int height);
+int				lenght_map(t_node **map);
 
 // FT_GRAPH.H
 void			draw_pixel_to_img(int x, int y, color unitcolor, t_env *env);
@@ -118,7 +119,7 @@ double			coord_y_iso(int x, int y, int z, int tileh, int tilew, int t_z);
 
 // FT_PARSE.H
 t_node			*ft_parsefile(char *file);
-unsigned int	ft_getvalue(char *str, int x, char *col);
+unsigned int	ft_getvalue(char *str, int x, char **col);
 int				ft_coord_nbr(char *str);
 void			ft_insert_map(char *str, t_node **map, int cr);
 
@@ -136,6 +137,7 @@ t_node			*ft_new_lstfdf(t_node *first, t_axe xyz, char *col);
 t_node			*ft_lstadd_right(t_node **map, t_node *new);
 void			ft_lstadd_left(t_node **line, t_node **prev, t_node *new);
 void			ft_del_map(t_node **map);
+void			modifier_data_lst(t_node **map, int z);
 
 // FT_MATHLINE.H
 void			draw_line1(t_vector v1, t_env *env, char *col, char *offcol);
