@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 13:13:10 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 20:28:03 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
 				tmp_prev = tmp_prev->left_node;
 			tmp_line = tmp_line->left_node;
 		}
-		if (tmp_prev != NULL)
+		if (tmp_prev != NULL && tmp_prev->left_node)
 			tmp_prev->left_node->right_node = new;
 		tmp_line->left_node = new;
 		new->first_xnode = tmp_line->first_xnode;

@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 12:36:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 18:37:47 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 19:55:20 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,18 @@ t_rgb		getcolormap(int height, t_node **map)
 
 	if (heightpos_neg == NULL)
 		heightpos_neg = ft_map_height(map);
-
 	if (height >= floor((9.0 / 10.0) * (double)heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0xFF, .g = 0xFF, .b = 0xFF};
 	else  if (height <= floor((9.0 / 10.0) * (double)heightpos_neg[0])
 				&& height > floor(((8.0 / 10.0) * (double)heightpos_neg[0])))
 		coltosend = (t_rgb) {.r = 0x6D, .g = 0x57, .b = 0x56};
 	else  if (height <= floor((8.0 / 10.0) * (double)heightpos_neg[0])
-				&& height > floor((5.0 / 10.0) * (double)heightpos_neg[0]))
-		coltosend = (t_rgb) {.r = 0x6D, .g = 0x55, .b = 0x20};
-	else  if (height <= floor((5.0 / 10.0) * (double)heightpos_neg[0])
 				&& height > floor((2.0 / 10.0) * (double)heightpos_neg[0]))
+		coltosend = (t_rgb) {.r = 0x6D, .g = 0x55, .b = 0x20};
+	else  if (height <= floor((2.0 / 10.0) * (double)heightpos_neg[0])
+				&& height > floor((1.0 / 10.0) * (double)heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x48, .g = 0x6D, .b = 0x32};
-	else  if (height <= floor(((2.0 / 10.0) * (double)heightpos_neg[0]))
+	else  if (height <= floor(((1.0 / 10.0) * (double)heightpos_neg[0]))
 				&&  height >= 0)
 		coltosend = (t_rgb) {.r = 0x0A, .g = 0x6D, .b = 0x21};
 	else  if (height > floor((7 / 10) * (double)heightpos_neg[1]))

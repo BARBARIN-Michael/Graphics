@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 15:25:15 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 20:35:57 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,9 @@
 
 # define TRUE = 1
 # define FALSE = 0
-# define WIDTH 1200
-# define HEIGHT 1200
-# define OFFSET_W 300
-# define OFFSET_H 250
-# define OFFSET_XY 15
-# define OFFSET_ISOY 0.6
-# define OFFSET_ISOX 0.82
+# define WIDTH 1900
+# define HEIGHT 1900
 # define TITLE_WIN "FDF a la BARBARE"
-# define RED 0xFF0000
-# define GRE 0x00FF00
-# define BLU 0x0000FF
 
 #include <mlx.h>
 #include <libft.h>

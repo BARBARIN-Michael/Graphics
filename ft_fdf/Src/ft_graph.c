@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 10:28:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 16:26:20 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 20:39:56 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		draw_pixel_to_img(int x, int y, t_rgb col, t_env *env)
 	int		tabi;
 
 	tabi = ((y * env->mlx.sizeline) + (x * (env->mlx.bpp / 8)));
-	if (x > WIDTH || y > HEIGHT || x < 0 || y < 0)
+	if (x > WIDTH || y > HEIGHT || x < 1 || y < 1)
 		return ;
 	env->mlx.data[tabi    ] = col.b;
 	env->mlx.data[tabi + 1] = col.g;
