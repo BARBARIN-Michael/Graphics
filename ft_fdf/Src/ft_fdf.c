@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 12:19:04 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 15:25:57 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void			ft_icd_mlx(t_mlx *mlx, int state, int width, int height)
 	}
 }
 
-void			ft_fdf(char *str, int width, int height)
+void			ft_fdf(char *str, int width, int height, int mode)
 {
 	t_env		env;
 	int			cmp_node;
@@ -56,6 +56,7 @@ void			ft_fdf(char *str, int width, int height)
 	env = (t_env) {.dx = cmp_node, .dy = cmp_node, .prof = 3,
 		.w = (width / 2) - 100, .h = (height / 4), .prof = 0,
 		.mlx.width = width, .mlx.height = height };
+	env.mlx.modes = mode;
 	env.map = ft_parsefile(str);
 	ft_icd_mlx(&env.mlx, 0, width, height);
 	cmp_node = lenght_map(&env.map);

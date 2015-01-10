@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 12:24:12 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 13:13:10 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,50 +72,5 @@ void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
 			tmp_prev->left_node->right_node = new;
 		tmp_line->left_node = new;
 		new->first_xnode = tmp_line->first_xnode;
-	}
-}
-
-void		ft_del_map(t_node **map)
-{
-	t_node *tmp_right;
-	t_node *tmp_left;
-	t_node *tmpr;
-	t_node *tmpl;
-
-	tmp_right = *map;
-	tmp_left = NULL;
-	while (tmp_right != NULL)
-	{
-		tmpr = tmp_right->right_node;
-		tmp_left = tmp_right;
-		while (tmp_left != NULL)
-		{
-			tmpl = tmp_left->left_node;
-			if (tmp_left)
-			{
-				free(tmp_left->col);
-				free(tmp_left);
-			}
-			tmp_left = tmpl;
-		}
-		tmp_right = tmpr;
-	}
-}
-
-void modifier_data_lst(t_node **map, int z)
-{
-	t_node *c_right;
-	t_node *c_left;
-
-	c_right = *map;
-	while (c_right)
-	{
-		c_left = c_right;
-		while (c_left)
-		{
-				c_left->xyz.z *= z;
-			c_left = c_left->left_node;
-		}
-		c_right = c_right->right_node;
 	}
 }

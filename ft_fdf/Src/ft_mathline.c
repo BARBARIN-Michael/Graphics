@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/31 10:29:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/08 21:11:02 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 18:39:12 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,69 +40,77 @@ static void	testdirector(t_vector vec1, int *xincr, int *yincr)
 		*yincr = -1;
 }
 
-static void first_type(t_cline *cl, char *col, t_env *env, int height)
+static void first_type(t_cline *cl, char **col, t_env *env, int h)
 {
-	int		i;
-	color coltodraw;
+	int				i;
+	t_rgb			coltodraw;
+	static t_rgb	oc;
 
-	i = 0;
-	cl->error = cl->deltax / 2;
-	while (i < cl->deltax)
+	i = -1;
+	cl->error = cl->dx / 2;
+	while (++i < cl->dx)
 	{
 		cl->xy.x += cl->xincr;
-		cl->error += cl->deltay;
-		if(cl->error > cl->deltax)
+		cl->error += cl->dy;
+		if(cl->error > cl->dx)
 		{
-			cl->error -= cl->deltax;
+			cl->error -= cl->dx;
 			cl->xy.y += cl->yincr;
 		}
-		if (ft_strtol(col) == 0x000000)
-			coltodraw = getcolor(height);
+		if (ft_strtol(col[0]) == 0x000000 && env->mlx.modes == 1)
+			coltodraw = getshaded(getcolormap(h, &env->map), oc, cl->dx, i);
+		else if (ft_strtol(col[0]) != 0x000000)
+			coltodraw = getcolorbydegrade(col, cl->dy, i);
 		else
-			coltodraw = ft_strtol(col);
+			coltodraw = create_rgb("FFFFFF");
 		draw_pixel_to_img(cl->xy.x, cl->xy.y, coltodraw, env);
-		i++;
+		oc = coltodraw;
 	}
 }
 
-static void second_type(t_cline *cl, char *col, t_env *env, int height)
+static void second_type(t_cline *cl, char **col, t_env *env, int h)
 {
-	int		i;
-	color coltodraw;
+	int				i;
+	t_rgb			coltodraw;
+	static t_rgb	oc;
 
-	i = 0;
-	cl->error = cl->deltay / 2;
-	while (i < cl->deltay)
+	i = -1;
+	cl->error = cl->dy / 2;
+	while (++i < cl->dy)
 	{
 		cl->xy.y += cl->yincr;
-		cl->error += cl->deltax;
-		if(cl->error > cl->deltay)
+		cl->error += cl->dx;
+		if(cl->error > cl->dy)
 		{
-			cl->error -= cl->deltay;
+			cl->error -= cl->dy;
 			cl->xy.x += cl->xincr;
 		}
-		if (ft_strtol(col) == 0x000000)
-			coltodraw = getcolor(height);
+		if (ft_strtol(col[0]) == 0x000000 && env->mlx.modes == 1)
+			coltodraw = getshaded(getcolormap(h, &env->map), oc, cl->dy, i);
+		else if (ft_strtol(col[0]) != 0x000000)
+			coltodraw = getcolorbydegrade(col, cl->dy, i);
 		else
-			coltodraw = ft_strtol(col);
+			coltodraw = create_rgb("FFFFFF");
 		draw_pixel_to_img(cl->xy.x, cl->xy.y, coltodraw, env);
-		i++;
+		oc = coltodraw;
 	}
 }
 
 void draw_line1(t_vector vec1, t_env *env, char *col, char* offcol)
 {
-	t_cline cl;
+	t_cline	cl;
+	char	*colglob[2];
 
-	offcol = offcol;
-	cl.deltax = abs(vec1.x2 - vec1.x1);
-	cl.deltay = abs(vec1.y2 - vec1.y1);
+	colglob[0] = col;
+	colglob[1] = offcol;
+	cl.dx = abs(vec1.x2 - vec1.x1);
+	cl.dy = abs(vec1.y2 - vec1.y1);
 	testdirector(vec1, &cl.xincr, &cl.yincr);
 	cl.xy.x = vec1.x1;
 	cl.xy.y = vec1.y1;
-	if (cl.deltax > cl.deltay)
-		first_type(&cl, col, env, vec1.alt);
+	if (cl.dx > cl.dy)
+		first_type(&cl, colglob, env, vec1.alt);
 	else
-		second_type(&cl, col, env, vec1.alt);
-	draw_pixel_to_img(cl.xy.x, cl.xy.y, ft_strtol(col), env);
+		second_type(&cl, colglob, env, vec1.alt);
+	draw_pixel_to_img(cl.xy.x, cl.xy.y, create_rgb(col), env);
 }
