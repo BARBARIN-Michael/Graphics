@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 10:28:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/09 17:14:02 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 12:07:06 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ static void		create_vector(t_env *env, t_node *c_node, bool left_right)
 {
 	t_vector	v_vec;
 
-	if (env->prof != 0)
-		modifier_data_lst(&env->map, env->prof);
-	env->prof = 0;
 	if (left_right == 0)
 	{
 		v_vec = new_vector_iso(c_node->xyz, c_node->left_node->xyz,
@@ -59,10 +56,8 @@ void		draw_fdf(t_env *env)
 	t_node		*c_node;
 
 	c_node = env->map;
-	printf(C_MAGENTA"test de rentree de fonction : map.z2 = %d\n"C_NONE, env->map->xyz.z);
 	while (c_node)
 	{
-	printf(C_CYAN"test de rentree de fonction : map.z\n"C_NONE);
 		while (c_node)
 		{
 			if (c_node->left_node)

@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 14:41:52 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/09 17:29:11 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 11:56:17 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static void ft_transform(int key, t_env *env)
 static void ft_transform_prof(int key, t_env *env)
 {
 	if (key == 65457)
-		env->prof += 1;
+		env->prof += 2;
 	if (key == 65459)
-		env->prof -= 1;
+		env->prof -= 2;
 }
 
 static void ft_reset(int key, t_env *env)

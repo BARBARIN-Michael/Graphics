@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/09 17:18:31 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 12:19:04 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,15 @@ void			ft_fdf(char *str, int width, int height)
 	t_env		env;
 	int			cmp_node;
 
-	ft_icd_mlx(&env.mlx, 0, width, height);
-	env.map = ft_parsefile(str);
-	cmp_node = lenght_map(&env.map);
-	printf(C_RED"test de rentree de fonction : tetmap.z = %d\n"C_NONE" ", env.map->xyz.z);
 	env = (t_env) {.dx = cmp_node, .dy = cmp_node, .prof = 3,
-		.w = (width / 2) - 100, .h = (height / 4)};
-	env.mlx.width = width;
-	env.mlx.height = height;
-	printf(C_CYAN"test\n"C_NONE);
+		.w = (width / 2) - 100, .h = (height / 4), .prof = 0,
+		.mlx.width = width, .mlx.height = height };
+	env.map = ft_parsefile(str);
+	ft_icd_mlx(&env.mlx, 0, width, height);
+	cmp_node = lenght_map(&env.map);
+	env.dx = (width / cmp_node) * 0.82;
+	env.dy = (height / cmp_node) * 0.82;
 	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
-	printf(C_CYAN"test2\n"C_NONE);
 	mlx_key_hook (env.mlx.win_ptr, ft_event_key, &env);
 	mlx_loop(env.mlx.mlx_ptr);
 }

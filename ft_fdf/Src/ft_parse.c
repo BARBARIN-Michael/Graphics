@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/09 17:29:11 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/10 12:17:10 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void					ft_insert_map(char *str, t_node **map, int y)
 	x = 0;
 	line_node = NULL;
 	tablen = ft_coord_nbr(str);
-	printf(C_MAGENTA"On rentre la dedans %d fois\n"C_NONE, y);
 	while (x < tablen)
 	{
 		xyz.x = x + 1;
