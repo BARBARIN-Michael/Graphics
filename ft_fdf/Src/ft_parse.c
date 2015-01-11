@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 09:39:53 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 12:17:10 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/11 12:04:36 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void					ft_insert_map(char *str, t_node **map, int y)
 		xyz.y = y;
 		xyz.z = ft_getvalue(str, x, &col);
 		if (!line_node)
-			line_node = ft_lstadd_right(map,ft_new_lstfdf(NULL, xyz, col));
+			line_node = ft_lstadd_right(map,ft_new_lstfdf(map, xyz, col));
 		else
-			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(NULL, xyz, col));
+			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(map, xyz, col));
 		x++;
 	}
 	prev = line_node;

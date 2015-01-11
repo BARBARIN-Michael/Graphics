@@ -6,25 +6,28 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 20:28:03 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/11 12:09:47 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-t_node		*ft_new_lstfdf(t_node *first, t_axe xyz, char *col)
+t_node		*ft_new_lstfdf(t_node **map, t_axe xyz, char *col)
 {
 	t_node	*new_node;
 	t_axe	new_axe;
 
 	if (!(new_node = (t_node *)ft_memalloc(sizeof(t_node))))
-		return (NULL);
+	{
+		ft_del_map(map);
+		ft_putendl_c("out of memory : Cannot read totaly file", "red");
+		exit(1);
+	}
 	new_axe.x = xyz.x;
 	new_axe.y = xyz.y;
 	new_axe.z = xyz.z;
 	new_node->col = col;
 	new_node->xyz = new_axe;
-	new_node->first_xnode = first;
 	new_node->left_node = NULL;
 	new_node->right_node = NULL;
 	return (new_node);

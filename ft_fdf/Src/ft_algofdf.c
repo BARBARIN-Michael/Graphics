@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 20:06:11 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/11 00:05:49 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 double		coord_x_iso(int x, int y, int tile_width, int tile_height)
 {
 	double rslt;
-	
+
 	x *= tile_width;
 	y *= tile_height;
 	rslt = (0.82 * x - 0.82 * y);

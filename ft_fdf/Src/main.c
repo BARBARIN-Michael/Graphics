@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 20:33:33 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/11 00:27:33 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int		main(int argc, char **argv)
 {
-	argc = argc;
-	argv = argv;
-
 /*	if (argc == 2 && ft_strcmp(argv[1], "-h") == 0)
 		ft_putendl(C_GREEN"launch program with this template : "C_NONE"
 				prog.mlx [name of map] [width height mode :"C_CYAN" optional

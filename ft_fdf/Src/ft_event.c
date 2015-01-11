@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 14:41:52 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 11:56:17 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/11 00:31:43 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static void ft_transform(int key, t_env *env)
 static void ft_transform_prof(int key, t_env *env)
 {
 	if (key == 65457)
-		env->prof += 2;
+		env->prof += 1;
 	if (key == 65459)
-		env->prof -= 2;
+		env->prof -= 1;
 }
 
 static void ft_reset(int key, t_env *env)
@@ -74,7 +74,6 @@ int		ft_event_key(int key, t_env *env)
 
 int		ft_event_expose(t_env *env)
 {
-	printf(C_CYAN"test\n"C_NONE);
 	ft_icd_mlx(&env->mlx, 2, env->mlx.width, env->mlx.height);
 	draw_fdf(env);
 	ft_icd_mlx(&env->mlx, 1, env->mlx.width, env->mlx.height);

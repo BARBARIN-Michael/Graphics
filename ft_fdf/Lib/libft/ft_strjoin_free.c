@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 10:16:51 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/12/23 10:25:57 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/11 13:58:14 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char		*ft_strjoin_free(char *src, char const *join)
 {
-	void	*str;
+	char		*str;
 
 	if (!src || !join)
 		return (NULL);
@@ -24,7 +24,6 @@ char		*ft_strjoin_free(char *src, char const *join)
 	else
 		ft_strncpy(str, src, ft_strlen(src));
 		ft_strdel(&src);
-	if (!ft_strcat(str, join))
-		return (NULL);
+	ft_strcat(str, join);
 	return (str);
 }

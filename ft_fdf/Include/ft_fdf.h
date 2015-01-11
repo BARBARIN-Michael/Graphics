@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 20:35:57 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/11 12:05:32 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define TRUE = 1
 # define FALSE = 0
-# define WIDTH 1900
-# define HEIGHT 1900
+# define WIDTH 1100
+# define HEIGHT 1100
 # define TITLE_WIN "FDF a la BARBARE"
 
 #include <mlx.h>
@@ -133,10 +133,9 @@ t_vector		cpy_vector(t_vector v_out, t_vector v_in);
 int				abs(int val);
 
 // FT_LIST.H
-t_node			*ft_new_lstfdf(t_node *first, t_axe xyz, char *col);
+t_node			*ft_new_lstfdf(t_node **map, t_axe xyz, char *col);
 t_node			*ft_lstadd_right(t_node **map, t_node *new);
 void			ft_lstadd_left(t_node **line, t_node **prev, t_node *new);
-void			modifier_data_lst(t_node **map, int z);
 
 // FT_MAP.H
 void			ft_del_map(t_node **map);
