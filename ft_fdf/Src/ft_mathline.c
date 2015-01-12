@@ -6,41 +6,25 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/31 10:29:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/11 14:15:43 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/12 17:33:38 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-static color getcolor(int height)
+static void		testdirector(t_vector vec1, int *xincr, int *yincr)
 {
-		if (height <= -1 && height > -15)
-			return (ft_strtol("3A5256"));
-		if (height <= -15)
-			return (ft_strtol("004656"));
-		if (height > -14 && height < 25)
-			return (0x0B6D04);
-		if (height >= 25 && height <= 299)
-			return (0x3F6D20);
-		if (height > 300)
-			return (0xFFFFFF);
-		else
-			return (0xFFFFFF);
-}
-
-static void	testdirector(t_vector vec1, int *xincr, int *yincr)
-{
-	if(vec1.x1 < vec1.x2)
+	if (vec1.x1 < vec1.x2)
 		*xincr = 1;
 	else
 		*xincr = -1;
-	if(vec1.y1 < vec1.y2)
+	if (vec1.y1 < vec1.y2)
 		*yincr = 1;
 	else
 		*yincr = -1;
 }
 
-static void first_type(t_cline *cl, char **col, t_env *env, int h)
+static void		first_type(t_cline *cl, char **col, t_env *env, int h)
 {
 	int				i;
 	t_rgb			coltodraw;
@@ -52,7 +36,7 @@ static void first_type(t_cline *cl, char **col, t_env *env, int h)
 	{
 		cl->xy.x += cl->xincr;
 		cl->error += cl->dy;
-		if(cl->error > cl->dx)
+		if (cl->error > cl->dx)
 		{
 			cl->error -= cl->dx;
 			cl->xy.y += cl->yincr;
@@ -68,7 +52,7 @@ static void first_type(t_cline *cl, char **col, t_env *env, int h)
 	}
 }
 
-static void second_type(t_cline *cl, char **col, t_env *env, int h)
+static void		second_type(t_cline *cl, char **col, t_env *env, int h)
 {
 	int				i;
 	t_rgb			coltodraw;
@@ -80,7 +64,7 @@ static void second_type(t_cline *cl, char **col, t_env *env, int h)
 	{
 		cl->xy.y += cl->yincr;
 		cl->error += cl->dx;
-		if(cl->error > cl->dy)
+		if (cl->error > cl->dy)
 		{
 			cl->error -= cl->dy;
 			cl->xy.x += cl->xincr;
@@ -96,7 +80,7 @@ static void second_type(t_cline *cl, char **col, t_env *env, int h)
 	}
 }
 
-void draw_line1(t_vector vec1, t_env *env, char *col, char* offcol)
+void			draw_line1(t_vector vec1, t_env *env, char *col, char *offcol)
 {
 	t_cline	cl;
 	char	*colglob[2];

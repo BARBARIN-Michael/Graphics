@@ -6,7 +6,7 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 06:04:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/11 14:19:39 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/12 17:56:32 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	after_init(t_var **v, char **line, int fd)
 			{
 				*line = ft_strdup((*v)->s1);
 				ft_strdel(&(*v)->s1);
-	//			free(*v);
 				return (1);
 			}
 			ft_strdel(&(*v)->s1);

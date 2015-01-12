@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 13:12:36 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/10 18:10:59 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/12 15:57:29 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int			*ft_map_height(t_node **map)
 		c_left = c_right;
 		while (c_left)
 		{
-			if (heightval[0] < c_left->xyz.z )
+			if (heightval[0] < c_left->xyz.z)
 				heightval[0] = c_left->xyz.z;
 			if (heightval[1] > c_left->xyz.z)
 				heightval[1] = c_left->xyz.z;
