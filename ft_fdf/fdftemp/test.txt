@@ -1,0 +1,1066 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_algofdf.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/13 03:54:20 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+int			coord_x_iso(t_axe xy, int tile_width, int tile_height)
+{
+	double rslt;
+
+	xy.x *= tile_width;
+	xy.y *= tile_height;
+	rslt = (0.82 * xy.x - 0.82 * xy.y);
+	return (floor(rslt));
+}
+
+int			coord_y_iso(t_axe xyz, int t_h, int t_w, int t_z)
+{
+	double rslt;
+	double z;
+
+	z = xyz.z;
+	xyz.x *= t_w;
+	xyz.y *= t_h;
+	z *= t_z;
+	z *= 0.15;
+	rslt = (-z + (0.82 / 2.0 * xyz.x + 0.82 * xyz.y));
+	return (floor(rslt));
+}
+
+double		coord_x_par(t_axe xyz, int t_h, int t_w, int t_z)
+{
+	double rslt;
+	double z;
+
+	z = xyz.z;
+	xyz.x *= t_w;
+	xyz.y *= t_h;
+	z *= t_z;
+	z *= 0.05;
+	rslt = (xyz.x + (-z * 0.82));
+	return (ceil(rslt));
+}
+
+double		coord_y_par(t_axe xyz, int t_h, int t_w, int t_z)
+{
+	double rslt;
+	double z;
+
+	z = xyz.z;
+	xyz.x *= t_w;
+	xyz.y *= t_h;
+	z *= t_z;
+	z *= 0.05;
+	rslt = (xyz.y + (0.82 / 2.0) * -z);
+	return (ceil(rslt));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_color.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/01/10 12:36:15 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/13 02:47:28 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+t_rgb		getcolorbydegrade(char **color, int delta, int idelta)
+{
+	long int	color1;
+	long int	color2;
+	t_rgb		rgb[3];
+	t_rgb		rgb1;
+
+	color1 = ft_strtol(color[0]);
+	color2 = ft_strtol(color[1]);
+	rgb[0].r = ((color1 & 0xFF0000) >> 16);
+	rgb[0].g = ((color1 & 0xFF00) >> 8);
+	rgb[0].b = (color1 & 0xFF);
+	rgb[1].r = ((color2 & 0xFF0000) >> 16);
+	rgb[1].g = ((color2 & 0xFF00) >> 8);
+	rgb[1].b = (color2 & 0xFF);
+	if (delta > 0)
+	{
+		rgb[2].r = rgb[0].r + (rgb[0].r - rgb[1].r) * (idelta / delta);
+		rgb[2].g = rgb[0].g + (rgb[0].g - rgb[1].g) * (idelta / delta);
+		rgb[2].b = rgb[0].b + (rgb[0].b - rgb[1].b) * (idelta / delta);
+		rgb1 = rgb[2];
+		return (rgb1);
+	}
+	rgb1 = rgb[0];
+	return (rgb1);
+}
+
+t_rgb		getshaded(t_rgb rgb1, t_rgb rgb2, double percent)
+{
+	t_rgb	rgb[3];
+
+	rgb[0] = rgb1;
+	rgb[1] = rgb2;
+	rgb[2].r = rgb[0].r + (rgb[0].r - rgb[1].r) * percent;
+	rgb[2].g = rgb[0].g + (rgb[0].g - rgb[1].g) * percent;
+	rgb[2].b = rgb[0].b + (rgb[0].b - rgb[1].b) * percent;
+	return (rgb[2]);
+}
+
+t_rgb		getcolormap(double height, t_node **map)
+{
+	static int		*heightpos_neg;
+	t_rgb			coltosend;
+
+	if (heightpos_neg == NULL)
+		heightpos_neg = ft_map_height(map);
+	if (height >= floor((5.5 / 10.0) * (double)heightpos_neg[0]))
+		coltosend = (t_rgb) {.r = 0xFF, .g = 0xFF, .b = 0xFF};
+	else if (height < floor((5.5 / 10.0) * (double)heightpos_neg[0])
+				&& height > floor(((4.0 / 10.0) * (double)heightpos_neg[0])))
+		coltosend = (t_rgb) {.r = 0x6D, .g = 0x57, .b = 0x56};
+	else if (height <= floor((4.0 / 10.0) * (double)heightpos_neg[0])
+				&& height > floor((1.5 / 10.0) * (double)heightpos_neg[0]))
+		coltosend = (t_rgb) {.r = 0x6D, .g = 0x55, .b = 0x20};
+	else if (height <= floor((1.5 / 10.0) * (double)heightpos_neg[0])
+				&& height > floor((1.0 / 10.0) * (double)heightpos_neg[0]))
+		coltosend = (t_rgb) {.r = 0x48, .g = 0x6D, .b = 0x32};
+	else if (height <= floor(((1.0 / 10.0) * (double)heightpos_neg[0]))
+				&& height > floor((0.1 / 10.0) * (double)heightpos_neg[0]))
+		coltosend = (t_rgb) {.r = 0x0A, .g = 0x6D, .b = 0x21};
+	else if (height > floor((0.0 / 10) * (double)heightpos_neg[0]))
+		coltosend = (t_rgb) {.r = 0x00, .g = 0xA5, .b = 0x21};
+	else if (height >= floor((10 / 10) * (double)heightpos_neg[1]))
+		coltosend = (t_rgb) {.r = 0x32, .g = 0x25, .b = 0x9C};
+	return (coltosend);
+}
+
+t_rgb		getcolormap2(double height)
+{
+	t_rgb			coltosend;
+
+	if (height >= (90.0 / 100))
+		coltosend = (t_rgb) {.r = 0x55, .g = 0x00, .b = 0x00};
+	else if (height <= (90.0 / 100)
+				&& height > (80 / 100))
+		coltosend = (t_rgb) {.r = 0x00, .g = 0x55, .b = 0x20};
+	else if (height <= (80.0 / 100.0)
+				&& height > (70.0 / 100.0))
+		coltosend = (t_rgb) {.r = 0x00, .g = 0x25, .b = 0x55};
+	else if (height <= (70.0 / 100.0)
+				&& height > (60.0 / 100))
+		coltosend = (t_rgb) {.r = 0x25, .g = 0xDD, .b = 0x11};
+	else if (height <= (50.0 / 100.0)
+				&& height > (40.0 / 100.0))
+		coltosend = (t_rgb) {.r = 0xDD, .g = 0x6A, .b = 0x4B};
+	else if (height <= (40.0 / 100.0)
+				&& height > (30.0 / 100.0))
+		coltosend = (t_rgb) {.r = 0x4B, .g = 0xDD, .b = 0x6A};
+	else if (height <= (30.0 / 100.0)
+				&& height > (20.0 / 100.0))
+		coltosend = (t_rgb) {.r = 0xAA, .g = 0x25, .b = 0x55};
+	else if (height >= 0 && height <= (20.0 / 100.0))
+		coltosend = (t_rgb) {.r = 0x6A, .g = 0x4B, .b = 0xDD};
+	return (coltosend);
+}
+
+t_rgb		create_rgb(char *col)
+{
+	t_rgb	rgbtosend;
+	t_color	collu;
+
+	collu = ft_strtol(col);
+	rgbtosend.r = (collu & 0xFF0000) >> 16;
+	rgbtosend.g = (collu & 0xFF00) >> 8;
+	rgbtosend.b = (collu & 0xFF);
+	return (rgbtosend);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_event.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/29 14:41:52 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/17 20:56:36 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+static void	ft_move(int key, t_env *env)
+{
+	if (key == 65464)
+		env->h -= 50;
+	if (key == 65458)
+		env->h += 50;
+	if (key == 65460)
+		env->w -= 50;
+	if (key == 65462)
+		env->w += 50;
+}
+
+static void	ft_reset(int key, t_env *env)
+{
+	t_axe		xy;
+
+	if (key == 65461)
+	{
+		env->dx = 40;
+		env->dy = 40;
+		env->prof = 3;
+		env->w = WIDTH / 2 - 100;
+		env->h = HEIGHT / 4;
+	}
+	if (key == 114)
+	{
+		xy.x = (lenght_x_map(&env->map) * env->dx) / 2;
+		xy.y = (lenght_y_map(&env->map) * env->dy) / 2;
+		xy.z = 1;
+		env->w = (env->width / 2) - coord_x_iso(xy, 1, 1);
+		env->h = (env->height / 2) - coord_y_iso(xy, 1, 1, 1);
+	}
+}
+
+static void	ft_transform(int key, t_env *env)
+{
+	if (key == 65451)
+	{
+		env->dx += 1;
+		env->dy += 1;
+	}
+	if (key == 65453)
+	{
+		env->dx -= 15;
+		env->dy -= 15;
+	}
+	if (key == 112)
+	{
+		if (env->proj == 1)
+			env->proj = 2;
+		else if (env->proj == 0)
+			env->proj = 1;
+		else if (env->proj == 2)
+			env->proj = 0;
+	}
+	if (key == 65457)
+		env->prof += 1;
+	if (key == 65459)
+		env->prof -= 1;
+}
+
+int			ft_event_key(int key, t_env *env)
+{
+	if (key == 65307)
+		exit_fdf(env->map, &env->mlx);
+	ft_transform(key, env);
+	ft_move(key, env);
+	ft_reset(key, env);
+	ft_icd_mlx(env, 2);
+	draw_fdf(env);
+	ft_icd_mlx(env, 1);
+	return (0);
+}
+
+int			ft_event_expose(t_env *env)
+{
+	ft_reset(114, env);
+	ft_icd_mlx(env, 2);
+	draw_fdf(env);
+	ft_icd_mlx(env, 1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_fdf.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/18 00:14:02 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+void			exit_fdf(t_node *map, t_mlx *mlx)
+{
+	mlx_destroy_image(mlx->mlx_ptr, mlx->img);
+	mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+	map = map;
+	ft_del_map(&map);
+	exit(0);
+}
+
+void			ft_icd_mlx(t_env *env, int state)
+{
+	if (state == 0)
+	{
+		env->mlx.mlx_ptr = mlx_init();
+		env->mlx.img = mlx_new_image(env->mlx.mlx_ptr, env->width,
+				env->height);
+		env->mlx.win_ptr = mlx_new_window(env->mlx.mlx_ptr, env->width,
+				env->height, TITLE_WIN);
+	}
+	else if (state == 1)
+		mlx_put_image_to_window(env->mlx.mlx_ptr, env->mlx.win_ptr,
+				env->mlx.img, 0, 0);
+	else if (state == 2)
+	{
+		mlx_destroy_image(env->mlx.mlx_ptr, env->mlx.img);
+		env->mlx.img = mlx_new_image(env->mlx.mlx_ptr, env->width,
+				env->height);
+		env->mlx.data = mlx_get_data_addr(env->mlx.img, &env->mlx.bpp,
+			&env->mlx.sizeline, &env->mlx.endian);
+	}
+}
+
+void			ft_fdf(char *str, int width, int height, int mode)
+{
+	t_env		env;
+
+	env = (t_env) {.dx = 1, .dy = 1, .height = height, .width = width,
+		.w = (width / 2) - 100, .h = (height / 4), .prof = 1, .proj = 0};
+	env.mlx.modes = mode;
+	env.map = ft_parsefile(str);
+	if (width == 0 || height == 0)
+	{
+		env.width = ft_win_lenghtw(lenght_x_map(&env.map));
+		env.height = ft_win_lenghth(lenght_y_map(&env.map));
+	}
+	if (lenght_x_map(&env.map) < (env.width / 10))
+	{
+		printf("test : env.width = %d", env.width);
+		env.dx = (env.width - env.width / 2) / lenght_x_map(&env.map);
+		env.dy = (env.height - env.height / 2) / lenght_y_map(&env.map);
+		env.prof = 5;
+	}
+	ft_icd_mlx(&env, 0);
+	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
+	mlx_key_hook (env.mlx.win_ptr, ft_event_key, &env);
+	mlx_loop(env.mlx.mlx_ptr);
+}
+
+int				lenght_y_map(t_node **map)
+{
+	t_node			*c_right;
+	static int		cmp = 0;
+
+	if (cmp != 0)
+		return (cmp);
+	cmp = 1;
+	c_right = *map;
+	while (c_right)
+	{
+		cmp++;
+		c_right = c_right->right_node;
+	}
+	return (cmp);
+}
+
+int				lenght_x_map(t_node **map)
+{
+	t_node			*c_left;
+	static int		cmp = 0;
+
+	if (cmp != 0)
+		return (cmp);
+	cmp = 1;
+	c_left = *map;
+	while (c_left)
+	{
+		cmp++;
+		c_left = c_left->left_node;
+	}
+	return (cmp);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_graph.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/19 10:28:35 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/13 01:02:15 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+static void		create_vector(t_env *env, t_node *c_node, t_bool left_right)
+{
+	t_vector	v_vec;
+
+	if (left_right == FALSE)
+	{
+		if (env->proj == 0)
+			v_vec = new_vector_iso(c_node->xyz, c_node->left_node->xyz, env);
+		else if (env->proj == 1)
+			v_vec = new_vector_plane(c_node->xyz, c_node->left_node->xyz, env);
+		else if (env->proj == 2)
+			v_vec = new_vector_par(c_node->xyz, c_node->left_node->xyz, env);
+		v_vec = trans_vectoriel(v_vec, env->w, env->h);
+		v_vec.alt = c_node->left_node->xyz.z;
+		draw_line1(v_vec, env, c_node->col, c_node->left_node->col);
+		return ;
+	}
+	if (env->proj == 0)
+		v_vec = new_vector_iso(c_node->xyz, c_node->right_node->xyz, env);
+	else if (env->proj == 1)
+		v_vec = new_vector_plane(c_node->xyz, c_node->right_node->xyz, env);
+	else if (env->proj == 2)
+		v_vec = new_vector_par(c_node->xyz, c_node->right_node->xyz, env);
+	v_vec.alt = c_node->right_node->xyz.z;
+	v_vec = trans_vectoriel(v_vec, env->w, env->h);
+	draw_line1(v_vec, env, c_node->col, c_node->right_node->col);
+}
+
+void			draw_pixel_to_img(int x, int y, t_rgb col, t_env *env)
+{
+	int		tabi;
+
+	if (x > (env->width - 1) || y > (env->height - 1) || x < 2 || y < 2)
+		return ;
+	tabi = ((y * env->mlx.sizeline) + (x * (env->mlx.bpp / 8)));
+	env->mlx.data[tabi] = col.b;
+	env->mlx.data[tabi + 1] = col.g;
+	env->mlx.data[tabi + 2] = col.r;
+}
+
+void			draw_fdf(t_env *e)
+{
+	t_node		*c_node;
+
+	c_node = e->map;
+	while (c_node)
+	{
+		while (c_node)
+		{
+			if (c_node->left_node)
+				create_vector(e, c_node, FALSE);
+			if (c_node->right_node)
+				create_vector(e, c_node, TRUE);
+			if (!c_node->left_node)
+				break ;
+			c_node = c_node->left_node;
+		}
+		c_node = c_node->first_xnode;
+		c_node = c_node->right_node;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_list.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/13 04:12:00 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+t_node		*ft_new_lstfdf(t_node **map, t_axe xyz, char *col)
+{
+	t_node	*new_node;
+	t_axe	new_axe;
+
+	if (!(new_node = (t_node *)malloc(sizeof(t_node))))
+	{
+		ft_del_map(map);
+		ft_putendl_c("out of memory : Cannot read totaly file", "red");
+		exit(1);
+	}
+	new_axe.x = xyz.x;
+	new_axe.y = xyz.y;
+	new_axe.z = xyz.z;
+	new_node->col = col;
+	new_node->xyz = new_axe;
+	new_node->left_node = NULL;
+	new_node->right_node = NULL;
+	return (new_node);
+}
+
+t_node		*ft_lstadd_right(t_node **map, t_node *new)
+{
+	t_node		*temp_right;
+
+	if (new)
+	{
+		if (!(*map))
+		{
+			*map = new;
+			new->first_xnode = new;
+			return (new);
+		}
+		temp_right = *map;
+		while (temp_right->right_node != NULL)
+			temp_right = temp_right->right_node;
+		temp_right->right_node = new;
+		new->first_xnode = new;
+	}
+	return (new);
+}
+
+void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
+{
+	t_node		*tmp_prev;
+	t_node		*tmp_line;
+
+	tmp_line = *line;
+	tmp_prev = NULL;
+	if (*prev != NULL)
+		tmp_prev = *prev;
+	if (new)
+	{
+		while (tmp_line->left_node != NULL)
+		{
+			if (tmp_prev != NULL && tmp_prev->left_node != NULL)
+				tmp_prev = tmp_prev->left_node;
+			tmp_line = tmp_line->left_node;
+		}
+		if (tmp_prev != NULL && tmp_prev->left_node)
+			tmp_prev->left_node->right_node = new;
+		tmp_line->left_node = new;
+		new->first_xnode = tmp_line->first_xnode;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_map.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/01/10 13:12:36 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/12 15:57:29 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+void		ft_del_map(t_node **map)
+{
+	t_node *tmp_right;
+	t_node *tmp_left;
+	t_node *tmpr;
+	t_node *tmpl;
+
+	tmp_right = *map;
+	tmp_left = NULL;
+	while (tmp_right != NULL)
+	{
+		tmpr = tmp_right->right_node;
+		tmp_left = tmp_right;
+		while (tmp_left != NULL)
+		{
+			tmpl = tmp_left->left_node;
+			if (tmp_left)
+			{
+				free(tmp_left->col);
+				free(tmp_left);
+			}
+			tmp_left = tmpl;
+		}
+		tmp_right = tmpr;
+	}
+}
+
+int			*ft_map_height(t_node **map)
+{
+	t_node	*c_right;
+	t_node	*c_left;
+	int		*heightval;
+
+	heightval = (int *)malloc(sizeof(int) * 2);
+	c_right = *map;
+	heightval[0] = 0;
+	heightval[1] = -1;
+	while (c_right)
+	{
+		c_left = c_right;
+		while (c_left)
+		{
+			if (heightval[0] < c_left->xyz.z)
+				heightval[0] = c_left->xyz.z;
+			if (heightval[1] > c_left->xyz.z)
+				heightval[1] = c_left->xyz.z;
+			c_left = c_left->left_node;
+		}
+		c_right = c_right->right_node;
+	}
+	return (heightval);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_math.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/13 03:54:51 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+t_vector		trans_vectoriel(t_vector vector, int tr_x, int tr_y)
+{
+	vector.x1 += tr_x;
+	vector.x2 += tr_x;
+	vector.y1 += tr_y;
+	vector.y2 += tr_y;
+	return (vector);
+}
+
+t_vector		new_vector_iso(t_axe a, t_axe b, t_env *env)
+{
+	t_vector	iso;
+	int			vec_w;
+	int			vec_h;
+	double		vec_z;
+
+	vec_w = env->dx;
+	vec_h = env->dy;
+	vec_z = env->prof;
+	iso = (t_vector) {	.x1 = coord_x_iso(a, vec_w, vec_h),
+						.y1 = coord_y_iso(a, vec_h, vec_w, vec_z),
+						.x2 = coord_x_iso(b, vec_w, vec_h),
+						.y2 = coord_y_iso(b, vec_h, vec_w, vec_z)};
+	return (iso);
+}
+
+t_vector		new_vector_plane(t_axe a, t_axe b, t_env *env)
+{
+	t_vector	plane;
+	int			vec_w;
+	int			vec_h;
+
+	vec_w = env->dx;
+	vec_h = env->dy;
+	plane = (t_vector) {.x1 = a.x * vec_w,
+						.y1 = a.y * vec_h,
+						.x2 = b.x * vec_w,
+						.y2 = b.y * vec_h };
+	return (plane);
+}
+
+t_vector		new_vector_par(t_axe a, t_axe b, t_env *env)
+{
+	t_vector	par;
+	int			vec_w;
+	int			vec_h;
+	int			vec_z;
+
+	vec_w = env->dx;
+	vec_h = env->dy;
+	vec_z = env->prof;
+	par = (t_vector) {	.x1 = coord_x_par(a, vec_w, vec_h, vec_z),
+						.y1 = coord_y_par(a, vec_h, vec_w, vec_z),
+						.x2 = coord_x_par(b, vec_w, vec_h, vec_z),
+						.y2 = coord_y_par(b, vec_h, vec_w, vec_z)};
+	return (par);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_mathline.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/31 10:29:35 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/18 00:13:42 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+static void		testdirector(t_vector vec1, int *xincr, int *yincr)
+{
+	if (vec1.x1 < vec1.x2)
+		*xincr = 1;
+	else
+		*xincr = -1;
+	if (vec1.y1 < vec1.y2)
+		*yincr = 1;
+	else
+		*yincr = -1;
+}
+
+static t_rgb	col_random(char **col, t_env *env, double percent, t_cline *cl)
+{
+	t_rgb	coltodraw;
+	int		h;
+
+	h = cl->h;
+	if (ft_strtol(col[0]) == 0x000000 && env->mlx.modes == 1)
+		coltodraw = getcolormap(h, &env->map);
+	else if (env->mlx.modes == 2)
+		coltodraw = getshaded(getcolormap2(percent),
+				getcolormap2(percent + 10), percent);
+	else if (ft_strtol(col[0]) != 0x000000)
+		coltodraw = getcolorbydegrade(col, cl->dy, cl->i);
+	else
+		coltodraw = create_rgb("FFFFFF");
+	return (coltodraw);
+}
+
+static void		first_type(t_cline *cl, char **col, t_env *env)
+{
+	t_rgb			coltodraw;
+
+	cl->i = -1.0;
+	cl->error = ceil(cl->dx / 2);
+	while ((cl->i += 1.0) < cl->dx)
+	{
+		cl->xy.x += cl->xincr;
+		cl->error += cl->dy;
+		if (cl->error > cl->dx)
+		{
+			cl->error -= cl->dx;
+			cl->xy.y += cl->yincr;
+		}
+		coltodraw = col_random(col, env, (double)(cl->i / cl->dy), cl);
+		draw_pixel_to_img(cl->xy.x, cl->xy.y, coltodraw, env);
+	}
+}
+
+static void		second_type(t_cline *cl, char **col, t_env *env)
+{
+	t_rgb			coltodraw;
+
+	cl->i = -1.0;
+	cl->error = ceil(cl->dy / 2);
+	while ((cl->i += 1.0) < cl->dy)
+	{
+		cl->xy.y += cl->yincr;
+		cl->error += cl->dx;
+		if (cl->error > cl->dy)
+		{
+			cl->error -= cl->dy;
+			cl->xy.x += cl->xincr;
+		}
+		coltodraw = col_random(col, env, (double)(cl->i / cl->dy), cl);
+		draw_pixel_to_img(cl->xy.x, cl->xy.y, coltodraw, env);
+	}
+}
+
+void			draw_line1(t_vector vec1, t_env *env, char *col, char *offcol)
+{
+	t_cline	cl;
+	char	*colglob[2];
+
+	colglob[0] = col;
+	colglob[1] = offcol;
+	cl.dx = abs(vec1.x2 - vec1.x1);
+	cl.dy = abs(vec1.y2 - vec1.y1);
+	testdirector(vec1, &cl.xincr, &cl.yincr);
+	cl.xy.x = vec1.x1;
+	cl.xy.y = vec1.y1;
+	cl.h = vec1.alt;
+	if (cl.dx > cl.dy)
+		first_type(&cl, colglob, env);
+	else
+		second_type(&cl, colglob, env);
+	draw_pixel_to_img(cl.xy.x, cl.xy.y, create_rgb(col), env);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/01/12 18:02:22 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/17 23:40:08 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+#include <mlx_int.h>
+
+int				ft_coord_nbr(char *str)
+{
+	int		cmp;
+	int		i;
+
+	cmp = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] != ' ' && str[i + 1] == ' ')
+			cmp++;
+		i++;
+	}
+	if (str[i - 1] == 32)
+		cmp--;
+	return (cmp);
+}
+
+t_node			*ft_parsefile(char *file)
+{
+	t_node		*map;
+	int			fd;
+	int			rslt;
+	char		*str;
+	t_axe		xy;
+
+	xy.y = 1;
+	str = NULL;
+	map = NULL;
+	fd = open(file, O_RDONLY);
+	while ((rslt = get_next_line(fd, &str)) > 0)
+	{
+		xy.x = 0;
+		if (!str[0])
+			continue ;
+		ft_insert_map(str, &map, xy.x, xy.y);
+		ft_strdel(&str);
+		xy.y++;
+	}
+	close(fd);
+	if (rslt < 0)
+	{
+		ft_putendl_c("ERROR x104 : Cannot open file", "red");
+		exit(1);
+	}
+	return (map);
+}
+
+unsigned int	ft_getvalue(char *str, int x, char **color)
+{
+	static char	**tmp;
+	int			nbr;
+	char		*col;
+
+	if (tmp == NULL)
+		tmp = ft_strsplit(str, ' ');
+	if ((col = ft_strchr(tmp[x], ',')) != NULL)
+		*color = ft_strdup(col + 3);
+	else
+		*color = ft_strdup("000000");
+	nbr = ft_atoi(tmp[x]);
+	free(tmp[x]);
+	tmp[x] = NULL;
+	if (tmp[x + 1] == NULL)
+	{
+		free(tmp);
+		tmp = NULL;
+	}
+	return (nbr);
+}
+
+void			ft_insert_map(char *str, t_node **map, int x, int y)
+{
+	static t_node	*prev = NULL;
+	t_node			*line_node;
+	int				tablen;
+	t_axe			xyz;
+	char			*col;
+
+	line_node = NULL;
+	tablen = ft_coord_nbr(str);
+	while (x <= tablen)
+	{
+		xyz = (t_axe) { .x = x + 1, .y = y, .z = ft_getvalue(str, x, &col)};
+		if (!line_node)
+			line_node = ft_lstadd_right(map, ft_new_lstfdf(map, xyz, col));
+		else
+			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(map, xyz, col));
+		x++;
+	}
+	prev = line_node;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_win.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/01/17 21:23:29 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/18 00:04:01 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <libft.h>
+#include "../Include/ft_fdf.h"
+
+int ft_win_lenghtw(int cmp_node)
+{
+	int width;
+
+	width = (WIDTH * cmp_node);
+	if (width > 2500)
+		width = 2500;
+	return (width);
+}
+
+int ft_win_lenghth(int cmp_node)
+{
+	int height;
+
+	height = (HEIGHT * cmp_node);
+	if (height > 1400)
+		height = 1400;
+	return (height);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/11/26 06:04:15 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/13 03:48:29 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/get_next_line.h"
+#include <stdlib.h>
+
+static int	read_file(int fd, char **str)
+{
+	char	*buf;
+	int		rslt;
+
+	rslt = 1;
+	buf = NULL;
+	while (rslt > 0)
+	{
+		if (!buf)
+			buf = malloc(BUFF_SIZE + 1);
+		if ((rslt = read(fd, buf, BUFF_SIZE)) <= 0)
+		{
+			ft_strdel(&buf);
+			return (rslt);
+		}
+		buf[rslt] = '\0';
+		*str = (char *)ft_realloc(*str, rslt);
+		*str = ft_strjoin(*str, buf);
+		if (ft_strchr(*str, '\n'))
+			break ;
+	}
+	ft_strdel(&buf);
+	return (rslt);
+}
+
+static int	is_dispatch(char **str, char **line)
+{
+	char		*trf;
+	char		*tmp;
+
+	trf = NULL;
+	if (*str == '\0')
+		return (0);
+	else if ((tmp = ft_strchr(*str, '\n')) != NULL)
+	{
+		trf = ft_strsub(*str, 0, tmp - *str);
+		*str = tmp + 1;
+		*line = ft_strdup(trf);
+		ft_strdel(&trf);
+		return (1);
+	}
+	return (0);
+}
+
+static int	after_init(t_var **v, char **line, int fd)
+{
+	if ((is_dispatch(&(*v)->s1, line)) == 1)
+		return (1);
+	if (!ft_findchr((*v)->s1, '\n'))
+	{
+		ft_bzero((*v)->s2, (*v)->s1 - (*v)->s2);
+		if ((*v)->s1 != (*v)->s2)
+			ft_memmove((*v)->s2, (*v)->s1, ft_strlen((*v)->s1));
+		ft_bzero((*v)->s1, ft_strlen((*v)->s1));
+		(*v)->s1 = (*v)->s2;
+		if (((*v)->rslt = read_file(fd, &(*v)->s1)) <= 0)
+		{
+			if ((*v)->rslt == 0 && (*v)->s1 && (*(*v)->s1 != ('\n' && '\0')))
+			{
+				*line = ft_strdup((*v)->s1);
+				ft_strdel(&(*v)->s1);
+				return (1);
+			}
+			ft_strdel(&(*v)->s1);
+			return ((*v)->rslt);
+		}
+		(*v)->s2 = (*v)->s1;
+		is_dispatch(&(*v)->s1, line);
+	}
+	return (1);
+}
+
+int			get_next_line(int fd, char **line)
+{
+	static t_var	*var = NULL;
+
+	if (!var)
+	{
+		var = (t_var *)ft_memalloc(sizeof(t_var));
+		var->s1 = NULL;
+	}
+	if (!line || fd < 0)
+		return (-1);
+	if (!var->s1)
+	{
+		if ((var->rslt = read_file(fd, &var->s1)) <= 0)
+		{
+			if (var->rslt == 0 && var->s1 && *var->s1 != ('\n' && '\0'))
+			{
+				*line = ft_strdup(var->s1);
+				ft_strdel(&var->s1);
+				free(var);
+				return (1);
+			}
+			return (var->rslt);
+		}
+		var->s2 = var->s1;
+	}
+	return (after_init(&var, line, fd));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/18 00:01:43 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Include/ft_fdf.h"
+
+int		main(int argc, char **argv)
+{
+	if (argc == 2)
+		ft_fdf(argv[1], 0, 0, 1);
+	else if (argc == 5)
+		ft_fdf(argv[1], ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]));
+	else
+	{
+		ft_putstr("ERROR X100 : 4 arguements asked \n");
+		ft_putstr("Exemple : 'prog.mlx 1800 1800 1'");
+		ft_putendl(" or asked at Barbare for more help :)");
+	}
+	return (0);
+}

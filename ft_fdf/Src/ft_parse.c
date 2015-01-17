@@ -6,11 +6,12 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 18:02:22 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/12 19:00:03 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/13 03:49:47 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
+#include <mlx_int.h>
 
 int				ft_coord_nbr(char *str)
 {

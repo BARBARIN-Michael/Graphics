@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/31 10:29:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/12 17:33:38 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/13 04:07:13 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,31 @@ static void		testdirector(t_vector vec1, int *xincr, int *yincr)
 		*yincr = -1;
 }
 
-static void		first_type(t_cline *cl, char **col, t_env *env, int h)
+static t_rgb	col_random(char **col, t_env *env, double percent, t_cline *cl)
 {
-	int				i;
-	t_rgb			coltodraw;
-	static t_rgb	oc;
+	t_rgb	coltodraw;
+	int		h;
 
-	i = -1;
+	h = cl->h;
+	if (ft_strtol(col[0]) == 0x000000 && env->mlx.modes == 1)
+		coltodraw = getcolormap(h, &env->map);
+	else if (env->mlx.modes == 2)
+		coltodraw = getshaded(getcolormap2(percent),
+				getcolormap2(percent + 10), percent);
+	else if (ft_strtol(col[0]) != 0x000000)
+		coltodraw = getcolorbydegrade(col, cl->dy, cl->i);
+	else
+		coltodraw = create_rgb("FFFFFF");
+	return (coltodraw);
+}
+
+static void		first_type(t_cline *cl, char **col, t_env *env)
+{
+	t_rgb			coltodraw;
+
+	cl->i = -1.0;
 	cl->error = cl->dx / 2;
-	while (++i < cl->dx)
+	while ((cl->i += 1.0) < cl->dx)
 	{
 		cl->xy.x += cl->xincr;
 		cl->error += cl->dy;
@@ -41,26 +57,18 @@ static void		first_type(t_cline *cl, char **col, t_env *env, int h)
 			cl->error -= cl->dx;
 			cl->xy.y += cl->yincr;
 		}
-		if (ft_strtol(col[0]) == 0x000000 && env->mlx.modes == 1)
-			coltodraw = getshaded(getcolormap(h, &env->map), oc, cl->dx, i);
-		else if (ft_strtol(col[0]) != 0x000000)
-			coltodraw = getcolorbydegrade(col, cl->dy, i);
-		else
-			coltodraw = create_rgb("FFFFFF");
+		coltodraw = col_random(col, env, (double)(cl->i / cl->dy), cl);
 		draw_pixel_to_img(cl->xy.x, cl->xy.y, coltodraw, env);
-		oc = coltodraw;
 	}
 }
 
-static void		second_type(t_cline *cl, char **col, t_env *env, int h)
+static void		second_type(t_cline *cl, char **col, t_env *env)
 {
-	int				i;
 	t_rgb			coltodraw;
-	static t_rgb	oc;
 
-	i = -1;
+	cl->i = -1.0;
 	cl->error = cl->dy / 2;
-	while (++i < cl->dy)
+	while ((cl->i += 1.0) < cl->dy)
 	{
 		cl->xy.y += cl->yincr;
 		cl->error += cl->dx;
@@ -69,14 +77,8 @@ static void		second_type(t_cline *cl, char **col, t_env *env, int h)
 			cl->error -= cl->dy;
 			cl->xy.x += cl->xincr;
 		}
-		if (ft_strtol(col[0]) == 0x000000 && env->mlx.modes == 1)
-			coltodraw = getshaded(getcolormap(h, &env->map), oc, cl->dy, i);
-		else if (ft_strtol(col[0]) != 0x000000)
-			coltodraw = getcolorbydegrade(col, cl->dy, i);
-		else
-			coltodraw = create_rgb("FFFFFF");
+		coltodraw = col_random(col, env, (double)(cl->i / cl->dy), cl);
 		draw_pixel_to_img(cl->xy.x, cl->xy.y, coltodraw, env);
-		oc = coltodraw;
 	}
 }
 
@@ -92,9 +94,10 @@ void			draw_line1(t_vector vec1, t_env *env, char *col, char *offcol)
 	testdirector(vec1, &cl.xincr, &cl.yincr);
 	cl.xy.x = vec1.x1;
 	cl.xy.y = vec1.y1;
+	cl.h = vec1.alt;
 	if (cl.dx > cl.dy)
-		first_type(&cl, colglob, env, vec1.alt);
+		first_type(&cl, colglob, env);
 	else
-		second_type(&cl, colglob, env, vec1.alt);
+		second_type(&cl, colglob, env);
 	draw_pixel_to_img(cl.xy.x, cl.xy.y, create_rgb(col), env);
 }

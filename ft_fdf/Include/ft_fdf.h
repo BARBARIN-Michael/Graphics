@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/12 19:05:21 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/13 02:20:52 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ typedef struct		s_cline
 	int		xincr;
 	int		yincr;
 	int		error;
-	int		dx;
-	int		dy;
+	double	dx;
+	double	dy;
+	int		h;
+	double	i;
 	int		mode;
 }					t_cline;
 
@@ -106,11 +108,14 @@ typedef struct		s_rgb
 void				ft_fdf(char *str, int w, int h, int mode);
 void				exit_fdf(t_node *map, t_mlx *mlx);
 void				ft_icd_mlx(t_env *env, int state);
-int					lenght_map(t_node **map);
+int					lenght_x_map(t_node **map);
+int					lenght_y_map(t_node **map);
 void				draw_pixel_to_img(int x, int y, t_rgb color, t_env *env);
 void				draw_fdf(t_env *env);
-double				coord_x_iso(t_axe xy, int tilew, int tileh);
-double				coord_y_iso(t_axe xyz, int tileh, int tilew, int t_z);
+int					coord_x_iso(t_axe xy, int tilew, int tileh);
+int					coord_y_iso(t_axe xyz, int tileh, int tilew, int t_z);
+double				coord_y_par(t_axe xyz, int tileh, int tilew, int t_z);
+double				coord_x_par(t_axe xyz, int tileh, int tilew, int t_z);
 t_node				*ft_parsefile(char *file);
 unsigned int		ft_getvalue(char *str, int x, char **col);
 int					ft_coord_nbr(char *str);
@@ -118,6 +123,7 @@ void				ft_insert_map(char *str, t_node **map, int x, int y);
 t_vector			trans_vectoriel(t_vector vector, int tr_x, int tr_y);
 t_vector			new_vector_plane(t_axe a, t_axe b, t_env *env);
 t_vector			new_vector_iso(t_axe a, t_axe b, t_env *env);
+t_vector			new_vector_par(t_axe a, t_axe b, t_env *env);
 t_node				*ft_new_lstfdf(t_node **map, t_axe xyz, char *col);
 t_node				*ft_lstadd_right(t_node **map, t_node *newt);
 void				ft_lstadd_left(t_node **line, t_node **prev, t_node *newt);
@@ -127,8 +133,9 @@ void				draw_line1(t_vector v1, t_env *env, char *col, char *ofcol);
 int					ft_event_key(int key, t_env *env);
 int					ft_event_expose(t_env *env);
 t_rgb				getcolorbydegrade(char **color, int delta, int idelta);
-t_rgb				getcolormap(int height, t_node **map);
-t_rgb				getshaded(t_rgb rgb1, t_rgb rgb2, int delta, int idelat);
+t_rgb				getcolormap(double height, t_node **map);
+t_rgb				getcolormap2(double height);
+t_rgb				getshaded(t_rgb rgb1, t_rgb rgb2, double percent);
 t_rgb				create_rgb(char *col);
 
 #endif

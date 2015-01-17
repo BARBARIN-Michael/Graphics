@@ -1,0 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/11/04 14:53:55 by mbarbari          #+#    #+#             */
+/*   Updated: 2014/11/24 02:18:48 by mbarbari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <string.h>
+#include <libft.h>
+
+char	*ft_strchr(const char *src, int c)
+{
+	char	*str;
+
+	if (!src)
+		return (NULL);
+	str = (char*)src;
+	while (*str != '\0' && *str != (char)c)
+		str++;
+	if (*str != (char)c)
+		return (NULL);
+	else
+		return ((char *)str);
+}

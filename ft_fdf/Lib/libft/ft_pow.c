@@ -6,21 +6,11 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 12:57:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/08 13:23:16 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/17 18:52:08 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-long	ft_pow(int valeur, int power)
+long	ft_pow(int val, int pow)
 {
-	int rslt;
-
-	rslt = 1;
-	if (power == 0)
-		return (1);
-	while (power)
-	{
-		rslt *= valeur;
-		power--;
-	}
-	return (rslt);
+	return ((((pow & 1) > 0) ? val : 1) * ft_pow((val * val), (pow >> 1)));
 }
