@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 00:37:42 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 19:41:59 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void			ft_fdf(char *str, int width, int height, int mode)
 {
 	t_env		env;
 
-	env = (t_env) {.dx = 2, .dy = 2, .height = height, .width = width,
-		.w = (width / 2) - 100, .h = (height / 4), .prof = 1, .proj = 0};
+	env = (t_env) {.dx = 1, .dy = 1, .height = height, .width = width,
+		.w = (width / 3) - 100, .h = (height / 3), .prof = 0, .proj = 0};
 	env.mlx.modes = mode;
 	env.map = ft_parsefile(str);
 	if (width == 0 || height == 0)
@@ -59,13 +59,13 @@ void			ft_fdf(char *str, int width, int height, int mode)
 	}
 	if (lenght_x_map(&env.map) < (env.width / 10))
 	{
-		env.dx = (env.width - env.width / 2) / lenght_x_map(&env.map);
-		env.dy = (env.height - env.height / 2) / lenght_y_map(&env.map);
+		env.dy = (env.height - env.height / 3) / lenght_y_map(&env.map);
+		env.dx = env.dy;
 		env.prof = 5;
 	}
 	ft_icd_mlx(&env, 0);
-	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
 	mlx_key_hook (env.mlx.win_ptr, ft_event_key, &env);
+	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
 	mlx_loop(env.mlx.mlx_ptr);
 }
 
@@ -81,7 +81,7 @@ int				lenght_y_map(t_node **map)
 	while (c_right)
 	{
 		cmp++;
-		c_right = c_right->right_node;
+		c_right = c_right->next;
 	}
 	return (cmp);
 }
@@ -93,12 +93,7 @@ int				lenght_x_map(t_node **map)
 
 	if (cmp != 0)
 		return (cmp);
-	cmp = 1;
 	c_left = *map;
-	while (c_left)
-	{
-		cmp++;
-		c_left = c_left->left_node;
-	}
+	cmp = c_left->elem;
 	return (cmp);
 }

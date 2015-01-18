@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 18:02:22 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 00:22:11 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 18:55:20 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,22 +86,22 @@ unsigned int	ft_getvalue(char *str, int x, char **color)
 
 void			ft_insert_map(char *str, t_node **map, int x, int y)
 {
-	static t_node	*prev = NULL;
 	t_node			*line_node;
 	int				tablen;
 	t_axe			xyz;
-	char			*col;
+	char			**col;
+	int				*tabz;
 
 	line_node = NULL;
 	tablen = ft_coord_nbr(str);
+	tabz = (int *)malloc(sizeof(int *) * tablen + 1);
+	col = (char **)malloc(sizeof(char *) * tablen + 1);
 	while (x <= tablen)
 	{
-		xyz = (t_axe) { .x = x + 1, .y = y, .z = ft_getvalue(str, x, &col)};
-		if (!line_node)
-			line_node = ft_lstadd_right(map, ft_new_lstfdf(map, xyz, col));
-		else
-			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(map, xyz, col));
+		xyz = (t_axe) { .x = x + 1, .y = y, .z = ft_getvalue(str, x, &col[x])};
+		tabz[x] = xyz.z;
 		x++;
 	}
-	prev = line_node;
+	col[x] = 0;
+	ft_lstadd_right(map, ft_new_lstfdf(map, tabz, col, xyz.x));
 }
