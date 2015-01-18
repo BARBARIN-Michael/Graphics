@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 18:02:22 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 18:55:20 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:30:42 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,14 @@ unsigned int	ft_getvalue(char *str, int x, char **color)
 
 void			ft_insert_map(char *str, t_node **map, int x, int y)
 {
-	t_node			*line_node;
 	int				tablen;
 	t_axe			xyz;
 	char			**col;
 	int				*tabz;
 
-	line_node = NULL;
+	xyz.x = 0;
 	tablen = ft_coord_nbr(str);
-	tabz = (int *)malloc(sizeof(int *) * tablen + 1);
+	tabz = (int *)malloc(sizeof(int) * tablen + 1);
 	col = (char **)malloc(sizeof(char *) * tablen + 1);
 	while (x <= tablen)
 	{
@@ -102,6 +101,5 @@ void			ft_insert_map(char *str, t_node **map, int x, int y)
 		tabz[x] = xyz.z;
 		x++;
 	}
-	col[x] = 0;
 	ft_lstadd_right(map, ft_new_lstfdf(map, tabz, col, xyz.x));
 }

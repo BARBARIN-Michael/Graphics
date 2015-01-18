@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 18:28:56 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 22:05:14 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_node		*ft_new_lstfdf(t_node **map, int *tabz, char **col, int elem)
 {
 	t_node	*new_node;
-	t_axe	new_axe;
 
 	if (!(new_node = (t_node *)malloc(sizeof(t_node))))
 	{

@@ -10,7 +10,7 @@ COMPILATEUR = gcc
 #COMPILATEUR = perl ~/script/colorgcc.pl
 
 # Options
-COPTIONS = -g -O3 #-Wall -Wextra -Werror
+COPTIONS = -g -O3 -Wall -Wextra -Werror
 
 LIB  =  -I Lib/Includes -I Lib/libft/includes/  -L Lib/libft/  -lft
 #LIB  += -I Lib/libft_obj/includes/  -L Lib/libft_obj/  -lftobj

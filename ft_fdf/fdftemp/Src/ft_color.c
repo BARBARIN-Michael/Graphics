@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 12:36:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 17:32:27 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:04:19 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,28 @@ t_rgb		getshaded(t_rgb rgb1, t_rgb rgb2, double percent)
 
 t_rgb		getcolormap(double height, t_node **map)
 {
-	static int		*heightpos_neg;
+	int				*heightpos_neg;
 	t_rgb			coltosend;
 
-	if (heightpos_neg == NULL)
-		heightpos_neg = ft_map_height(map);
-	if (height >= roundl((5.5 / 10.0) * heightpos_neg[0]))
+	heightpos_neg = ft_map_height(map);
+	if (height >= ((5.5 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0xFF, .g = 0xFF, .b = 0xFF};
-	else if (height < roundl((5.5 / 10.0) * heightpos_neg[0])
-				&& height > roundl(((4.0 / 10.0) * heightpos_neg[0])))
+	else if (height < ((5.5 / 10.0) * heightpos_neg[0])
+				&& height > (((4.0 / 10.0) * heightpos_neg[0])))
 		coltosend = (t_rgb) {.r = 0x6D, .g = 0x57, .b = 0x56};
-	else if (height <= roundl((4.0 / 10.0) * heightpos_neg[0])
-				&& height > roundl((1.5 / 10.0) * heightpos_neg[0]))
+	else if (height <= ((4.0 / 10.0) * heightpos_neg[0])
+				&& height > ((1.5 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x6D, .g = 0x55, .b = 0x20};
-	else if (height <= roundl((1.5 / 10.0) * heightpos_neg[0])
-				&& height > roundl((1.0 / 10.0) * heightpos_neg[0]))
+	else if (height <= ((1.5 / 10.0) * heightpos_neg[0])
+				&& height > ((1.0 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x48, .g = 0x6D, .b = 0x32};
-	else if (height <= roundl(((1.0 / 10.0) * heightpos_neg[0]))
-				&& height > roundl((0.1 / 10.0) * heightpos_neg[0]))
+	else if (height <= (((1.0 / 10.0) * heightpos_neg[0]))
+				&& height > ((0.1 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x0A, .g = 0x6D, .b = 0x21};
-	else if (height >= roundl((0.0 / 10) * heightpos_neg[0]))
+	else if (height >= ((0.0 / 10) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x00, .g = 0xA5, .b = 0x21};
-	else if (height >= roundl((10 / 10) * heightpos_neg[1]))
+	else if (height >= ((10 / 10) * heightpos_neg[1]))
 		coltosend = (t_rgb) {.r = 0x32, .g = 0x25, .b = 0x9C};
-	else 
-		coltosend = (t_rgb) {.r = 0x48, .g = 0x6D, .b = 0x32};
 	return (coltosend);
 }
 

@@ -6,34 +6,32 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 18:24:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/13 03:54:20 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:15:50 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
+
 int			coord_x_iso(t_axe xy, int tile_width, int tile_height)
 {
-	double rslt;
+	int rslt;
 
 	xy.x *= tile_width;
 	xy.y *= tile_height;
-	rslt = (0.82 * xy.x - 0.82 * xy.y);
-	return (floor(rslt));
+	rslt = dround(0.82 * xy.x - 0.82 * xy.y);
+	return (rslt);
 }
 
 int			coord_y_iso(t_axe xyz, int t_h, int t_w, int t_z)
 {
-	double rslt;
-	double z;
+	int		rslt;
 
-	z = xyz.z;
 	xyz.x *= t_w;
 	xyz.y *= t_h;
-	z *= t_z;
-	z *= 0.15;
-	rslt = (-z + (0.82 / 2.0 * xyz.x + 0.82 * xyz.y));
-	return (floor(rslt));
+	xyz.z *= t_z;
+	rslt = dround((-xyz.z * 0.15) + ((0.82 / 2.0 * xyz.x) + 0.82 * xyz.y));
+	return (rslt);
 }
 
 double		coord_x_par(t_axe xyz, int t_h, int t_w, int t_z)
@@ -71,7 +69,7 @@ double		coord_y_par(t_axe xyz, int t_h, int t_w, int t_z)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 12:36:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/13 02:47:28 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:04:19 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,28 +116,27 @@ t_rgb		getshaded(t_rgb rgb1, t_rgb rgb2, double percent)
 
 t_rgb		getcolormap(double height, t_node **map)
 {
-	static int		*heightpos_neg;
+	int				*heightpos_neg;
 	t_rgb			coltosend;
 
-	if (heightpos_neg == NULL)
-		heightpos_neg = ft_map_height(map);
-	if (height >= floor((5.5 / 10.0) * (double)heightpos_neg[0]))
+	heightpos_neg = ft_map_height(map);
+	if (height >= ((5.5 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0xFF, .g = 0xFF, .b = 0xFF};
-	else if (height < floor((5.5 / 10.0) * (double)heightpos_neg[0])
-				&& height > floor(((4.0 / 10.0) * (double)heightpos_neg[0])))
+	else if (height < ((5.5 / 10.0) * heightpos_neg[0])
+				&& height > (((4.0 / 10.0) * heightpos_neg[0])))
 		coltosend = (t_rgb) {.r = 0x6D, .g = 0x57, .b = 0x56};
-	else if (height <= floor((4.0 / 10.0) * (double)heightpos_neg[0])
-				&& height > floor((1.5 / 10.0) * (double)heightpos_neg[0]))
+	else if (height <= ((4.0 / 10.0) * heightpos_neg[0])
+				&& height > ((1.5 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x6D, .g = 0x55, .b = 0x20};
-	else if (height <= floor((1.5 / 10.0) * (double)heightpos_neg[0])
-				&& height > floor((1.0 / 10.0) * (double)heightpos_neg[0]))
+	else if (height <= ((1.5 / 10.0) * heightpos_neg[0])
+				&& height > ((1.0 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x48, .g = 0x6D, .b = 0x32};
-	else if (height <= floor(((1.0 / 10.0) * (double)heightpos_neg[0]))
-				&& height > floor((0.1 / 10.0) * (double)heightpos_neg[0]))
+	else if (height <= (((1.0 / 10.0) * heightpos_neg[0]))
+				&& height > ((0.1 / 10.0) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x0A, .g = 0x6D, .b = 0x21};
-	else if (height > floor((0.0 / 10) * (double)heightpos_neg[0]))
+	else if (height >= ((0.0 / 10) * heightpos_neg[0]))
 		coltosend = (t_rgb) {.r = 0x00, .g = 0xA5, .b = 0x21};
-	else if (height >= floor((10 / 10) * (double)heightpos_neg[1]))
+	else if (height >= ((10 / 10) * heightpos_neg[1]))
 		coltosend = (t_rgb) {.r = 0x32, .g = 0x25, .b = 0x9C};
 	return (coltosend);
 }
@@ -192,7 +189,7 @@ t_rgb		create_rgb(char *col)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 14:41:52 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/17 20:56:36 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 17:21:21 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,13 +198,13 @@ t_rgb		create_rgb(char *col)
 static void	ft_move(int key, t_env *env)
 {
 	if (key == 65464)
-		env->h -= 50;
-	if (key == 65458)
-		env->h += 50;
-	if (key == 65460)
-		env->w -= 50;
-	if (key == 65462)
-		env->w += 50;
+		env->h -= 10;
+	else if (key == 65458)
+		env->h += 10;
+	else if (key == 65460)
+		env->w -= 10;
+	else if (key == 65462)
+		env->w += 10;
 }
 
 static void	ft_reset(int key, t_env *env)
@@ -216,13 +213,13 @@ static void	ft_reset(int key, t_env *env)
 
 	if (key == 65461)
 	{
-		env->dx = 40;
-		env->dy = 40;
-		env->prof = 3;
+		env->dx = 1;
+		env->dy = 1;
+		env->prof = 1;
 		env->w = WIDTH / 2 - 100;
 		env->h = HEIGHT / 4;
 	}
-	if (key == 114)
+	else if (key == 114)
 	{
 		xy.x = (lenght_x_map(&env->map) * env->dx) / 2;
 		xy.y = (lenght_y_map(&env->map) * env->dy) / 2;
@@ -236,15 +233,15 @@ static void	ft_transform(int key, t_env *env)
 {
 	if (key == 65451)
 	{
-		env->dx += 1;
-		env->dy += 1;
+		env->dx++;
+		env->dy++;
 	}
-	if (key == 65453)
+	else if (key == 65453)
 	{
-		env->dx -= 15;
-		env->dy -= 15;
+		env->dx--;
+		env->dy--;
 	}
-	if (key == 112)
+	else if (key == 112)
 	{
 		if (env->proj == 1)
 			env->proj = 2;
@@ -253,9 +250,9 @@ static void	ft_transform(int key, t_env *env)
 		else if (env->proj == 2)
 			env->proj = 0;
 	}
-	if (key == 65457)
+	else if (key == 65457)
 		env->prof += 1;
-	if (key == 65459)
+	else if (key == 65459)
 		env->prof -= 1;
 }
 
@@ -288,7 +285,7 @@ int			ft_event_expose(t_env *env)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 00:14:02 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 22:43:48 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,7 +328,7 @@ void			ft_fdf(char *str, int width, int height, int mode)
 	t_env		env;
 
 	env = (t_env) {.dx = 1, .dy = 1, .height = height, .width = width,
-		.w = (width / 2) - 100, .h = (height / 4), .prof = 1, .proj = 0};
+		.w = (width / 3) - 100, .h = (height / 3), .prof = 0, .proj = 0};
 	env.mlx.modes = mode;
 	env.map = ft_parsefile(str);
 	if (width == 0 || height == 0)
@@ -341,14 +338,13 @@ void			ft_fdf(char *str, int width, int height, int mode)
 	}
 	if (lenght_x_map(&env.map) < (env.width / 10))
 	{
-		printf("test : env.width = %d", env.width);
-		env.dx = (env.width - env.width / 2) / lenght_x_map(&env.map);
-		env.dy = (env.height - env.height / 2) / lenght_y_map(&env.map);
+		env.dy = (env.height - env.height / 3) / lenght_y_map(&env.map);
+		env.dx = env.dy;
 		env.prof = 5;
 	}
 	ft_icd_mlx(&env, 0);
-	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
 	mlx_key_hook (env.mlx.win_ptr, ft_event_key, &env);
+	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
 	mlx_loop(env.mlx.mlx_ptr);
 }
 
@@ -364,7 +360,7 @@ int				lenght_y_map(t_node **map)
 	while (c_right)
 	{
 		cmp++;
-		c_right = c_right->right_node;
+		c_right = c_right->next;
 	}
 	return (cmp);
 }
@@ -376,13 +372,8 @@ int				lenght_x_map(t_node **map)
 
 	if (cmp != 0)
 		return (cmp);
-	cmp = 1;
 	c_left = *map;
-	while (c_left)
-	{
-		cmp++;
-		c_left = c_left->left_node;
-	}
+	cmp = c_left->elem;
 	return (cmp);
 }
 /* ************************************************************************** */
@@ -393,38 +384,25 @@ int				lenght_x_map(t_node **map)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 10:28:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/13 01:02:15 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:17:44 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-static void		create_vector(t_env *env, t_node *c_node, t_bool left_right)
+static void		create_vector(t_env *env, t_axe pt1, t_axe pt2, char **col)
 {
 	t_vector	v_vec;
 
-	if (left_right == FALSE)
-	{
-		if (env->proj == 0)
-			v_vec = new_vector_iso(c_node->xyz, c_node->left_node->xyz, env);
-		else if (env->proj == 1)
-			v_vec = new_vector_plane(c_node->xyz, c_node->left_node->xyz, env);
-		else if (env->proj == 2)
-			v_vec = new_vector_par(c_node->xyz, c_node->left_node->xyz, env);
-		v_vec = trans_vectoriel(v_vec, env->w, env->h);
-		v_vec.alt = c_node->left_node->xyz.z;
-		draw_line1(v_vec, env, c_node->col, c_node->left_node->col);
-		return ;
-	}
 	if (env->proj == 0)
-		v_vec = new_vector_iso(c_node->xyz, c_node->right_node->xyz, env);
+		v_vec = new_vector_iso(pt1, pt2, env);
 	else if (env->proj == 1)
-		v_vec = new_vector_plane(c_node->xyz, c_node->right_node->xyz, env);
+		v_vec = new_vector_plane(pt1, pt2, env);
 	else if (env->proj == 2)
-		v_vec = new_vector_par(c_node->xyz, c_node->right_node->xyz, env);
-	v_vec.alt = c_node->right_node->xyz.z;
+		v_vec = new_vector_par(pt1, pt2, env);
 	v_vec = trans_vectoriel(v_vec, env->w, env->h);
-	draw_line1(v_vec, env, c_node->col, c_node->right_node->col);
+	v_vec.alt = pt2.z;
+	draw_line1(v_vec, env, *col, *col);
 }
 
 void			draw_pixel_to_img(int x, int y, t_rgb col, t_env *env)
@@ -442,22 +420,29 @@ void			draw_pixel_to_img(int x, int y, t_rgb col, t_env *env)
 void			draw_fdf(t_env *e)
 {
 	t_node		*c_node;
+	int			i;
+	t_axe		xy[3];
+	int			y;
 
 	c_node = e->map;
+	y = 0;
 	while (c_node)
 	{
-		while (c_node)
+		i = 0;
+		while (i < c_node->elem - 1)
 		{
-			if (c_node->left_node)
-				create_vector(e, c_node, FALSE);
-			if (c_node->right_node)
-				create_vector(e, c_node, TRUE);
-			if (!c_node->left_node)
-				break ;
-			c_node = c_node->left_node;
+			xy[0] = (t_axe) {.x = i, .y = y, .z = c_node->tabz[i]};
+			xy[1] = (t_axe) {.x = i + 1, .y = y, .z = c_node->tabz[i + 1]};
+			if (c_node->next)
+				xy[2] = (t_axe) {.x = i, .y = y + 1,
+					.z = c_node->next->tabz[i]};
+			create_vector(e, xy[0], xy[1], c_node->col);
+			if (c_node->next && i <= c_node->next->elem)
+				create_vector(e, xy[0], xy[2], c_node->col);
+			i++;
 		}
-		c_node = c_node->first_xnode;
-		c_node = c_node->right_node;
+		y++;
+		c_node = c_node->next;
 	}
 }
 /* ************************************************************************** */
@@ -468,16 +453,15 @@ void			draw_fdf(t_env *e)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:47:44 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/13 04:12:00 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 22:05:14 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/ft_fdf.h"
 
-t_node		*ft_new_lstfdf(t_node **map, t_axe xyz, char *col)
+t_node		*ft_new_lstfdf(t_node **map, int *tabz, char **col, int elem)
 {
 	t_node	*new_node;
-	t_axe	new_axe;
 
 	if (!(new_node = (t_node *)malloc(sizeof(t_node))))
 	{
@@ -485,59 +469,30 @@ t_node		*ft_new_lstfdf(t_node **map, t_axe xyz, char *col)
 		ft_putendl_c("out of memory : Cannot read totaly file", "red");
 		exit(1);
 	}
-	new_axe.x = xyz.x;
-	new_axe.y = xyz.y;
-	new_axe.z = xyz.z;
+	new_node->tabz = tabz;
 	new_node->col = col;
-	new_node->xyz = new_axe;
-	new_node->left_node = NULL;
-	new_node->right_node = NULL;
+	new_node->elem = elem;
+	new_node->next = NULL;
 	return (new_node);
 }
 
 t_node		*ft_lstadd_right(t_node **map, t_node *new)
 {
-	t_node		*temp_right;
+	t_node		*temp_next;
 
 	if (new)
 	{
 		if (!(*map))
 		{
 			*map = new;
-			new->first_xnode = new;
 			return (new);
 		}
-		temp_right = *map;
-		while (temp_right->right_node != NULL)
-			temp_right = temp_right->right_node;
-		temp_right->right_node = new;
-		new->first_xnode = new;
+		temp_next = *map;
+		while (temp_next->next != NULL)
+			temp_next = temp_next->next;
+		temp_next->next = new;
 	}
 	return (new);
-}
-
-void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
-{
-	t_node		*tmp_prev;
-	t_node		*tmp_line;
-
-	tmp_line = *line;
-	tmp_prev = NULL;
-	if (*prev != NULL)
-		tmp_prev = *prev;
-	if (new)
-	{
-		while (tmp_line->left_node != NULL)
-		{
-			if (tmp_prev != NULL && tmp_prev->left_node != NULL)
-				tmp_prev = tmp_prev->left_node;
-			tmp_line = tmp_line->left_node;
-		}
-		if (tmp_prev != NULL && tmp_prev->left_node)
-			tmp_prev->left_node->right_node = new;
-		tmp_line->left_node = new;
-		new->first_xnode = tmp_line->first_xnode;
-	}
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -547,7 +502,7 @@ void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 13:12:36 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/12 15:57:29 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 22:38:42 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -555,55 +510,46 @@ void		ft_lstadd_left(t_node **line, t_node **prev, t_node *new)
 
 void		ft_del_map(t_node **map)
 {
-	t_node *tmp_right;
-	t_node *tmp_left;
-	t_node *tmpr;
-	t_node *tmpl;
+	t_node *first;
+	t_node *temp;
 
-	tmp_right = *map;
-	tmp_left = NULL;
-	while (tmp_right != NULL)
+	first = *map;
+	while (first)
 	{
-		tmpr = tmp_right->right_node;
-		tmp_left = tmp_right;
-		while (tmp_left != NULL)
-		{
-			tmpl = tmp_left->left_node;
-			if (tmp_left)
-			{
-				free(tmp_left->col);
-				free(tmp_left);
-			}
-			tmp_left = tmpl;
-		}
-		tmp_right = tmpr;
+		temp = first->next;
+		free(first->tabz);
+		free(first->col);
+		free(first);
+		first = temp;
 	}
 }
 
 int			*ft_map_height(t_node **map)
 {
-	t_node	*c_right;
-	t_node	*c_left;
-	int		*heightval;
+	t_node *tmp;
+	static int		*cmp;
+	int		i;
 
-	heightval = (int *)malloc(sizeof(int) * 2);
-	c_right = *map;
-	heightval[0] = 0;
-	heightval[1] = -1;
-	while (c_right)
+	if (cmp)
+		return (cmp);
+	tmp = *map;
+	cmp = malloc(sizeof(int) * 2);
+	cmp[0] = 0;
+	cmp[1] = -1;
+	while (tmp)
 	{
-		c_left = c_right;
-		while (c_left)
+		i = 0;
+		while (i < tmp->elem)
 		{
-			if (heightval[0] < c_left->xyz.z)
-				heightval[0] = c_left->xyz.z;
-			if (heightval[1] > c_left->xyz.z)
-				heightval[1] = c_left->xyz.z;
-			c_left = c_left->left_node;
+			if (cmp[0] < tmp->tabz[i])
+				cmp[0] = tmp->tabz[i];
+			if (cmp[1] > tmp->tabz[i])
+				cmp[1] = tmp->tabz[i];
+			i++;
 		}
-		c_right = c_right->right_node;
+		tmp = tmp->next;
 	}
-	return (heightval);
+	return (cmp);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -613,7 +559,7 @@ int			*ft_map_height(t_node **map)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/13 03:54:51 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 16:37:54 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -684,7 +630,7 @@ t_vector		new_vector_par(t_axe a, t_axe b, t_env *env)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/31 10:29:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 00:13:42 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:18:15 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -705,15 +651,13 @@ static void		testdirector(t_vector vec1, int *xincr, int *yincr)
 static t_rgb	col_random(char **col, t_env *env, double percent, t_cline *cl)
 {
 	t_rgb	coltodraw;
-	int		h;
 
-	h = cl->h;
-	if (ft_strtol(col[0]) == 0x000000 && env->mlx.modes == 1)
-		coltodraw = getcolormap(h, &env->map);
+	if (env->mlx.modes == 1)
+		coltodraw = getcolormap(cl->h, &env->map);
 	else if (env->mlx.modes == 2)
 		coltodraw = getshaded(getcolormap2(percent),
 				getcolormap2(percent + 10), percent);
-	else if (ft_strtol(col[0]) != 0x000000)
+	else if (env->mlx.modes != 1 && col[0] && ft_strtol(col[0]) != 0x000000)
 		coltodraw = getcolorbydegrade(col, cl->dy, cl->i);
 	else
 		coltodraw = create_rgb("FFFFFF");
@@ -724,9 +668,9 @@ static void		first_type(t_cline *cl, char **col, t_env *env)
 {
 	t_rgb			coltodraw;
 
-	cl->i = -1.0;
-	cl->error = ceil(cl->dx / 2);
-	while ((cl->i += 1.0) < cl->dx)
+	cl->i = -1;
+	cl->error = dround(cl->dx / 2);
+	while ((cl->i++) < cl->dx)
 	{
 		cl->xy.x += cl->xincr;
 		cl->error += cl->dy;
@@ -744,9 +688,9 @@ static void		second_type(t_cline *cl, char **col, t_env *env)
 {
 	t_rgb			coltodraw;
 
-	cl->i = -1.0;
-	cl->error = ceil(cl->dy / 2);
-	while ((cl->i += 1.0) < cl->dy)
+	cl->i = -1;
+	cl->error = dround(cl->dy / 2);
+	while ((cl->i++) < cl->dy)
 	{
 		cl->xy.y += cl->yincr;
 		cl->error += cl->dx;
@@ -773,6 +717,8 @@ void			draw_line1(t_vector vec1, t_env *env, char *col, char *offcol)
 	cl.xy.x = vec1.x1;
 	cl.xy.y = vec1.y1;
 	cl.h = vec1.alt;
+	if (cl.h > 958213088)
+		printf("max h : %d", cl.h);
 	if (cl.dx > cl.dy)
 		first_type(&cl, colglob, env);
 	else
@@ -787,7 +733,7 @@ void			draw_line1(t_vector vec1, t_env *env, char *col, char *offcol)
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 18:02:22 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/17 23:40:08 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 22:04:19 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -867,24 +813,22 @@ unsigned int	ft_getvalue(char *str, int x, char **color)
 
 void			ft_insert_map(char *str, t_node **map, int x, int y)
 {
-	static t_node	*prev = NULL;
-	t_node			*line_node;
 	int				tablen;
 	t_axe			xyz;
-	char			*col;
+	char			**col;
+	int				*tabz;
 
-	line_node = NULL;
+	xyz.x = 0;
 	tablen = ft_coord_nbr(str);
+	tabz = (int *)malloc(sizeof(int) * tablen + 1);
+	col = (char **)malloc(sizeof(char *) * tablen + 1);
 	while (x <= tablen)
 	{
-		xyz = (t_axe) { .x = x + 1, .y = y, .z = ft_getvalue(str, x, &col)};
-		if (!line_node)
-			line_node = ft_lstadd_right(map, ft_new_lstfdf(map, xyz, col));
-		else
-			ft_lstadd_left(&line_node, &prev, ft_new_lstfdf(map, xyz, col));
+		xyz = (t_axe) { .x = x + 1, .y = y, .z = ft_getvalue(str, x, &col[x])};
+		tabz[x] = xyz.z;
 		x++;
 	}
-	prev = line_node;
+	ft_lstadd_right(map, ft_new_lstfdf(map, tabz, col, xyz.x));
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -928,14 +872,14 @@ int ft_win_lenghth(int cmp_node)
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 06:04:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/13 03:48:29 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/14 21:56:48 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Include/get_next_line.h"
+#include "get_next_line.h"
 #include <stdlib.h>
 
-static int	read_file(int fd, char **str)
+static int		read_file(int fd, char **str)
 {
 	char	*buf;
 	int		rslt;
@@ -953,7 +897,7 @@ static int	read_file(int fd, char **str)
 		}
 		buf[rslt] = '\0';
 		*str = (char *)ft_realloc(*str, rslt);
-		*str = ft_strjoin(*str, buf);
+		*str = ft_strjoin_free(*str, buf);
 		if (ft_strchr(*str, '\n'))
 			break ;
 	}
@@ -961,7 +905,7 @@ static int	read_file(int fd, char **str)
 	return (rslt);
 }
 
-static int	is_dispatch(char **str, char **line)
+static int		is_dispatch(char **str, char **line)
 {
 	char		*trf;
 	char		*tmp;
@@ -973,6 +917,7 @@ static int	is_dispatch(char **str, char **line)
 	{
 		trf = ft_strsub(*str, 0, tmp - *str);
 		*str = tmp + 1;
+		ft_strdel(line);
 		*line = ft_strdup(trf);
 		ft_strdel(&trf);
 		return (1);
@@ -980,7 +925,7 @@ static int	is_dispatch(char **str, char **line)
 	return (0);
 }
 
-static int	after_init(t_var **v, char **line, int fd)
+static int		after_init(t_var **v, char **line, int fd)
 {
 	if ((is_dispatch(&(*v)->s1, line)) == 1)
 		return (1);
@@ -995,6 +940,7 @@ static int	after_init(t_var **v, char **line, int fd)
 		{
 			if ((*v)->rslt == 0 && (*v)->s1 && (*(*v)->s1 != ('\n' && '\0')))
 			{
+				ft_strdel(line);
 				*line = ft_strdup((*v)->s1);
 				ft_strdel(&(*v)->s1);
 				return (1);
@@ -1008,26 +954,49 @@ static int	after_init(t_var **v, char **line, int fd)
 	return (1);
 }
 
-int			get_next_line(int fd, char **line)
+static t_var	*lstfind_byfd(t_list **lst, int fd)
 {
-	static t_var	*var = NULL;
+	t_list	*lsttmp;
+	t_var	*var;
 
-	if (!var)
+	if (lst)
+		lsttmp = *lst;
+	else
+		lsttmp = NULL;
+	while (lsttmp)
 	{
-		var = (t_var *)ft_memalloc(sizeof(t_var));
-		var->s1 = NULL;
+		var = lsttmp->content;
+		if (var->fd == fd)
+			return (var);
+		lsttmp = lsttmp->next;
 	}
+	var = (t_var *)ft_memalloc(sizeof(t_var));
+	var->s1 = NULL;
+	var->fd = fd;
+	lsttmp = ft_lstnew(var, sizeof(t_var));
+	var = lsttmp->content;
+	ft_lstadd(lst, lsttmp);
+	return (var);
+}
+
+int				get_next_line(int fd, char **line)
+{
+	static t_list	*lst = NULL;
+	t_var			*var;
+
 	if (!line || fd < 0)
 		return (-1);
+	*line = ft_strnew(0);
+	var = lstfind_byfd(&lst, fd);
 	if (!var->s1)
 	{
 		if ((var->rslt = read_file(fd, &var->s1)) <= 0)
 		{
 			if (var->rslt == 0 && var->s1 && *var->s1 != ('\n' && '\0'))
 			{
+				ft_strdel(line);
 				*line = ft_strdup(var->s1);
 				ft_strdel(&var->s1);
-				free(var);
 				return (1);
 			}
 			return (var->rslt);

@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/16 10:30:10 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 18:57:02 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:16:25 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <math.h>
 # include "get_next_line.h"
+# define dround(x) (int)((x) > 0 ? (x) + 0.5 : (x) - 0.5)
 # define TRUE 1
 # define FALSE 0
 # define WIDTH 40
@@ -135,5 +136,7 @@ t_rgb				getcolormap(double height, t_node **map);
 t_rgb				getcolormap2(double height);
 t_rgb				getshaded(t_rgb rgb1, t_rgb rgb2, double percent);
 t_rgb				create_rgb(char *col);
+int					ft_win_lenghtw(int cmp_node);
+int					ft_win_lenghth(int cmp_node);
 
 #endif

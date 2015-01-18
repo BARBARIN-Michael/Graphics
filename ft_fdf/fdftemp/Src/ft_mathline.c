@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/31 10:29:35 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/18 19:01:55 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/01/18 23:18:15 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static t_rgb	col_random(char **col, t_env *env, double percent, t_cline *cl)
 	else if (env->mlx.modes == 2)
 		coltodraw = getshaded(getcolormap2(percent),
 				getcolormap2(percent + 10), percent);
-/*	else if (ft_strtol(col[0]) != 0x000000)
+	else if (env->mlx.modes != 1 && col[0] && ft_strtol(col[0]) != 0x000000)
 		coltodraw = getcolorbydegrade(col, cl->dy, cl->i);
-*/	else
+	else
 		coltodraw = create_rgb("FFFFFF");
 	return (coltodraw);
 }
@@ -45,7 +45,7 @@ static void		first_type(t_cline *cl, char **col, t_env *env)
 	t_rgb			coltodraw;
 
 	cl->i = -1;
-	cl->error = roundl(cl->dx / 2);
+	cl->error = dround(cl->dx / 2);
 	while ((cl->i++) < cl->dx)
 	{
 		cl->xy.x += cl->xincr;
@@ -65,7 +65,7 @@ static void		second_type(t_cline *cl, char **col, t_env *env)
 	t_rgb			coltodraw;
 
 	cl->i = -1;
-	cl->error = roundl(cl->dy / 2);
+	cl->error = dround(cl->dy / 2);
 	while ((cl->i++) < cl->dy)
 	{
 		cl->xy.y += cl->yincr;
@@ -93,9 +93,11 @@ void			draw_line1(t_vector vec1, t_env *env, char *col, char *offcol)
 	cl.xy.x = vec1.x1;
 	cl.xy.y = vec1.y1;
 	cl.h = vec1.alt;
+	if (cl.h > 958213088)
+		printf("max h : %d", cl.h);
 	if (cl.dx > cl.dy)
 		first_type(&cl, colglob, env);
 	else
 		second_type(&cl, colglob, env);
-	//draw_pixel_to_img(cl.xy.x, cl.xy.y, create_rgb(col), env);
+	draw_pixel_to_img(cl.xy.x, cl.xy.y, create_rgb(col), env);
 }
