@@ -1,7 +1,0 @@
-urcouche de la LibX permettant des rendus graphique tel que le RayTracer : http://perso.epitech.eu/~ol/work/raytracer/gallerie/index.html.
-Aucun crédit ne m'est attribué pour la réalisation de cette surcouche. Elle appartient à son créateur Olivier Crouzet et à EPITECH.
-Je me suis simplement permis de modifier le Makefile et d'en faire une compilation en .deb pour une installation plus simple.
-
-Rappel pour la compilation n'oublier pas de spécifier :
--L/usr/lib64/X11 -lX11 -lXext -L/usr/lib64/ -lmlx
-Ce n'est pas forcement les paths sur vos PC mais ils vous permet de compiler sous OpenSUSE et fonctionnera sous vos pc.
