@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 08:22:04 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/01/28 21:54:41 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/02 19:20:32 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void			ft_exit(t_mlx *mlx)
 void			ft_icd_mlx(t_env *env, const char *state)
 {
 	void	*img_switch;
+	char	*data_switch;
 
 	if (ft_strcmp(state, "initialize") == 0)
 	{
@@ -34,23 +35,30 @@ void			ft_icd_mlx(t_env *env, const char *state)
 				env->height, env->title);
 		env->mlx.data = mlx_get_data_addr(env->mlx.img, &env->mlx.bpp,
 			&env->mlx.sizeline, &env->mlx.endian);
+		env->mlx.data_tmp = mlx_get_data_addr(env->mlx.img_tmp, &env->mlx.bpp,
+			&env->mlx.sizeline, &env->mlx.endian);
 	}
-	else if (ft_strcmp(state, "put"))
+	else if (ft_strcmp(state, "put") == 0)
 		mlx_put_image_to_window(env->mlx.mlx_ptr, env->mlx.win_ptr,
 				env->mlx.img, 0, 0);
-	else if (ft_strcmp(state, "new calcul"))
+	else if (ft_strcmp(state, "new calcul") == 0)
 	{
 		img_switch = env->mlx.img;
+		data_switch = env->mlx.data;
 		env->mlx.img = env->mlx.img_tmp;
+		env->mlx.data = env->mlx.data_tmp;
 		env->mlx.img_tmp = img_switch;
+		env->mlx.data_tmp = data_switch;
+		ft_bzero(env->mlx.data_tmp, env->mlx.sizeline * env->height);
 		ft_icd_mlx(env, "put");
 	}
 }
 
-static t_fcts_fractal	*setup_ptrfcts(t_fcts_fractal *fcts, const char *fractal)
+static t_fcts_fractal	setup_ptrfcts(const char *fractal)
 {
+	t_fcts_fractal fcts;
 	if (ft_strcmp(fractal, "mandelbrot") == 0)
-		*fcts = &ft_mandelbrot;
+		fcts = &ft_mandelbrot;
 	else
 		exit(0);
 	return (fcts);
@@ -62,28 +70,25 @@ static t_fract init_fract(t_ushort iterate, t_ushort zoom)
 
 	fract.iterate = iterate;
 	fract.zoom = zoom;
-	//fract.area.xy1.x = -2 .100 000;
-	fract.area.xy1.x = X1;
-	//fract.area.xy2.x =    .600 000;
-	fract.area.xy2.x = X2;
-	//fract.area.xy1.y = -1 .200 000;
-	fract.area.xy1.y = Y1;
-	//fract.area.xy2.y =  1 .200 000;
-	fract.area.xy2.y = Y2;
+	fract.area.xy1.x = -2.1;
+	fract.area.xy2.x = 0.6;
+	fract.area.xy1.y = -1.2;
+	fract.area.xy2.y = 1.2;
 	return (fract);
 }
 void			ft_exec(char *title, int width, int height, const char *fractal)
 {
 	t_env		env;
-	t_fract		fract;
 
-	env = (t_env) {	.width = width, .height = height, .title = title};
-	setup_ptrfcts(fcts_fract, fractal);
-	ft_icd_mlx(&env, 0);
-	fract = init_fract(50, 100);
-	fcts_fract(fract, &env);
-	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
-//	mlx_mouse_hook(env.mlx.win_ptr, ft_event_mouse, &env);
-//	mlx_loop_hook(env.mlx.mlx_ptr, ft_fractal, &env);
+	env = (t_env) {	.width = width, .height = height, .title = title,
+					.affichage = 1};
+	env.fcts = setup_ptrfcts(fractal);
+	ft_icd_mlx(&env, "initialize");
+	env.fract = init_fract(50, 100);
+	env.fcts(env.fract, &env);
+//	mlx_expose_hook(env.mlx.win_ptr, ft_event_expose, &env);
+	mlx_mouse_hook(env.mlx.win_ptr, ft_event_mouse, &env);
+	mlx_key_hook(env.mlx.win_ptr, ft_event_key, &env);
+	mlx_loop_hook(env.mlx.mlx_ptr, ft_event_fractal, &env);
 	mlx_loop(env.mlx.mlx_ptr);
 }

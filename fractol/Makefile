@@ -3,14 +3,14 @@
 TYPE = graphique
 
 #Nom de lexecutable :
-EXECUTABLE = fdf
+EXECUTABLE = fractol
 
 # Choix du compilateur :
 COMPILATEUR = gcc
 #COMPILATEUR = perl ~/script/colorgcc.pl
 
 # Options
-COPTIONS = -O3 -Wall -Wextra -Werror
+COPTIONS = -g -std=c99 -O0 -Wall -Wextra -Werror
 
 LIB  =  -I Libs/minilibx -I Libs/libft/Include/  -L Libs/libft/ -lft
 LIB  +=  -I Libs/libftprintf/Include/  -L Libs/libftprintf/  -lftprintf
@@ -43,7 +43,8 @@ SRC =	$(SRCDIR)/ft_color.c		\
 		$(SRCDIR)/ft_exec.c			\
 		$(SRCDIR)/ft_fractal.c		\
 		$(SRCDIR)/ft_graph.c		\
-		$(SRCDIR)/ft_mandelbrot.c	
+		$(SRCDIR)/ft_mandelbrot.c	\
+		$(SRCDIR)/main.c
 
 # Liste des fichiers objets :
 NOM = $(basename $(notdir $(SRC)))
