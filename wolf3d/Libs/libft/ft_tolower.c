@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/03 18:17:27 by mbarbari         ###   ########.fr       */
+/*   Created: 2014/11/06 19:28:29 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/02/10 19:08:28 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_fractol.h>
-
-int		main(int argc, char **argv)
+int		ft_tolower(int c)
 {
-	if (argc == 2)
-		ft_exec(argv[1], 600, 600, "mandelbrot");
-	else
+	if (c >= 'A' && c <= 'Z')
 	{
-		ft_putstr("ERROR X100 : just one arguement asked \n");
-		ft_putstr("Exemple : 'prog.mlx mandelbrot'\n");
-		ft_putstr("Exemple : 'prog.mlx julia'\n");
-		ft_putstr("Exemple : 'prog.mlx \"une autre\"'\n");
-		ft_putendl(" or asked at Barbare for more help :)");
+		return ((c += 32));
 	}
-	return (0);
+	else
+		return (c);
 }

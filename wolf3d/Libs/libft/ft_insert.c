@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_insert.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/03 18:17:27 by mbarbari         ###   ########.fr       */
+/*   Created: 2015/02/16 12:10:29 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/02/16 12:32:37 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_fractol.h>
-
-int		main(int argc, char **argv)
+char	*ft_insert(char *str, int elem, char *val)
 {
-	if (argc == 2)
-		ft_exec(argv[1], 600, 600, "mandelbrot");
-	else
+	char *rslt;
+
+	rslt = str;
+	while (elem)
 	{
-		ft_putstr("ERROR X100 : just one arguement asked \n");
-		ft_putstr("Exemple : 'prog.mlx mandelbrot'\n");
-		ft_putstr("Exemple : 'prog.mlx julia'\n");
-		ft_putstr("Exemple : 'prog.mlx \"une autre\"'\n");
-		ft_putendl(" or asked at Barbare for more help :)");
+		*str++ = *val++;
+		elem--;
 	}
-	return (0);
+	return (rslt);
 }

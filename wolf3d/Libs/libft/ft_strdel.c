@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/03 18:17:27 by mbarbari         ###   ########.fr       */
+/*   Created: 2014/11/05 15:35:18 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/02/01 16:01:52 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_fractol.h>
+#include "libft.h"
 
-int		main(int argc, char **argv)
+void	ft_strdel(char **as)
 {
-	if (argc == 2)
-		ft_exec(argv[1], 600, 600, "mandelbrot");
-	else
+	ft_memdel((void **)as);
+}
+
+void	ft_strndel(int n, ...)
+{
+	va_list ap;
+
+	va_start(ap, n);
+	while (n)
 	{
-		ft_putstr("ERROR X100 : just one arguement asked \n");
-		ft_putstr("Exemple : 'prog.mlx mandelbrot'\n");
-		ft_putstr("Exemple : 'prog.mlx julia'\n");
-		ft_putstr("Exemple : 'prog.mlx \"une autre\"'\n");
-		ft_putendl(" or asked at Barbare for more help :)");
+		ft_memdel((void **)va_arg(ap, void **));
+		n--;
 	}
-	return (0);
+	va_end(ap);
 }

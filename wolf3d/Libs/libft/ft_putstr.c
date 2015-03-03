@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/03 18:17:27 by mbarbari         ###   ########.fr       */
+/*   Created: 2014/11/09 17:10:32 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/02/07 17:19:33 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_fractol.h>
+#include "libft.h"
 
-int		main(int argc, char **argv)
+void	ft_putstr(char const *s)
 {
-	if (argc == 2)
-		ft_exec(argv[1], 600, 600, "mandelbrot");
-	else
-	{
-		ft_putstr("ERROR X100 : just one arguement asked \n");
-		ft_putstr("Exemple : 'prog.mlx mandelbrot'\n");
-		ft_putstr("Exemple : 'prog.mlx julia'\n");
-		ft_putstr("Exemple : 'prog.mlx \"une autre\"'\n");
-		ft_putendl(" or asked at Barbare for more help :)");
-	}
-	return (0);
+	write(1, s, ft_strlen(s));
+}
+
+int		ft_putnstr(char const *s, size_t n)
+{
+	return (write(1, s, n));
+}
+
+void	ft_putnwstr(wchar_t const *s, size_t n)
+{
+	write(1, &s, n);
+}
+
+void	ft_putwstr(wchar_t const *s)
+{
+	write(1, &s, ft_wstrlen(s));
 }

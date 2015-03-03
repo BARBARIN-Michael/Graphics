@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/23 12:13:13 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/02 20:14:49 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/03 18:22:43 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void ft_zoom_mandelbrot(int x, int y, t_env *env)
 	xy.y = (y * ABS(env->fract.area.xy1.y) + ABS(env->fract.area.xy2.y))
 			/ env->height;
 	xy.y -= env->fract.area.xy2.y;
-	env->fract.area.xy1.x -= 0.0000001;
-	env->fract.area.xy2.x += 0.0000001;
-	env->fract.area.xy1.y -= 0.0000001;
-	env->fract.area.xy2.y += 0.0000001;
-	env->fract.zoom += 200;
-	env->fract.iterate += 50;
+	env->fract.area.xy1.x -= xy.x * 0.001;
+	env->fract.area.xy2.x += xy.x * 0.001;
+	env->fract.area.xy1.y -= xy.y * 0.001;
+	env->fract.area.xy2.y += xy.y * 0.001;
+	env->fract.zoom *= 1.01;
+	env->fract.iterate *= 1.0005;
 	ft_mandelbrot(env->fract, env);
 }
 

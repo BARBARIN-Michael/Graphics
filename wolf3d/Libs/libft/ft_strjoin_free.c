@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/03 18:17:27 by mbarbari         ###   ########.fr       */
+/*   Created: 2014/12/23 10:16:51 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/01/26 10:54:43 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_fractol.h>
+#include "libft.h"
+#include <stdio.h>
 
-int		main(int argc, char **argv)
+char		*ft_strjoin_free(char *src, char *join, int mod)
 {
-	if (argc == 2)
-		ft_exec(argv[1], 600, 600, "mandelbrot");
-	else
+	char		*str;
+
+	if (!src || !join)
+		return (NULL);
+	str = (char *)ft_memalloc(ft_strlen(src) + ft_strlen(join) + 1);
+	ft_strcpy(str, src);
+	ft_strcat(str, join);
+	if (mod == 'l' || mod == 'g')
+		free(src);
+	else if (mod == 'r' || mod == 'd')
+		free(join);
+	else if (mod == 'c')
 	{
-		ft_putstr("ERROR X100 : just one arguement asked \n");
-		ft_putstr("Exemple : 'prog.mlx mandelbrot'\n");
-		ft_putstr("Exemple : 'prog.mlx julia'\n");
-		ft_putstr("Exemple : 'prog.mlx \"une autre\"'\n");
-		ft_putendl(" or asked at Barbare for more help :)");
+		free(src);
+		free(join);
 	}
-	return (0);
+	return (str);
 }

@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/19 08:27:00 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/03 18:17:27 by mbarbari         ###   ########.fr       */
+/*   Created: 2015/01/22 21:26:53 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/02/16 19:53:03 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_fractol.h>
+#include <libft.h>
 
-int		main(int argc, char **argv)
+char *ft_strset(char *s1, int pos, int nbr, int car)
 {
-	if (argc == 2)
-		ft_exec(argv[1], 600, 600, "mandelbrot");
-	else
+	char	*str;
+
+	if (!(str = ft_memalloc(ft_strlen(s1) + nbr + 1)))
+		return (NULL);
+	if (pos > 0)
 	{
-		ft_putstr("ERROR X100 : just one arguement asked \n");
-		ft_putstr("Exemple : 'prog.mlx mandelbrot'\n");
-		ft_putstr("Exemple : 'prog.mlx julia'\n");
-		ft_putstr("Exemple : 'prog.mlx \"une autre\"'\n");
-		ft_putendl(" or asked at Barbare for more help :)");
+		str = ft_strncat(str, s1, pos);
+		s1 += pos;
 	}
-	return (0);
+	while (nbr)
+	{
+		str[pos] = car;
+		pos++;
+		nbr--;
+	}
+	str = ft_strcat(str, s1);
+	return (str);
 }
