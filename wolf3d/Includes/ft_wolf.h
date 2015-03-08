@@ -13,12 +13,13 @@
 #ifndef FT_WOLF_H
 # define FT_WOLF_H
 
+#define FALSE 0
+#define TRUE !0
+
 typedef unsigned short t_ushort;
 typedef unsigned int t_uint;
 typedef unsigned long int t_color;
-
-typedef FALSE 0
-typedef TRUE !0
+typedef unsigned long int t_map;
 
 typedef enum
 {
@@ -39,11 +40,18 @@ typedef struct	s_coord
 	t_uint		y;
 }				t_coord;
 
+typedef struct	s_line
+{
+	int			start;
+	int			end;
+}				t_line;
+
 typedef struct	s_movement
 {
 	t_coord		stape;
 	e_bool		collision;
-	e_bool		wall_dir;
+	e_bool		wall_hor;
+	t_line		px;
 }				t_move;
 
 typedef struct	s_director
@@ -69,7 +77,7 @@ typedef struct	s_datagame
 	t_coord		pos;
 	t_coord		plane;
 	t_dir		dir;
-	t_time		t;
+	t_time	
 }				t_datagame;
 
 typedef struct	s_datacamera
@@ -77,10 +85,11 @@ typedef struct	s_datacamera
 	int			cam_x;
 	t_coord		raypos;
 	t_dir		raydir;
-	t_coord		map;
+	t_coord		coord_map;
 	t_dist		wall;
 	t_dist		wall_next;
-	t_dist		lenght_wall;
+	t_uint		lenght_wall;
+	t_uint		height_wall;
 }				t_datacam;
 
 typedef struct	s_mlx
@@ -98,7 +107,7 @@ typedef struct	s_env
 {
 	t_ushort	width;
 	t_ushort	height;
-	t_map		map;
+	t_map		**world_map;
 	t_mlx		mlx;
 	char		*title;
     t_datagame	datagame;
@@ -118,7 +127,7 @@ void		ft_newcalcul(t_env *env);
 
 
 /* ****************************************************************************
-** ** ft_error.c
+** ** ft_err
 ** ** error manager
 ** ***************************************************************************/
 void		ft_error(const char *str_error, const char *name_log, int error);
@@ -131,5 +140,18 @@ void		ft_error(const char *str_error, const char *name_log, int error);
 void		ft_updown(int val, t_env *env);
 void		ft_rightleft(int val, t_env *env);
 void		ft_newmode(int val, t_env *env);
+
+
+/* ****************************************************************************
+** ** ft_draw.c
+** ** function that draw world
+** ***************************************************************************/
+void		ft_draw_line_v(int x, t_line line, t_env *env, t_rgb rgb);
+
+/* ****************************************************************************
+** ** ft_movement.c
+** ** function that calcul a new movement for draw a world
+** ***************************************************************************/
+void		ft_new_calc_movement(t_env *env);
 
 #endif
