@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_event.c                                         :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/03/03 20:01:29 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/06 12:11:08 by mbarbari         ###   ########.fr       */
+/*   Created: 2015/03/04 17:51:19 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/03/06 12:02:02 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_event.h>
+#include <ft_printf.h>
 
-void	mouse_event(int button, int x, int y, t_env *env)
+void	ft_error(const char *str_error,const char *name_log, int error_type)
 {
-	if (button == MOUSE_BT_LEFT)
-		ft_action_mouse_left(x, y, env);
-	else if (button == MOUSE_BT_RIGHT)
-		ft_action_mouse_right(x, y, env);
-	else if (button == MOUSE_BT_MID)
-		ft_action_mouse_mid(x, y, env);
+	if (error_type > 1)
+	{
+		ft_printf(C_RED"FATAL ERROR ["C_NONE"%s"C_RED"] : "C_NONE"%s\n");
+		exit (error_type);
+	}
+	else
+	{
+		ft_printf(C_RED"ERROR ["C_NONE"%s"C_RED"] : "C_NONE"%s\n");
+		return ;
+	}
 }
