@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/09 22:25:09 by mbarbari          #+#    #+#             */
-/*   Updated: 2014/11/23 17:21:49 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/12 03:43:36 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char		**ft_create_tab(int len)
 	return (NULL);
 }
 
-static int		ft_count(char *str, char c)
+int		ft_count_split(char *str, char c)
 {
 	int		i;
 	int		count;
@@ -59,7 +59,33 @@ char			**ft_strsplit(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	len = ft_count((char *)s, c);
+	len = ft_count_split((char *)s, c);
+	i = 0;
+	j = 0;
+	ret = ft_create_tab(len + 1);
+	while (s[i])
+	{
+		while (is_carac(s[i], c))
+			i++;
+		k = i;
+		while (s[i] && !is_carac(s[i], c))
+			i++;
+		if (j != len)
+			ret[j++] = ft_strsub(s, k, (i - k));
+	}
+	ret[len] = NULL;
+	return (ret);
+}
+
+char			**ft_nstrsplit(char const *s, char c, int len)
+{
+	char	**ret;
+	int		i;
+	int		j;
+	int		k;
+
+	if (!s)
+		return (NULL);
 	i = 0;
 	j = 0;
 	ret = ft_create_tab(len + 1);

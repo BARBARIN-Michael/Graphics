@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/04 17:17:32 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/04 17:39:55 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/12 00:49:36 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@
 # define KEY_POS		61
 
 # define MOUSE_BT_LEFT	1
-# define MOUSE_BT_LEFT	2
-# define MOUSE_BT_LEFT	3
+# define MOUSE_BT_MID	2
+# define MOUSE_BT_RIGHT	3
 # define MOUSE_WH_UP	4
 # define MOUSE_WH_DOWN	5
 

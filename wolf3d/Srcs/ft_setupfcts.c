@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/06 12:11:18 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/06 13:42:00 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/12 04:43:36 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,21 @@ static void	init_fcts(t_fcts_keypad *keypad, t_fcts_mouse *mouse)
 	cmp = 0;
 	while (cmp < sizeof(char))
 	{
-		keypad[cmp] = (void *)0;
-		mouse[cmp] = (void *)0;
+		if (keypad)
+			keypad[cmp] = (void *)0;
+		if (mouse)
+			mouse[cmp] = (void *)0;
 		cmp++;
 	}
 }
 
 static void	setup_keypad(t_fcts_keypad *keypad)
 {
-	keypad['w'] = &ft_updown;
-	keypad['s'] = &ft_updown;
-	keypad['a'] = &ft_rightleft;
-	keypad['d'] = &ft_rightleft;
-	keypad['m'] = &ft_newmode;
+	keypad['w'] = &ft_action_move_up;
+	keypad['s'] = &ft_action_move_down;
+	keypad['a'] = &ft_action_move_left;
+	keypad['d'] = &ft_action_move_right;
+	//keypad['m'] = &ft_newmode;
 }
 
 static void	setup_mouse(t_fcts_mouse *mouse)
@@ -42,6 +44,8 @@ static void	setup_mouse(t_fcts_mouse *mouse)
 void		ft_setupfcts(t_fcts_keypad *keypad, t_fcts_mouse *mouse)
 {
 	init_fcts(keypad, mouse);
-	setup_keypad(keypad);
-	setup_mouse(mouse);
+	if (keypad)
+		setup_keypad(keypad);
+	if (mouse)
+		setup_mouse(mouse);
 }

@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_graph.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/03/03 20:00:12 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 07:01:16 by mbarbari         ###   ########.fr       */
+/*   Created: 2015/03/10 17:40:50 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/03/12 05:10:10 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_wolf.h>
-#include <time.h>
+#include <ft_printf.h>
 
-void	ft_graph(t_env *env)
+int		main(int argc, char **argv)
 {
-	t_time		*time;
-	struct timeval timeval;
-
-	time = &env->datagame->time;
-	gettimeofday(&timeval, NULL);
-	time->time = timeval.tv_sec * 1000 + timeval.tv_usec / 1000;
-	env->fps = (int)(time->time - time->oldtime);
-	printf(C_RED"deuxieme lecture : \n "C_GREEN"%s\n\n", env->mlx.data);
-	ft_putimage(env);
-	ft_bzero(env->mlx.data, env->mlx.sizeline * env->wh.height);
+	if (argc == 1)
+		ft_exec("../wolf.42", "Wolf 3D example map", 0, (t_screen) {800, 600});
+	else if (argc == 2)
+		ft_exec(argv[1], argv[1], 1, (t_screen) {800, 600});
+	else
+		ft_putstr("Veuillez saisir aucun parametre ou bien le fichier map\n");
+	return (0);
 }

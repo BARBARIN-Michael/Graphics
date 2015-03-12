@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/03/04 17:51:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 04:41:35 by mbarbari         ###   ########.fr       */
+/*   Created: 2014/11/19 19:28:15 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/03/12 04:46:03 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	ft_error(const char *str_error,const char *name_log, int error_type)
+# include <libft.h>
+# include <unistd.h>
+# define BUFF_SIZE 1048
+
+typedef struct	s_var_gnl
 {
-	if (error_type > 1)
-	{
-		ft_putstr(C_RED"FATAL ERROR ["C_NONE);
-		ft_putstr(str_error);
-		ft_putstr(C_RED"] : "C_NONE);
-		ft_putendl(name_log);
-		exit (error_type);
-	}
-	else
-	{
-		ft_putstr(C_RED"ERROR ["C_NONE);
-		ft_putstr(str_error);
-		ft_putstr(C_RED"] : "C_NONE);
-		ft_putendl(name_log);
-		return ;
-	}
-}
+	char		*s1;
+	char		*s2;
+	int			rslt;
+	int			fd;
+}				t_vargnl;
+
+int				get_next_line(int fd, char **line);
+int				get_nbr_line(char *file);
+
+#endif

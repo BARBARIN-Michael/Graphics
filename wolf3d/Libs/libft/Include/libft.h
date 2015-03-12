@@ -6,7 +6,7 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 14:05:43 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/02/16 12:32:55 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/12 03:43:57 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <wchar.h>
+# include <get_next_line.h>
 
 # define C_NONE         "\033[0m"
 # define C_BOLD         "\033[1m"
@@ -87,6 +88,7 @@ char				*ft_strstrchr(const char *s1, const char *s2);
 char				*ft_strsub(char const *s1, unsigned int start, size_t len);
 char				*ft_wstrsub(char const *s1, unsigned int s, size_t len);
 char				**ft_strsplit(char const *s, char c);
+char				**ft_nstrsplit(char const *s, char c, int nbr_val);
 char				*ft_strcpy(char *dst, char *src);
 size_t				ft_strlen(const char *str);
 size_t				ft_wstrlen(const wchar_t *str);
@@ -100,6 +102,7 @@ int					ft_isdigit(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
 char				**ft_strsplit(char const *s, char c);
+int					ft_count_split(char *str, char c);
 int					ft_strcount(char *str, int c);
 void				ft_putchar(char c);
 void				ft_putwchar(wchar_t c);
@@ -131,5 +134,8 @@ int					ft_round(float);
 int					ft_ceil(float);
 char				*ft_strset(char *s1, int pos, int nbr, int car);
 char				*ft_insert(char *tab, int elem, char *value);
+void				ft_insert_tab2D(int **tab, char *elem,
+									int nbr_elem, int line_insert);
+int					ft_count_carac(char *str, int car);
 
 #endif

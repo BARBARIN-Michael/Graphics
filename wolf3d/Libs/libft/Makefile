@@ -6,7 +6,7 @@
 #    By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 14:48:04 by mbarbari          #+#    #+#              #
-#    Updated: 2015/01/18 13:20:03 by mbarbari         ###   ########.fr        #
+#    Updated: 2015/03/12 04:48:22 by mbarbari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,10 @@ SRCS = ft_bzero.c \
 		ft_pow.c \
 		ft_strtol.c \
 		ft_round.c \
-		ft_putendl_c.c
+		ft_putendl_c.c \
+		get_next_line.c \
+		get_nbr_line.c \
+		ft_count_carac.c
 
 OBJS = $(SRCS:.c=.o)
 

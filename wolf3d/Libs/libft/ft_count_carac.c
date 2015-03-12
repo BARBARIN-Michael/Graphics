@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_count_carac.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/03/04 17:51:19 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 04:41:35 by mbarbari         ###   ########.fr       */
+/*   Created: 2015/03/09 14:02:24 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/03/09 14:45:04 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-
-void	ft_error(const char *str_error,const char *name_log, int error_type)
+int		ft_count_carac(char *str, int carac)
 {
-	if (error_type > 1)
+	int		count;
+	char	*s1;
+
+	count = 0;
+	s1 = str;
+	while (*s1)
 	{
-		ft_putstr(C_RED"FATAL ERROR ["C_NONE);
-		ft_putstr(str_error);
-		ft_putstr(C_RED"] : "C_NONE);
-		ft_putendl(name_log);
-		exit (error_type);
+		if (*s1 == carac)
+			count++;
+		s1++;
 	}
-	else
-	{
-		ft_putstr(C_RED"ERROR ["C_NONE);
-		ft_putstr(str_error);
-		ft_putstr(C_RED"] : "C_NONE);
-		ft_putendl(name_log);
-		return ;
-	}
+	return (count);
 }

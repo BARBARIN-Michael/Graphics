@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_insert.c                                        :+:      :+:    :+:   */
+/*   get_nbr_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/02/16 12:10:29 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/09 13:40:30 by mbarbari         ###   ########.fr       */
+/*   Created: 2015/03/09 13:54:21 by mbarbari          #+#    #+#             */
+/*   Updated: 2015/03/12 05:24:01 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_insert(char *str, int elem, char *val)
-{
-	char *rslt;
+#include <get_next_line.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
 
-	rslt = str;
-	while (elem)
-	{
-		*str++ = *val++;
-		elem--;
-	}
-	return (rslt);
-}
-
-void	ft_insert_tab2D(int **tab, char *elem, int nbr_elem, int line_insert)
+int		get_nbr_line(char *file)
 {
+	int		fd;
+	int		rslt;
+	char	*buf;
 	int		cmp;
-
+	
+	rslt = 1;
+	fd = open(file, O_RDONLY);
+	buf = malloc(BUFF_SIZE + 1);
 	cmp = 0;
-	while (cmp < nbr_elem)
+	while (rslt > 0)
 	{
-		tab[line_insert][cmp] = elem[cmp];
-		cmp++;
+		ft_bzero(buf, BUFF_SIZE + 1);
+		if ((rslt = read(fd, buf, BUFF_SIZE)) > 0)
+			cmp += ft_count_carac(buf, '\n');
 	}
+	free(buf);
+	if (rslt < 0)
+		return (-1);
+	close(fd);
+	return (cmp);
 }
