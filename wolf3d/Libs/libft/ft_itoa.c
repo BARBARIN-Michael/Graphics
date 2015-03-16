@@ -48,8 +48,11 @@ char			*ft_itoa(intmax_t nbr)
 	int		cmp;
 	int		sign;
 
+
 	if (nbr == LONG_MIN)
 		return (ft_strdup("-9223372036854775808"));
+	if (nbr == 0)
+		return ("0");
 	cmp = nbr_digit(nbr);
 	str = ft_strnew(cmp);
 	sign = 0;
@@ -76,6 +79,8 @@ char			*ft_utoa(uintmax_t nbr)
 
 	if (nbr == ULONG_MAX)
 		return (ft_strdup("18446744073709551615"));
+	if (nbr == 0)
+		return ("0");
 	cmp = nbr_digit(nbr);
 	str = ft_strnew(cmp);
 	str[cmp] = '\0';

@@ -28,7 +28,7 @@ void		ft_exec(char *file, char *title, int mode, t_screen wh)
 	t_env	env;
 
 	ft_bzero(&env, sizeof(t_env));
-	env = (t_env) {.wh = wh, .title = title, .mode = mode};
+	env = (t_env) {.wh = wh, .title = title, .mode = mode, .initial = 1};
 	env.world_map = malloc(sizeof(t_map));
 	env.datagame = malloc(sizeof(t_datagame));
 	env.datacam = malloc(sizeof(t_datacam));
@@ -36,6 +36,8 @@ void		ft_exec(char *file, char *title, int mode, t_screen wh)
 	ft_setupfcts(env.fct_key, (void *)0);
 	first_init(&env);
 	ft_parse(file, &env);
+	loop_hook(&env);
+	env.initial = 0;
 	mlx_hook(env.mlx.win_ptr, KeyPress, KeyPressMask, &key_press, &env);
 	mlx_hook(env.mlx.win_ptr, KeyRelease, KeyReleaseMask, &key_release, &env);
 	mlx_loop_hook(env.mlx.mlx_ptr, &loop_hook, &env);

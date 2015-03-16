@@ -31,3 +31,16 @@ void	ft_putwstr(wchar_t const *s)
 {
 	write(1, &s, ft_wstrlen(s));
 }
+
+void	ft_nputstr(int n, ...)
+{
+	va_list ap;
+
+	va_start(ap, n);
+	while (n)
+	{
+		ft_putstr((char *)va_arg(ap, char *));
+		n--;
+	}
+	va_end(ap);
+}

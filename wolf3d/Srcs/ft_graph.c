@@ -15,14 +15,12 @@
 
 void	ft_graph(t_env *env)
 {
-	t_time		*time;
 	struct timeval timeval;
 
-	time = &env->datagame->time;
+	env->datagame->time.oldtime = env->datagame->time.time;
 	gettimeofday(&timeval, NULL);
-	time->time = timeval.tv_sec * 1000 + timeval.tv_usec / 1000;
-	env->fps = (int)(time->time - time->oldtime);
-	printf(C_RED"deuxieme lecture : \n "C_GREEN"%s\n\n", env->mlx.data);
-	ft_putimage(env);
-	ft_bzero(env->mlx.data, env->mlx.sizeline * env->wh.height);
+	env->datagame->time.time = timeval.tv_sec * 1000 + timeval.tv_usec / 1000.0;
+	env->framerate = (env->datagame->time.time - env->datagame->time.oldtime) / 1000.0;
+	env->fps = 1.0 / env->framerate;
+	ft_putimage(env, env->mlx.img);
 }

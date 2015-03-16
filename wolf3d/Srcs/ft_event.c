@@ -33,6 +33,10 @@ int		key_press(int key, t_env *env)
 		ft_action_move_right(env, 1);
 	else if (key == KEY_D)
 		ft_action_move_left(env, 1);
+	else if (key == KEY_1)
+		ft_print_map(env);
+	else if (key == KEY_2)
+		env->map = env->map == 0 ? 1 : 0;
 	else if (key == KEY_ESCAPE)
 		ft_exit(env);
 }
@@ -52,11 +56,15 @@ int		key_release(int key, t_env *env)
 int		loop_hook(t_env *env)
 {
 	int		x;
+	static int test = 0;
 
 	x = 0;
-	//if (!(int)env->movement.up)
-	//	return ;
-	while (x < env->wh.height)
+	if (	env->initial == 0 && !env->movement.up && !env->movement.down &&
+			!env->movement.left && !env->movement.right)
+			return (0);
+	env->initial = 0;
+	ft_bzero(env->mlx.data, env->mlx.sizeline * env->wh.height);
+	while (x <= env->wh.width)
 	{
 		init_player_position(x, env);
 		ft_engine_rc(x, env);

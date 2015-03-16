@@ -114,6 +114,7 @@ void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putstr(char const *s);
+void				ft_nputstr(int n, ...);
 int					ft_putnstr(char const *s, size_t n);
 void				ft_putstr_c(char const *s, char *color);
 void				ft_putstr_fd(char const *s, int fd);

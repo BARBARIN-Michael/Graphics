@@ -25,10 +25,15 @@ void	ft_init_mlx(t_env *env)
 			env->title);
 	env->mlx.data = mlx_get_data_addr(env->mlx.img, &env->mlx.bpp,
 			&env->mlx.sizeline, &env->mlx.endian);
+	env->mlx.data_map = mlx_get_data_addr(env->mlx.img, &env->mlx.bpp,
+			&env->mlx.sizeline, &env->mlx.endian);
 }
 
-void	ft_putimage(t_env *env)
+void	ft_putimage(t_env *env, void *img)
 {
-	mlx_put_image_to_window(env->mlx.mlx_ptr, env->mlx.win_ptr, env->mlx.img,
+	mlx_put_image_to_window(env->mlx.mlx_ptr, env->mlx.win_ptr, img,
+			0, 0);
+	if (env->map == 1)
+		mlx_put_image_to_window(env->mlx.mlx_ptr, env->mlx.win_ptr, env->mlx.img,
 			0, 0);
 }

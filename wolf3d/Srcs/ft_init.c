@@ -13,13 +13,15 @@
 #include <ft_wolf.h>
 #include <libft.h>
 #include <def.h>
+#include <math.h>
 
 void		first_init(t_env *env)
 {
-	env->datagame->pos = (t_dir) {.x = 2, .y = 2};
-	env->datagame->dir = (t_dir) {.x = -1, .y = 0};
-	env->datagame->plane = (t_dir) {.x = 0, .y = 0.66};
-	env->datagame->time = (t_time) {.time = 0, .oldtime = 0};
+	env->datagame->pos = (t_dir) {.x = 4.5, .y = 4.5};
+	env->datagame->dir = (t_dir) {.x = -1.0, .y = 0.0};
+	env->datagame->plane = (t_dir) {.x = 0.0, .y = 0.66};
+	env->datagame->time = (t_time) {.time = 0.0, .oldtime = 0.0};
+	env->fps = 0;
 }
 
 void		init_player_position(int x, t_env *env)
@@ -29,16 +31,15 @@ void		init_player_position(int x, t_env *env)
 
 	cam = env->datacam;
 	game = env->datagame;
-	*cam = (t_datacam)
-	{
-		.cam_x = 2 * x  / (double)(env->wh.width) - 1,
-		.raypos.y = game->pos.y,
-		.raypos.x = game->pos.x,
-		.raydir.x = game->dir.x + game->plane.x * cam->cam_x,
-		.raydir.y = game->dir.y + game->plane.y * cam->cam_x,
-		.coord_map.x = (int)(cam->raypos.x),
-		.coord_map.y = (int)(cam->raypos.x),
-		.wall_next.x = SQRT(1 + SQRT(cam->raydir.y) / SQRT(cam->raydir.x)),
-		.wall_next.y = SQRT(1 + SQRT(cam->raydir.x) / SQRT(cam->raydir.y))
-	};
+	cam->cam_x = 2 * x  / (double)(env->wh.width) - 1;
+	cam->raypos.x = game->pos.x;
+	cam->raypos.y = game->pos.y;
+	cam->raydir.x = game->dir.x + game->plane.x * cam->cam_x;
+	cam->raydir.y = game->dir.y + game->plane.y * cam->cam_x;
+	cam->coord_map.x = (int)(cam->raypos.x);
+	cam->coord_map.y = (int)(cam->raypos.y);
+	cam->wall_next.x = sqrt(1 + (cam->raydir.y * cam->raydir.y) /
+							(cam->raydir.x * cam->raydir.x));
+	cam->wall_next.y = sqrt(1 + (cam->raydir.x * cam->raydir.x) /
+							(cam->raydir.y * cam->raydir.y));
 }

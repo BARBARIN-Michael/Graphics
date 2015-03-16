@@ -91,13 +91,14 @@ typedef struct	s_datagame
 typedef struct	s_datacamera
 {
 	double		cam_x;
+	t_coord		step;
 	t_dir		raypos;
 	t_dir		raydir;
 	t_coord		coord_map;
 	t_dist		wall;
 	t_dist		wall_next;
 	double		lenght_wall;
-	double		height_wall;
+	int			height_wall;
 }				t_datacam;
 
 typedef struct	s_mlx
@@ -106,6 +107,9 @@ typedef struct	s_mlx
 	void		*win_ptr;
 	void		*img;
 	char		*data;
+	void		*img_map;
+	char		*data_map;
+	int			buffer;
 	int			bpp;
 	int			endian;
 	int			sizeline;
@@ -124,15 +128,19 @@ typedef void	(*t_fcts_mouse) (t_env *env, int state);
 struct s_env
 {
 	t_screen		wh;
+	t_coord			map_max;
 	t_map			*world_map;
 	t_mlx			mlx;
 	char			*title;
     t_datagame		*datagame;
 	t_datacam		*datacam;
-	int				fps;
+	double			fps;
+	double			framerate;
+	int				initial;
 	t_moving		movement;
 	char			mode;
-	t_fcts_keypad	fct_key[127];
+	char			map;
+	t_fcts_keypad	*fct_key;
 };
 
 /* 
@@ -142,7 +150,7 @@ struct s_env
 ** ****************************************************************************
 */
 void		ft_init_mlx(t_env *env);
-void		ft_putimage(t_env *env);
+void		ft_putimage(t_env *env, void *img);
 
 /* 
 ** ****************************************************************************
@@ -169,6 +177,7 @@ void		ft_newmode(int val, t_env *env);
 ** ****************************************************************************
 */
 void		ft_draw_line_v(int x, t_line line, t_env *env, t_rgb rgb);
+void		ft_draw_map(int x, int y, t_env *env, t_rgb rgb);
 
 /* 
 ** ****************************************************************************
@@ -193,6 +202,7 @@ void		ft_setupfcts(t_fcts_keypad *keypad, t_fcts_mouse *mouse);
 ** ****************************************************************************
 */
 void		ft_parse(char *file, t_env *env);
+void		ft_print_map(t_env *env);
 
 /* 
 ** ****************************************************************************
@@ -224,16 +234,7 @@ void		ft_action_mouse_mid(int x, int y, t_env *env);
 */
 t_rgb		ft_get_color_by_pt(int map_elem, int mod);
 
-/* 
-** ****************************************************************************
-** ** ft_draw.c
-** ** new action of mouse movement and press
-** ****************************************************************************
-*/
-void		ft_draw_line_v(int x, t_line line, t_env *env, t_rgb rgb);
-
-
-/* 
+/*
 ** ****************************************************************************
 ** ** ft_event.c
 ** ** event call mouse and key
@@ -270,4 +271,18 @@ void		ft_graph(t_env *env);
 void		init_player_position(int x, t_env *env);
 void		first_init(t_env *env);
 
+/* 
+** ****************************************************************************
+** ** ft_tiles.c
+** ** create tiles for UI
+** ****************************************************************************
+*/
+
+/* 
+** ****************************************************************************
+** ** ft_mapdesign.c
+** ** create micro world map
+** ****************************************************************************
+*/
+void		ft_mapdesign(t_env *env);
 #endif

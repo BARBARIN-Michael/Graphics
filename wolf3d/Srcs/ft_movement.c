@@ -15,66 +15,70 @@
 
 void	ft_movement_up(t_env *env)
 {
-	t_datagame	*game;
-	int			move_speed;
-	t_coord		world;
+	t_coord new;
+	double move_speed;
 
-	game = env->datagame;
-	move_speed = env->fps * 3;
-	world.x = game->pos.x + game->dir.x * move_speed;
-	if (env->world_map->line[world.x][(int)(game->pos.y)] == FALSE)
-		game->pos.x += game->dir.x * move_speed;
-	world.y = game->pos.y + game->dir.y * move_speed;
-	if (env->world_map->line[(int)(game->pos.x)][world.y] == FALSE)
-		game->pos.y += game->dir.y * move_speed;
+	move_speed = 0.1;
+	new.x = (int)(env->datagame->pos.x + env->datagame->dir.x * move_speed);
+	new.y = (int)(env->datagame->pos.y + env->datagame->dir.y * move_speed);
+	if(env->world_map->line[new.x][(int)(env->datagame->pos.y)] == FALSE)
+		env->datagame->pos.x += env->datagame->dir.x * move_speed ;
+	if(env->world_map->line[(int)(env->datagame->pos.x)][new.y] == FALSE)
+		env->datagame->pos.y += env->datagame->dir.y * move_speed;
+	env->movement.up = FALSE;
 }
 
 void	ft_movement_down(t_env *env)
 {
-	t_datagame	*game;
-	int			move_speed;
-	t_coord		world;
+	t_coord new;
+	double move_speed;
 
-	game = env->datagame;
-	move_speed = env->fps * 5;
-	world.x = game->pos.x - game->dir.x * move_speed;
-	if (env->world_map->line[world.x][(int)(game->pos.y)] == FALSE)
-		game->pos.x += game->dir.x * move_speed;
-	world.y = game->pos.y - game->dir.y * move_speed;
-	if (env->world_map->line[(int)(game->pos.x)][world.y] == FALSE)
-		game->pos.y += game->dir.y * move_speed;
+	move_speed = 0.1;
+	new.x = (int)(env->datagame->pos.x - env->datagame->dir.x * move_speed);
+	new.y = (int)(env->datagame->pos.y - env->datagame->dir.y * move_speed);
+	if(env->world_map->line[new.x][(int)(env->datagame->pos.y)] == FALSE)
+		env->datagame->pos.x -= env->datagame->dir.x * move_speed;
+	if(env->world_map->line[(int)(env->datagame->pos.x)][new.y] == FALSE)
+		env->datagame->pos.y -= env->datagame->dir.y * move_speed;
+	env->movement.down = FALSE;
 }
 
 void	ft_movement_right(t_env *env)
 {
 	t_datagame	*game;
-	int		old_dir_x;
-	int		old_plan_x;
-	int		rad_speed;
+	double	old_dir_x;
+	double	old_plan_x;
+	double	rad_speed;
 
-	rad_speed = env->fps * 3;
+	//ft_bzero(env->mlx.data, env->mlx.sizeline * env->wh.height);
+	rad_speed = env->framerate * 3.0;
+	rad_speed = 0.03;
 	game = env->datagame;
 	old_dir_x = game->dir.x;
 	old_plan_x = game->plane.x;
 	game->dir.x = game->dir.x * cos(-rad_speed) - game->dir.y * sin(-rad_speed);
 	game->dir.y = old_dir_x * sin(-rad_speed) + game->dir.y * cos(-rad_speed);
 	game->plane.x = game->plane.x * cos(-rad_speed) - game->plane.y * sin(-rad_speed);
-	game->dir.y = old_dir_x * sin(-rad_speed) + game->dir.y * cos(-rad_speed);
+	game->plane.y = old_plan_x * sin(-rad_speed) + game->plane.y * cos(-rad_speed);
+	env->movement.right = FALSE;
 }
 
 void	ft_movement_left	(t_env *env)
 {
 	t_datagame	*game;
-	int		old_dir_x;
-	int		old_plan_x;
-	int		rad_speed;
+	double	old_dir_x;
+	double	old_plan_x;
+	double	rad_speed;
 
-	rad_speed = env->fps * 3;
+	//ft_bzero(env->mlx.data, env->mlx.sizeline * env->wh.height);
+	rad_speed = env->framerate * 3.0;
+	rad_speed = 0.03;
 	game = env->datagame;
 	old_dir_x = game->dir.x;
 	old_plan_x = game->plane.x;
 	game->dir.x = game->dir.x * cos(rad_speed) - game->dir.y * sin(rad_speed);
 	game->dir.y = old_dir_x * sin(rad_speed) + game->dir.y * cos(rad_speed);
 	game->plane.x = game->plane.x * cos(rad_speed) - game->plane.y * sin(rad_speed);
-	game->dir.y = old_dir_x * sin(rad_speed) + game->dir.y * cos(rad_speed);
+	game->plane.y = old_plan_x * sin(rad_speed) + game->plane.y * cos(rad_speed);
+	env->movement.left = FALSE;
 }
