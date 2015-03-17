@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/04 16:21:29 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 06:58:46 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/17 15:38:30 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct	s_mlx
 	int			bpp;
 	int			endian;
 	int			sizeline;
+	int			sizemap;
 }				t_mlx;
 
 typedef struct	s_map
@@ -140,6 +141,9 @@ struct s_env
 	t_moving		movement;
 	char			mode;
 	char			map;
+	char			nb_px;
+	char			cmp_map;
+	double			speed;
 	t_fcts_keypad	*fct_key;
 };
 
@@ -232,7 +236,7 @@ void		ft_action_mouse_mid(int x, int y, t_env *env);
 ** ** color palet
 ** ****************************************************************************
 */
-t_rgb		ft_get_color_by_pt(int map_elem, int mod);
+t_rgb		ft_get_color_by_pt(int map_elem, int mod, t_move data);
 
 /*
 ** ****************************************************************************

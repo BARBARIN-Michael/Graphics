@@ -6,7 +6,7 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 06:04:15 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 02:00:45 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/17 13:36:18 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static t_vargnl	*lstfind_byfd(t_list **lst, int fd)
 			return (var);
 		lsttmp = lsttmp->next;
 	}
-	var = (t_vargnl *)ft_memalloc(sizeof(t_vargnl));
+	var = (t_vargnl *)malloc(sizeof(t_vargnl));
 	var->s1 = NULL;
 	var->fd = fd;
 	lsttmp = ft_lstnew(var, sizeof(t_vargnl));
@@ -120,7 +120,6 @@ int				get_next_line(int fd, char **line)
 
 	if (!line || fd < 0)
 		return (-1);
-	*line = ft_strnew(0);
 	var = lstfind_byfd(&lst, fd);
 	if (!var->s1)
 	{

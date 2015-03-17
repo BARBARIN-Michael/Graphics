@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/10 18:54:27 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 01:45:29 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/17 14:25:28 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void		ft_mapdesign(t_env *env)
 {
 	t_coord	xy;
+	t_coord map;
 	char	*copy;
 	t_rgb	rgb;
 
@@ -31,15 +32,11 @@ void		ft_mapdesign(t_env *env)
 				&& xy.y == abs(env->datagame->pos.x))
 			ft_draw_map(xy.x, xy.y, env, (t_rgb){0xFF, 0x00, 0x00});
 		else if (env->world_map->line[xy.y][xy.x] == 0)
-		{
 			ft_draw_map(xy.x, xy.y, env, (t_rgb){0xAF, 0xFA, 0xAF});
-			ft_draw_map(xy.x + 1, xy.y, env, (t_rgb){0xAF, 0xFA, 0xAF});
-			ft_draw_map(xy.x, xy.y + 1, env, (t_rgb){0xAF, 0xFA, 0xAF});
-			ft_draw_map(xy.x + 1, xy.y + 1, env, (t_rgb){0xAF, 0xFA, 0xAF});
-		}
 		else
 		{
-			rgb = ft_get_color_by_pt(env->world_map->line[xy.y][xy.x], 1);
+			rgb = ft_get_color_by_pt(env->world_map->line[xy.y][xy.x], 1,
+					(t_move){0});
 			ft_draw_map(xy.x, xy.y, env, rgb);
 		}
 		xy.x++;

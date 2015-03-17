@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/03 20:00:48 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 07:16:13 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/17 13:45:10 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ static void		ft_insert_map(char *str, t_coord xy, t_env *env)
 	str_split = ft_nstrsplit(str, ',', xy.x);
 	while (++cmp < xy.x)
 		line[cmp] = ft_atoi(str_split[cmp]);
+	while (cmp > -1)
+	{
+		free(str_split[cmp]);
+		cmp--;
+	}
+	free(str_split);
 	map[xy.y] = line;
 }
 
@@ -83,11 +89,9 @@ void			ft_parse(char *filename, t_env *env)
 		ft_error("Cannot open file", "ERROR X01.0:Parser:", 0);
 	fd = open(filename, O_RDONLY);
 	xy = (t_coord) {.x = 0, .y = 0};
-	printf(C_RED"La map : \n");
+	str = NULL;
 	while ((rslt = get_next_line(fd, &str)) > 0)
 	{
-		if (!str[0])
-			continue ;
 		if (env->map_max.x == 0 || env->map_max.x == xy.x)
 			env->map_max.x = xy.x;
 		else
@@ -95,8 +99,9 @@ void			ft_parse(char *filename, t_env *env)
 		xy.x = ft_count_split(str, ',');
 		ft_insert_map(str, xy, env);
 		xy.y++;
-		ft_strdel(&str);
+		free(str);
 	}
+	free(str);
 	env->map_max.y = xy.y - 1;
 	test_map(env);
 	close(fd);
@@ -109,7 +114,6 @@ void			ft_print_map(t_env *env)
 	char	*copy;
 
 	cmp = (t_coord) {.x = 0, .y = 0};
-	ft_putstr(C_CYAN"====== AFFICHAGE DE LA MAP ====="C_BROWN"\n");
 	while (cmp.y <= env->map_max.y)
 	{
 		if (cmp.x == env->map_max.x - 1)

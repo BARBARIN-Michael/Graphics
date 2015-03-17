@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/08 16:39:47 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 01:56:46 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/17 15:47:02 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,20 @@ static t_rgb	ft_setup_color(t_ushort type_color)
 	return (rgb[type_color]);
 }
 
-t_rgb			ft_get_color_by_pt(int map_elem, int mod)
+t_rgb			ft_get_color_by_pt(int map_elem, int mod, t_move data)
 {
 	t_rgb rgb;
 
-	rgb = ft_setup_color(map_elem);
+	if(data.wall_hor == TRUE && data.stape.y == 1)
+		rgb = ft_setup_color((map_elem - 1));
+	else if(data.wall_hor == TRUE && data.stape.y == -1)
+		rgb = ft_setup_color((map_elem - 1) + 4);
+	else if(data.wall_hor == FALSE && data.stape.x == 1)
+		rgb = ft_setup_color((map_elem - 1) + 8);
+	else if(data.wall_hor == FALSE && data.stape.x == -1)
+		rgb = ft_setup_color((map_elem - 1) + 12);
+	else
+		rgb = ft_setup_color(map_elem);
 	rgb = (t_rgb) {.r = rgb.r / mod, .g = rgb.g / mod, .b = rgb.b / mod};
 	return (rgb);
 }
