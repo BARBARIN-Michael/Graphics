@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/11 23:35:56 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/17 16:07:08 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/27 14:57:23 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	calc_movex(t_move *data, t_env *env, int mod)
 	else if (mod == 1)
 	{
 		data->stape.x = 1;
-		cam->wall.x = (cam->coord_map.x + 1.0 - cam->raypos.x) * cam->wall_next.x;
+		cam->wall.x = (cam->coord_map.x + 1 - cam->raypos.x) * cam->wall_next.x;
 	}
 }
 
@@ -48,7 +48,7 @@ static void	calc_movey(t_move *data, t_env *env, int mod)
 	else if (mod == 1)
 	{
 		data->stape.y = 1;
-		cam->wall.y = (cam->coord_map.y + 1.0 - cam->raypos.y) * cam->wall_next.y;
+		cam->wall.y = (cam->coord_map.y + 1 - cam->raypos.y) * cam->wall_next.y;
 	}
 }
 
@@ -86,22 +86,26 @@ static void	calc_sweep(t_move *data, t_env *env)
 	cam = env->datacam;
 	game = env->datagame;
 	if (data->wall_hor == FALSE)
-		cam->lenght_wall = fabs((cam->coord_map.x - cam->raypos.x + (1 - data->stape.x) / 2) / cam->raydir.x);
+		cam->lenght_wall = fabs((cam->coord_map.x - cam->raypos.x +
+					(1 - data->stape.x) / 2) / cam->raydir.x);
 	else
-		cam->lenght_wall = fabs((cam->coord_map.y - cam->raypos.y + (1 - data->stape.y) / 2.0) / cam->raydir.y);
+		cam->lenght_wall = fabs((cam->coord_map.y - cam->raypos.y +
+					(1 - data->stape.y) / 2.0) / cam->raydir.y);
 	cam->height_wall = abs((int)(env->wh.height / cam->lenght_wall));
 	data->px.start = -cam->height_wall / 2 + env->wh.height / 2;
 	data->px.start = data->px.start < 0 ? 0 : data->px.start;
 	data->px.end = cam->height_wall / 2 + env->wh.height / 2;
-	data->px.end = data->px.end >= env->wh.height ? env->wh.height - 1 : data->px.end;
+	data->px.end = data->px.end >= env->wh.height ? env->wh.height - 1
+													: data->px.end;
 }
- 
+
 void		ft_engine_rc(int x, t_env *env)
 {
 	t_move		data;
 	t_datacam	*cam;
 	t_datagame	*game;
 	t_rgb		rgb;
+	t_line		line;
 
 	cam = env->datacam;
 	game = env->datagame;
@@ -111,12 +115,13 @@ void		ft_engine_rc(int x, t_env *env)
 	calc_collision(&data, env);
 	calc_sweep(&data, env);
 	rgb = ft_get_color_by_pt(
-	env->world_map->line[cam->coord_map.x][cam->coord_map.y],
-	(data.wall_hor == TRUE ? 2 : 1), data);
-	ft_draw_line_v(x, (t_line) {0, data.px.start}, env, (t_rgb){120, 120, 120});
+			env->world_map->line[cam->coord_map.x][cam->coord_map.y],
+			(data.wall_hor == TRUE ? 2 : 1), data);
+	line = (t_line){0, data.px.start};
+	ft_draw_line_v(x, line, env, (t_rgb){.r = 120, .g = 120, .b = 120});
 	ft_draw_line_v(x, data.px, env, rgb);
 	if (data.px.end < env->wh.height && data.px.end > 0)
 		ft_draw_line_v(x, (t_line) {data.px.end, env->wh.height},
 						env, (t_rgb){0xAF, 0xFA, 0xAF});
-	ft_manage_move(env);
+	ft_manage_move(env, &data);
 }

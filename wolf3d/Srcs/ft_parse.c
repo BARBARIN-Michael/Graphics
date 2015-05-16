@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/03 20:00:48 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/17 13:45:10 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/27 19:06:28 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,22 @@ static void		ft_insert_map(char *str, t_coord xy, t_env *env)
 	if (!map)
 	{
 		if (!(map = (int **)malloc(sizeof(int *) * env->world_map->nbr_line)))
-			ft_error("Allocate : memory full", "ERROR X01.1:insert_map", 1);
+			ft_error("Allocate : memory full", "ERROR X01.1:insert_map", 2);
 		env->world_map->line = map;
 	}
 	if (!(line = (int *)malloc(sizeof(int *) * (xy.x + 1))))
-		ft_error("Cannot allocate : memory full", "ERROR X01.1:insert_line", 1);
-	str_split = ft_nstrsplit(str, ',', xy.x);
+		ft_error("Cannot allocate : memory full", "ERROR X01.1:insert_line", 2);
+	str_split = ft_strsplit(str, ',');
 	while (++cmp < xy.x)
-		line[cmp] = ft_atoi(str_split[cmp]);
-	while (cmp > -1)
 	{
+		line[cmp] = ft_atoi(str_split[cmp]);
 		free(str_split[cmp]);
-		cmp--;
 	}
 	free(str_split);
 	map[xy.y] = line;
 }
 
-static void test_map(t_env *env)
+static void		test_map(t_env *env)
 {
 	int		cmp_x;
 	int		cmp_y;
@@ -60,22 +58,41 @@ static void test_map(t_env *env)
 	cmp_y = -1;
 	while (++cmp_x < env->map_max.x)
 	{
-		if (env->world_map->line[0][cmp_x] == 0 ||
-			env->world_map->line[env->map_max.y][cmp_x] == 0)
+		if (env->world_map->line[0][cmp_x] != 9 ||
+			env->world_map->line[env->map_max.y][cmp_x] != 9)
 			ft_error("Invalide map, Cheack the extremity wall",
-						"ERROR X01:3:testmap", 1);
+						"ERROR X01:3:testmap", 2);
 	}
 	while (++cmp_y <= env->map_max.y)
 	{
-		if (env->world_map->line[cmp_y][0] == 0 ||
-			env->world_map->line[cmp_y][env->map_max.x - 1] == 0)
-			{
+		if (env->world_map->line[cmp_y][0] != 9 ||
+			env->world_map->line[cmp_y][env->map_max.x - 1] != 9)
 			ft_error("Invalide map, Cheack the extremity wall",
-						"ERROR X01:2:testmap", 1);
-			printf("test map : line[%d][%d] = %d \n", cmp_y, env->map_max.x, env->world_map->line[cmp_y][env->map_max.x]);
-			}
+						"ERROR X01:2:testmap", 2);
 		cmp_y++;
 	}
+}
+
+t_coord			ft_parse_tp(t_env *env, t_coord tp1, int tp)
+{
+	t_coord		xy;
+	t_map		*map;
+
+	map = env->world_map;
+	xy = (t_coord){0, 0};
+	while (xy.y < env->map_max.y)
+	{
+		xy.x = 0;
+		while (xy.x < env->map_max.x - 1)
+		{
+			if (map->line[xy.y][xy.x] == (tp - 1)
+					&& xy.x != tp1.x && xy.y != tp1.y)
+				return (xy);
+			xy.x++;
+		}
+		xy.y++;
+	}
+	return ((t_coord){7, 7});
 }
 
 void			ft_parse(char *filename, t_env *env)
@@ -86,48 +103,23 @@ void			ft_parse(char *filename, t_env *env)
 	t_coord		xy;
 
 	if ((env->world_map->nbr_line = get_line(filename)) < 2)
-		ft_error("Cannot open file", "ERROR X01.0:Parser:", 0);
+		ft_error("Cannot open file", "ERROR X01.0:Parser:", 2);
 	fd = open(filename, O_RDONLY);
 	xy = (t_coord) {.x = 0, .y = 0};
 	str = NULL;
 	while ((rslt = get_next_line(fd, &str)) > 0)
 	{
-		if (env->map_max.x == 0 || env->map_max.x == xy.x)
-			env->map_max.x = xy.x;
-		else
-			ft_error("Invalide map_max", "ERROR X01.1:Parser:", 2);
+		env->map_max.x == 0 || env->map_max.x == xy.x ? env->map_max.x = xy.x, 1
+			: ft_error("Invalide map_max", "ERROR X01.1:Parser:", 2), 0;
 		xy.x = ft_count_split(str, ',');
 		ft_insert_map(str, xy, env);
 		xy.y++;
-		free(str);
+		ft_strdel(&str);
 	}
 	free(str);
 	env->map_max.y = xy.y - 1;
 	test_map(env);
 	close(fd);
-	rslt < 0 ? ft_error("Cannot open file", "ERROR X01.0:Parser:", 1), 1 : 0;
-}
-
-void			ft_print_map(t_env *env)
-{
-	t_coord	cmp;
-	char	*copy;
-
-	cmp = (t_coord) {.x = 0, .y = 0};
-	while (cmp.y <= env->map_max.y)
-	{
-		if (cmp.x == env->map_max.x - 1)
-		{
-			write(1, "\n", 1);
-			cmp.x = 0;
-			cmp.y++;
-		}
-		else
-		{
-			if (cmp.x++ == abs(env->datagame->pos.y) && cmp.y == abs(env->datagame->pos.x))
-				ft_putstr(C_CYAN"T "C_BROWN);
-			else
-				ft_nputstr(2, ft_itoa(env->world_map->line[cmp.y][cmp.x]), " ");
-		}
-	}
+	if (rslt < 0)
+		ft_error("Cannot open file", "ERROR X01.0:Parser:", 2);
 }

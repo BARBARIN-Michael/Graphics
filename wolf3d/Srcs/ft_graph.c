@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/03 20:00:12 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 07:01:16 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/27 18:59:42 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 void	ft_graph(t_env *env)
 {
-	struct timeval timeval;
-
-	env->datagame->time.oldtime = env->datagame->time.time;
-	gettimeofday(&timeval, NULL);
-	env->datagame->time.time = timeval.tv_sec * 1000 + timeval.tv_usec / 1000.0;
-	env->framerate = (env->datagame->time.time - env->datagame->time.oldtime) / 1000.0;
-	env->fps = 1.0 / env->framerate;
 	ft_putimage(env, env->mlx.img);
+}
+
+void	ft_putimage(t_env *env, t_img *img)
+{
+	mlx_put_image_to_window(env->mlx.mlx_ptr, env->mlx.win_ptr,
+			img[0].img, 0, -1);
+	ft_putweapon(env);
 }

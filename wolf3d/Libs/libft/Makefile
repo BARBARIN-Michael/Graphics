@@ -6,7 +6,7 @@
 #    By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 14:48:04 by mbarbari          #+#    #+#              #
-#    Updated: 2015/03/12 04:48:22 by mbarbari         ###   ########.fr        #
+#    Updated: 2015/03/23 13:27:12 by mbarbari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = libft.a
 EXE = a.out
 
-CFLAGS += -O3 -Wall -Wextra -Werror -I ./Include/
+CFLAGS += -g -O0 -Wall -Wextra -Werror -I ./Include/
 
 SRCS = ft_bzero.c \
 		ft_memcpy.c \

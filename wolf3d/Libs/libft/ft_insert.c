@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/16 12:10:29 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/09 13:40:30 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/27 18:44:05 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_insert(char *str, int elem, char *val)
 	return (rslt);
 }
 
-void	ft_insert_tab2D(int **tab, char *elem, int nbr_elem, int line_insert)
+void	ft_insert_tab2d(int **tab, char *elem, int nbr_elem, int line_insert)
 {
 	int		cmp;
 

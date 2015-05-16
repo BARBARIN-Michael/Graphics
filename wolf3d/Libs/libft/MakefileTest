@@ -6,18 +6,18 @@
 #    By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 14:48:04 by mbarbari          #+#    #+#              #
-#    Updated: 2015/02/16 12:12:25 by mbarbari         ###   ########.fr        #
+#    Updated: 2015/03/27 19:19:01 by mbarbari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = libft.a
 EXE = a.out
-CP = gcc
+CC = gcc
 
-OBJDIR = /Objets
-SRCDIR = /Srcs
-INCDIR = /includes
+OBJDIR = ./Objets
+SRCDIR = ./Srcs
+INCDIR = ./Include
 
 CFLAGS += -g -O0 -Wall -Wextra -Werror -I $(INCDIR)
 
@@ -38,7 +38,6 @@ SRCS = ft_bzero.c \
 		ft_findchr.c \
 		ft_strrchr.c \
 		ft_strstr.c \
-		ft_strnstr.c \
 		ft_strcmp.c \
 		ft_strncmp.c \
 		ft_atoi.c \
@@ -99,7 +98,7 @@ SRCS = ft_bzero.c \
 		ft_insert.c
 
 
-OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))
+OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 
 RM = rm
 
@@ -109,9 +108,10 @@ $(NAME): $(OBJS)
 	$(AR) -rcus $(NAME) $?
 
 
-$(OBJSDIR)/%.o: %.c $(INCDIR)/libft.h
+$(OBJDIR)/%.o: %.c
+	mkdir -p $(OBJDIR)
 	@echo "CC\t$<"
-	@$(CP) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: mbarbari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 14:05:43 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 03:43:57 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/27 18:44:22 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int					ft_round(float);
 int					ft_ceil(float);
 char				*ft_strset(char *s1, int pos, int nbr, int car);
 char				*ft_insert(char *tab, int elem, char *value);
-void				ft_insert_tab2D(int **tab, char *elem,
+void				ft_insert_tab2d(int **tab, char *elem,
 									int nbr_elem, int line_insert);
 int					ft_count_carac(char *str, int car);
 

@@ -6,7 +6,7 @@
 /*   By: mbarbari <mbarbari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/06 12:11:18 by mbarbari          #+#    #+#             */
-/*   Updated: 2015/03/12 04:43:36 by mbarbari         ###   ########.fr       */
+/*   Updated: 2015/03/27 18:39:27 by mbarbari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	setup_keypad(t_fcts_keypad *keypad)
 	keypad['s'] = &ft_action_move_down;
 	keypad['a'] = &ft_action_move_left;
 	keypad['d'] = &ft_action_move_right;
-	//keypad['m'] = &ft_newmode;
 }
 
 static void	setup_mouse(t_fcts_mouse *mouse)
